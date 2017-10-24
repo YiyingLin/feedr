@@ -7,6 +7,8 @@ UBC CPSC 304 PROJECT
 
 cd web;
 
+npm install -g create-react-app;
+
 yarn build;
 
 cd ..;
