@@ -8,6 +8,7 @@ target
 /.settings
 /RUNNING_PID
 node_modules
+web/node_modules
 npm-debug.log
 .gradle
 build
