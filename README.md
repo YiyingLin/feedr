@@ -20,3 +20,6 @@ You should see a react page at localhost:8080
 To visit /demo and /hello
 
 Download PostMan
+
+### To build Protobuf
+./gradlew generateProto
