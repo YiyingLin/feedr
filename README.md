@@ -9,6 +9,8 @@ cd web;
 
 npm install -g create-react-app;
 
+yarn install;
+
 yarn build;
 
 cd ..;
