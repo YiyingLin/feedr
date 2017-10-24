@@ -13,7 +13,7 @@ cd ..;
 
 ./gradlew bootRun;
 
-You should see a react page.
+You should see a react page at localhost:8080
 
 To visit /demo and /hello
 
