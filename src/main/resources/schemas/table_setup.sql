@@ -23,3 +23,5 @@ CREATE TABLE IF NOT EXISTS receiver(
   FOREIGN KEY (username) REFERENCES user (username)
   ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS order ();
