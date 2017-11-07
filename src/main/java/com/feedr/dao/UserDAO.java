@@ -16,6 +16,13 @@ public class UserDAO {
         this.connector = connector;
     }
 
+    public String creatUser() throws SQLException {
+        ResultSet resultSet = connector.executeQuery(
+                "INSERT INTO user() VALUES (...);"
+        );
+        return null;
+    }
+
     public String getUsers() throws SQLException {
         ResultSet resultSet = connector.executeQuery(
                 "SELECT * FROM user;"
@@ -29,4 +36,6 @@ public class UserDAO {
         }
         return users.toString();
     }
+
+
 }
