@@ -1,4 +1,4 @@
-package com.feedr.Models;
+package com.feedr.models;
 
 public class UserModel {
     private String username;

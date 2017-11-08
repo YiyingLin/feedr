@@ -1,6 +1,6 @@
 package com.feedr.controllers;
 
-import com.feedr.Models.UserModel;
+import com.feedr.models.UserModel;
 import com.feedr.dao.UserDAO;
 import com.feedr.protobuf.DemoProto.Demo;
 import com.feedr.util.ProtobufUtil;

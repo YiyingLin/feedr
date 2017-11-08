@@ -1,11 +1,9 @@
 package com.feedr.dao;
 
-import com.feedr.Models.UserModel;
+import com.feedr.models.UserModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.jws.soap.SOAPBinding;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
