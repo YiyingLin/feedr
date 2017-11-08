@@ -74,11 +74,4 @@ public class UserDAO {
                 String.format("DELETE FROM user WHERE username = %s;", username)
         );
     }
-
-
-
-
-
-
-
 }

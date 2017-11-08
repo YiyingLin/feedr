@@ -12,14 +12,14 @@ CREATE TABLE IF NOT EXISTS sender(
   location VARCHAR(60),
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES user (username)
-  ON DELETE CASCADE
+    ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS receiver(
   username VARCHAR(20),
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES user (username)
-  ON DELETE CASCADE
+    ON DELETE CASCADE
 );
 
 
@@ -66,9 +66,9 @@ CREATE TABLE IF NOT EXISTS cancellation (
   reason VARCHAR(100),
   PRIMARY KEY (order_id,username),
   FOREIGN KEY (order_id) REFERENCES order_info (order_id)
-  ON DELETE CASCADE,
+    ON DELETE CASCADE,
   FOREIGN KEY (username) REFERENCES user (username)
-  ON DELETE NO ACTION,
+    ON DELETE NO ACTION,
   UNIQUE (order_id)
 );
 
@@ -76,14 +76,13 @@ CREATE TABLE IF NOT EXISTS cancellation (
 CREATE TABLE IF NOT EXISTS order_include_food (
   order_id VARCHAR(20),
   res_username VARCHAR(20),
-  food_name VARCHAR(40),
+  foodname VARCHAR(40),
   food_quantity INT(2) DEFAULT 1,
-  PRIMARY KEY (order_id,res_username,food_name),
-  FOREIGN KEY (order_id) REFERENCES order_info (order_id)
+  PRIMARY KEY (order_id,res_username,foodname),
+  FOREIGN KEY (order_id) REFERENCES order_info(order_id)
     ON DELETE CASCADE,
-  FOREIGN KEY (res_username) REFERENCES restaurant (username)
-    ON DELETE NO ACTION,
-  FOREIGN KEY (food_name) REFERENCES food (food_name)
+  FOREIGN KEY (res_username, foodname) REFERENCES food (res_username, foodname)
+    ON DELETE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS rating (
