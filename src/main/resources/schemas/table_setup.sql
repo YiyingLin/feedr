@@ -12,14 +12,14 @@ CREATE TABLE IF NOT EXISTS sender(
   location VARCHAR(60),
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES user (username)
-  ON DELETE CASCADE
+    ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS receiver(
   username VARCHAR(20),
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES user (username)
-  ON DELETE CASCADE
+    ON DELETE CASCADE
 );
 
 
@@ -66,9 +66,9 @@ CREATE TABLE IF NOT EXISTS cancellation (
   reason VARCHAR(100),
   PRIMARY KEY (order_id,username),
   FOREIGN KEY (order_id) REFERENCES order_info (order_id)
-  ON DELETE CASCADE,
+    ON DELETE CASCADE,
   FOREIGN KEY (username) REFERENCES user (username)
-  ON DELETE NO ACTION,
+    ON DELETE NO ACTION,
   UNIQUE (order_id)
 );
 
