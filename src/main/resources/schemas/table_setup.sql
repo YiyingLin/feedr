@@ -34,16 +34,16 @@ CREATE TABLE IF NOT EXISTS restaurant(
 );
 
 CREATE TABLE IF NOT EXISTS food (
-  resname VARCHAR(20) NOT NULL,
+  res_username VARCHAR(20) NOT NULL,
   foodname VARCHAR(40),
   price DECIMAL(6,2) NOT NULL ,
   type VARCHAR(20) NOT NULL ,
-  PRIMARY KEY (resname,foodname),
-  FOREIGN KEY (resname) REFERENCES restaurant (username)
+  PRIMARY KEY (res_username,foodname),
+  FOREIGN KEY (res_username) REFERENCES restaurant (username)
     ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS order(
+CREATE TABLE IF NOT EXISTS order_info(
   order_id VARCHAR(20),
   sender_name VARCHAR(20),
   receiver_name VARCHAR(20) NOT NULL,
@@ -75,13 +75,13 @@ CREATE TABLE IF NOT EXISTS cancellation (
 
 CREATE TABLE IF NOT EXISTS order_include_food (
   order_id VARCHAR(20),
-  resname VARCHAR(20),
+  res_username VARCHAR(20),
   food_name VARCHAR(40),
   food_quantity INT(2) DEFAULT 1,
-  PRIMARY KEY (order_id,resname,food_name),
-  FOREIGN KEY (order_id) REFERENCES order_info (order_id)
+  PRIMARY KEY (order_id,res_username,food_name),
+  FOREIGN KEY (order_id) REFERENCES order_info(order_id)
     ON DELETE CASCADE,
-  FOREIGN KEY (username) REFERENCES restaurant (username)
+  FOREIGN KEY (res_username) REFERENCES restaurant (username)
     ON DELETE NO ACTION,
   FOREIGN KEY (food_name) REFERENCES food (food_name)
 );
