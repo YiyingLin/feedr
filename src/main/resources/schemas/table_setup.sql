@@ -76,14 +76,13 @@ CREATE TABLE IF NOT EXISTS cancellation (
 CREATE TABLE IF NOT EXISTS order_include_food (
   order_id VARCHAR(20),
   res_username VARCHAR(20),
-  food_name VARCHAR(40),
+  foodname VARCHAR(40),
   food_quantity INT(2) DEFAULT 1,
-  PRIMARY KEY (order_id,res_username,food_name),
+  PRIMARY KEY (order_id,res_username,foodname),
   FOREIGN KEY (order_id) REFERENCES order_info(order_id)
     ON DELETE CASCADE,
-  FOREIGN KEY (res_username) REFERENCES restaurant (username)
-    ON DELETE NO ACTION,
-  FOREIGN KEY (food_name) REFERENCES food (food_name)
+  FOREIGN KEY (res_username, foodname) REFERENCES food (res_username, foodname)
+    ON DELETE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS rating (
