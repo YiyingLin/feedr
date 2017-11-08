@@ -16,11 +16,10 @@ public class UserDAO {
         this.connector = connector;
     }
 
-    public String creatUser() throws SQLException {
-        ResultSet resultSet = connector.executeQuery(
-                "INSERT INTO user() VALUES (...);"
+    public void creatUser(String username, String password, String phone) throws SQLException {
+        connector.executeQuery(
+                "INSERT INTO user VALUES ("+ username + "," + password + "," + phone + ");"
         );
-        return null;
     }
 
     public String getUsers() throws SQLException {
@@ -36,6 +35,45 @@ public class UserDAO {
         }
         return users.toString();
     }
+
+    public String getPhone(String userame) throws SQLException {
+        ResultSet resultSet = connector.executeQuery(
+                "SELECT phone FROM user WHERE username = " + userame + ";"
+        );
+        String phone = resultSet.getString("phone");
+        return phone;
+    }
+
+    public String getPassword(String userame) throws SQLException {
+        ResultSet resultSet = connector.executeQuery(
+                "SELECT password FROM user WHERE username = " + userame + ";"
+        );
+        String password = resultSet.getString("password");
+        return password;
+    }
+
+    public void updatePassword(String username, String oldPassword, String newPassword) throws SQLException {
+        connector.executeQuery(
+                "UPDATE user SET password = "+ newPassword +" WHERE username = "+ username +" AND password = "+oldPassword+";"
+        );
+    }
+
+    public void updatePhone(String username, String newPhone) throws SQLException {
+        connector.executeQuery(
+                "UPDATE user SET phone = "+ newPhone +" WHERE username = "+ username +";"
+        );
+    }
+
+    public void deleteUser(String username) throws SQLException {
+        connector.executeQuery(
+                "DELETE FROM user WHERE username ="+ username+";"
+        );
+    }
+
+
+
+
+
 
 
 }
