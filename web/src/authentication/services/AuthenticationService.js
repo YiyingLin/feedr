@@ -1,4 +1,4 @@
-import UserType from  "../utils/UserTypes";
+import UserType from "../../utils/UserTypes";
 const request = require('request');
 
 export function login(username, password) {

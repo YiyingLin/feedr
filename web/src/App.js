@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import Login from './authentication/Login';
+import Login from './authentication/components/Login';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {isLoggedIn} from "./authentication/AuthenticationService";
+import {isLoggedIn} from "./authentication/services/AuthenticationService";
+import AdminContainer from "./admins/components/AdminContainer";
+import MyProfile from "./common/components/MyProfile";
+import RestaurantContainer from "./restaurants/components/RestaurantContainer";
+import UserContainer from "./users/components/UserContainer";
 
 class App extends Component {
     loginSuccessful(username, userType) {
@@ -16,13 +20,18 @@ class App extends Component {
 
     render() {
         return (
-            <MuiThemeProvider>
-              <div className="App">
-                <Login
-                    onLoginSuccessful={this.loginSuccessful}
-                    onLoginFailure={this.loginFailed}
-                />
-              </div>
+            <MuiThemeProvider className="App">
+                {/*MuiThemeProvider want single react child*/}
+                <div className="App">
+                    <Login
+                        onLoginSuccessful={this.loginSuccessful}
+                        onLoginFailure={this.loginFailed}
+                    />
+                    <AdminContainer />
+                    <MyProfile />
+                    <RestaurantContainer />
+                    <UserContainer />
+                </div>
             </MuiThemeProvider>
         );
     }

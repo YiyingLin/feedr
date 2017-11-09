@@ -3,7 +3,7 @@ import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import "./Login.css";
-import {login} from "./AuthenticationService";
+import {login} from "../services/AuthenticationService";
 
 class Login extends Component {
     constructor(props) {
