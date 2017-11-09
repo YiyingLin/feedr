@@ -1,0 +1,8 @@
+#login-component {
+    width: 50%;
+}
+
+#login-component .card-content {
+    display: flex;
+    flex-direction: column;
+}

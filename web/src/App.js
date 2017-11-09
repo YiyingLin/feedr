@@ -1,21 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Login from './authentication/Login';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {isLoggedIn} from "./authentication/AuthenticationService";
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    loginSuccessful(username, userType) {
+        console.log(username, userType);
+    }
+
+    loginFailed(error) {
+        console.log("Login failed: ");
+        console.log(error);
+    }
+
+    render() {
+        return (
+            <MuiThemeProvider>
+              <div className="App">
+                <Login
+                    onLoginSuccessful={this.loginSuccessful}
+                    onLoginFailure={this.loginFailed}
+                />
+              </div>
+            </MuiThemeProvider>
+        );
+    }
 }
 
 export default App;
