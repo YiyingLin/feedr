@@ -1,4 +1,5 @@
 package com.feedr.models;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -11,11 +12,11 @@ public class OrderModel {
         private double order_cost;
         private double deliver_tip;
         private Timestamp order_time;
-        private Date deadline;
+        private Timestamp deadline;
         private String delivery_location;
 
         public OrderModel(String order_id, String sender_name, String receiver_name, String restaurant_name,
-                          double order_cost, double deliver_tip, Timestamp order_time, Date deadline, String delivery_location){
+                          double order_cost, double deliver_tip, Timestamp order_time, Timestamp deadline, String delivery_location){
             this.order_id = order_id;
             this.sender_name = sender_name;
             this.receiver_name = receiver_name;
@@ -83,11 +84,11 @@ public class OrderModel {
         this.order_time = order_time;
     }
 
-    public Date getDeadline() {
+    public Timestamp getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(Timestamp deadline) {
         this.deadline = deadline;
     }
 
