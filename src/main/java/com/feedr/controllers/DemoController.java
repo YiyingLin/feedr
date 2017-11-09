@@ -1,5 +1,6 @@
 package com.feedr.controllers;
 
+import com.feedr.models.UserModel;
 import com.feedr.dao.UserDAO;
 import com.feedr.protobuf.DemoProto.Demo;
 import com.feedr.util.ProtobufUtil;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @RestController
 public class DemoController {
@@ -30,7 +32,7 @@ public class DemoController {
     }
 
     @RequestMapping(path = "/users", method = RequestMethod.GET)
-    public String getUsers() throws SQLException {
+    public ArrayList<UserModel> getUsers() throws SQLException {
         return userDAO.getUsers();
     }
 
