@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class OrderModel {
 
-    private String order_id;
+        private int order_id;
         private String sender_name;
         private String receiver_name;
         private String restaurant_name;
@@ -15,7 +15,7 @@ public class OrderModel {
         private Timestamp deadline;
         private String delivery_location;
 
-        public OrderModel(String order_id, String sender_name, String receiver_name, String restaurant_name,
+        public OrderModel(int order_id, String sender_name, String receiver_name, String restaurant_name,
                           double order_cost, double deliver_tip, Timestamp order_time, Timestamp deadline, String delivery_location){
             this.order_id = order_id;
             this.sender_name = sender_name;
@@ -28,11 +28,11 @@ public class OrderModel {
             this.delivery_location = delivery_location;
         }
 
-    public String getOrder_id() {
+    public int getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(String order_id) {
+    public void setOrder_id(int order_id) {
         this.order_id = order_id;
     }
 
