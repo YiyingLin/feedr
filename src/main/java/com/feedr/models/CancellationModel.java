@@ -3,24 +3,24 @@ package com.feedr.models;
 import java.sql.Timestamp;
 
 public class CancellationModel {
-    private int order_id;
+    private int orderId;
     private String username;
     private Timestamp cancelTime; //auto insert in query, when make a cancellation
     private String reason;
 
-    public CancellationModel(int order_id, String username, Timestamp cancelTime, String reason){
-        this.order_id = order_id;
+    public CancellationModel(int orderId, String username, Timestamp cancelTime, String reason){
+        this.orderId = orderId;
         this.username = username;
         this.cancelTime = cancelTime;
         this.reason = reason;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public String getUsername() {
