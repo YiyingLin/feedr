@@ -3,8 +3,8 @@ import Order from "../../common/components/Order";
 import OrderModel from "../../models/OrderModel";
 import FoodModel from "../../models/FoodModel";
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
-import SenderIcon from 'material-ui/svg-icons/maps/directions-run';
-import ReceiverIcon from 'material-ui/svg-icons/action/accessibility';
+import PublicOrderIcon from 'material-ui/svg-icons/places/airport-shuttle';
+import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
 import Paper from 'material-ui/Paper';
 
 const orderListStyle = {
@@ -67,12 +67,12 @@ export default class SenderContainer extends Component {
                     <BottomNavigation selectedIndex={this.state.selectedIndex}>
                         <BottomNavigationItem
                             label="Public orders"
-                            icon={<SenderIcon />}
+                            icon={<PublicOrderIcon />}
                             onClick={() => this.selectSection(0)}
                         />
                         <BottomNavigationItem
                             label="My Taken orders"
-                            icon={<ReceiverIcon />}
+                            icon={<MyOrdersIcon />}
                             onClick={() => this.selectSection(1)}
                         />
                     </BottomNavigation>
