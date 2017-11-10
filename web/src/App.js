@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AdminContainer from "./admins/components/AdminContainer";
-import MyProfile from "./common/components/MyProfile";
 import RestaurantContainer from "./restaurants/components/RestaurantContainer";
 import UserContainer from "./users/components/UserContainer";
 import AuthenticationContainer from "./authentication/components/AuthenticationContainer";
@@ -46,23 +45,25 @@ class App extends Component {
     };
 
     render() {
+        const appBar =
+            <AppBar title={'Feedr'}
+                    iconElementLeft={<IconButton><ActionHome /></IconButton>}
+                    iconElementRight={
+                        <span>
+                            <span>{'Hello, '+this.state.username+'   '}</span>
+                            <RaisedButton label="My Profile" primary={true} />
+                            <span>{'   '}</span>
+                            <RaisedButton label="logout" onClick={this.handleLogout}/>
+                        </span>
+                    }/>;
+
         return (
             <MuiThemeProvider className="App">
                 {/*MuiThemeProvider want single react child*/}
                 <div className="App">
                     {this.state.username && true?
                         <div>
-                            <AppBar title={'Feedr'}
-                                    iconElementLeft={<IconButton><ActionHome /></IconButton>}
-                                    iconElementRight={
-                                        <span>
-                                            <span>{'Hello, '+this.state.username+'   '}</span>
-                                            <RaisedButton label="My Profile" primary={true} />
-                                            <span>{'   '}</span>
-                                            <RaisedButton label="logout" onClick={this.handleLogout}/>
-                                        </span>
-                                    }
-                            />
+                            {appBar}
                             {this.state.userType===UserTypes.ADMIN && <AdminContainer />}
                             {this.state.userType===UserTypes.RESTAURANT && <RestaurantContainer />}
                             {this.state.userType===UserTypes.USER && <UserContainer />}
