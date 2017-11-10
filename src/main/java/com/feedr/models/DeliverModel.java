@@ -2,44 +2,44 @@ package com.feedr.models;
 import java.sql.Timestamp;
 
 public class DeliverModel {
-    private int order_id;
-    private Double final_tip;
-    private Double final_total_cost;
-    private Timestamp delivered_time;
+    private int orderId;
+    private Double finalTip;
+    private Double finalTotalCost;
+    private Timestamp deliveredTime;
 
-    public DeliverModel(int order_id, Double final_tip, Double final_total_cost,
-                        Timestamp delivered_time){
-        this.order_id = order_id;
-        this.final_tip = final_tip;
-        this.final_total_cost = final_total_cost;
-        this.delivered_time =delivered_time;
+    public DeliverModel(int orderId, Double finalTip, Double finalTotalCost,
+                        Timestamp deliveredTime){
+        this.orderId = orderId;
+        this.finalTip = finalTip;
+        this.finalTotalCost = finalTotalCost;
+        this.deliveredTime =deliveredTime;
     }
 
-    public int getOrder_id(){
-        return order_id;
+    public int getOrderId(){
+        return orderId;
     }
 
-    public Double getFinal_tip() {
-        return final_tip;
+    public Double getFinalTip() {
+        return finalTip;
     }
 
-    public void setFinal_tip(Double final_tip) {
-        this.final_tip = final_tip;
+    public void setFinalTip(Double finalTip) {
+        this.finalTip = finalTip;
     }
 
-    public Double getFinal_total_cost() {
-        return final_total_cost;
+    public Double getFinalTotalCost() {
+        return finalTotalCost;
     }
 
-    public void setFinal_total_cost(Double final_total_cost) {
-        this.final_total_cost = final_total_cost;
+    public void setFinalTotalCost(Double finalTotalCost) {
+        this.finalTotalCost = finalTotalCost;
     }
 
-    public Timestamp getDelivered_time() {
-        return delivered_time;
+    public Timestamp getDeliveredTime() {
+        return deliveredTime;
     }
 
-    public void setDelivered_time(Timestamp delivered_time) {
-        this.delivered_time = delivered_time;
+    public void setDeliveredTime(Timestamp deliveredTime) {
+        this.deliveredTime = deliveredTime;
     }
 }

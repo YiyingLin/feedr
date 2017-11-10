@@ -1,54 +1,54 @@
 package com.feedr.models;
 
 public class RatingModel {
-    private int order_id;
-    private int rate_sender;
-    private int rate_rest;
-    private String comment_sender;
-    private String comment_rest;
+    private int orderId;
+    private int rateSender;
+    private int rateRest;
+    private String commentSender;
+    private String commentRest;
 
-    public RatingModel(int order_id, int rate_sender, int rate_rest, String comment_sender,
-                       String comment_rest){
-        this.order_id = order_id;
-        this.rate_sender = rate_sender;
-        this.rate_rest = rate_rest;
-        this.comment_sender = comment_sender;
-        this.comment_rest = comment_rest;
+    public RatingModel(int orderId, int rateSender, int rateRest, String commentSender,
+                       String commentRest){
+        this.orderId = orderId;
+        this.rateSender = rateSender;
+        this.rateRest = rateRest;
+        this.commentSender = commentSender;
+        this.commentRest = commentRest;
     }
 
-    public int getOrder_id(){
-        return order_id;
+    public int getOrderId(){
+        return orderId;
     }
 
-    public int getRate_sender(){
-        return rate_sender;
+    public int getRateSender(){
+        return rateSender;
     }
 
-    public void setRate_sender(int rate_sender){
-        this.rate_sender = rate_sender;
+    public void setRateSender(int rateSender){
+        this.rateSender = rateSender;
     }
 
-    public int getRate_rest(){
-        return rate_rest;
+    public int getRateRest(){
+        return rateRest;
     }
 
-    public void setRate_rest(int rate_rest){
-        this.rate_rest = rate_rest;
+    public void setRateRest(int rateRest){
+        this.rateRest = rateRest;
     }
 
-    public String getComment_sender(){
-        return comment_sender;
+    public String getCommentSender(){
+        return commentSender;
     }
 
-    public void setComment_sender(String comment_sender){
-        this.comment_sender = comment_sender;
+    public void setCommentSender(String commentSender){
+        this.commentSender = commentSender;
     }
 
-    public String getComment_rest() {
-        return comment_rest;
+    public String getCommentRest() {
+        return commentRest;
     }
 
-    public void setComment_rest(String comment_rest){
-        this.comment_rest = comment_rest;
+    public void setCommentRest(String commentRest){
+        this.commentRest = commentRest;
     }
 }

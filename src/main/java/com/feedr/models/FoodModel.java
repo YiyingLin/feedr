@@ -1,24 +1,24 @@
 package com.feedr.models;
 
 public class FoodModel {
-    private String res_username;
+    private String restUsername;
     private String foodname;
     private Double price;
     private String type;
 
-    public FoodModel(String res_username, String foodname, Double price, String type){
-        this.res_username = res_username;
+    public FoodModel(String restUsername, String foodname, Double price, String type){
+        this.restUsername = restUsername;
         this.foodname = foodname;
         this.price = price;
         this.type = type;
     }
 
-    public String getRes_username(){
-        return res_username;
+    public String getRestUsername(){
+        return restUsername;
     }
 
-    public void setRes_username(String res_username){
-        this.res_username = res_username;
+    public void setRestUsername(String restUsername){
+        this.restUsername = restUsername;
     }
 
     public String getFoodname(){

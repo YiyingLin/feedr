@@ -2,25 +2,25 @@ package com.feedr.models;
 
 public class RestaurantModel extends UserModel{
 
-    private String restaurant_name;
-    private int restaurant_rating;
+    private String restName;
+    private int restRating;
     private String location;
 
-    public RestaurantModel(String username, String phone, String restaurant_name,
-                           int restaurant_rating, String location) {
+    public RestaurantModel(String username, String phone, String restName,
+                           int restRating, String location) {
         super(username, phone);
-        this.restaurant_name = restaurant_name;
-        this.restaurant_rating = restaurant_rating;
+        this.restName = restName;
+        this.restRating = restRating;
         this.location = location;
     }
 
-    public String getRes_name(){ return restaurant_name;}
+    public String getRestName(){ return restName;}
 
-    public void setRes_name(String restaurant_name){ this.restaurant_name = restaurant_name;}
+    public void setRestName(String restName){ this.restName = restName;}
 
-    public int getRes_rating(){ return restaurant_rating;}
+    public int getRestRating(){ return restRating;}
 
-    public void setRes_rating(int restaurant_rating){ this.restaurant_rating = restaurant_rating;}
+    public void setRestRating(int restRating){ this.restRating = restRating;}
 
     public String getLocation(){ return location;}
 

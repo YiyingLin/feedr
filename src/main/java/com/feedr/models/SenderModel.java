@@ -1,19 +1,19 @@
 package com.feedr.models;
 
 public class SenderModel extends UserModel{
-    private int sender_rating;
+    private int senderRating;
     private String location;
 
-    public SenderModel(String username, String phone, int sender_rating,
+    public SenderModel(String username, String phone, int senderRating,
                        String location) {
         super(username, phone);
-        this.sender_rating = sender_rating;
+        this.senderRating = senderRating;
         this.location = location;
     }
 
-    public int getSender_rating(){ return sender_rating;}
+    public int getSenderRating(){ return senderRating;}
 
-    public void setSender_rating(int sender_rating){ this.sender_rating = sender_rating;}
+    public void setSenderRating(int senderRating){ this.senderRating = senderRating;}
 
     public String getLocation(){ return location;}
 
