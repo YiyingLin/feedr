@@ -28,7 +28,7 @@ export default class Order extends Component {
                 <Card>
                     <CardHeader
                         title={'Order ID: ' + this.props.order.orderId}
-                        subtitle={this.props.order.receiver}
+                        subtitle={'Ordered by: '+this.props.order.receiver}
                     />
                     <Divider />
                     <CardText>
@@ -54,6 +54,14 @@ export default class Order extends Component {
                                 </span>)
                         }
                     </CardText>
+                    {
+                        (this.props.order.sender) &&
+                        <CardText>
+                            <span>
+                                <span style={titleText}>Delivery By: </span>{this.props.order.sender}
+                            </span>
+                        </CardText>
+                    }
                     <CardText>
                         {this.props.order.delivered && <span style={titleText}>Delivered?:<DoneIcon /></span>}
                         {this.props.order.canceled && <span style={titleText}>Canceled?:<DoneIcon /></span>}

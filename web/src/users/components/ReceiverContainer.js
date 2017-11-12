@@ -7,6 +7,10 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import OrderForm from './OrderForm';
+import RatingForm from "./RatingForm";
+import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
+import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
+import Paper from 'material-ui/Paper';
 
 const mockOrders = [
     new OrderModel(32,'Me','2205 lower mall', 10, '8:46pm', 7788595117, 'PG',
@@ -19,7 +23,7 @@ const mockOrders = [
                 food: new FoodModel('Rice', 12, 'not spicy'),
                 quantity: 3
             }
-        ], true
+        ], true, false, 'Snow'
     ),
     new OrderModel(44,'Me','UBC', 10, '10:46pm', 7788595117, 'Vanier',
         [
@@ -71,12 +75,16 @@ export default class ReceiverContainer extends Component {
         this.state = {
             orders: mockOrders,
             showCreateOrder: false,
-            newTip: 0
+            showRating: false,
+            newTip: 0,
+
         };
         this.openCreateOrder = this.openCreateOrder.bind(this);
         this.cancelCreateOrder = this.cancelCreateOrder.bind(this);
         this.createOrder = this.createOrder.bind(this);
         this.cancelOrder= this.cancelOrder.bind(this);
+        this.createRating = this.createRating.bind(this);
+        this.cancelRating = this.cancelRating.bind(this);
     }
 
     static isPendingOrder(order) {
@@ -101,17 +109,30 @@ export default class ReceiverContainer extends Component {
     cancelOrder(orderId) {
         console.log('want to cancel order: '+orderId)
     }
-    addTip(tip) {
-        console.log('want to add tip: '+tip)
+    addTip() {
+        console.log('want to add tip: xxx')
     }
     confirmDelivery(orderId) {
-        console.log('want to confirm order: '+orderId)
+        this.setState({showRating: true});
+    }
+
+    //rating methods
+    createRating(rating) {
+        this.setState({showRating: false});
+    }
+    cancelRating() {
+        this.setState({showRating: false});
     }
 
     render() {
         return (
             <div>
-                <h3>My Orders: </h3>
+                <Paper zDepth={1}>
+                    {/*Receiver only has one panel*/}
+                    <BottomNavigation selectedIndex={0}>
+                        <BottomNavigationItem label="My Orders" icon={<MyOrdersIcon />}/>
+                    </BottomNavigation>
+                </Paper>
                 <div style={orderListStyle}>
                     {this.state.orders.map((order, index) =>
                             <Order key={index} order={order} private={true}
@@ -132,7 +153,7 @@ export default class ReceiverContainer extends Component {
                                         <RaisedButton
                                             style={addTipStyle}
                                             label="Add tips"
-                                            onClick={() => {this.addTip(this.state.newTip);this.setState({newTip:0});}}
+                                            onClick={this.addTip}
                                         />
                                         <TextField type="number"
                                                    value={this.state.newTip}
@@ -160,6 +181,11 @@ export default class ReceiverContainer extends Component {
                     showCreateOrder={this.state.showCreateOrder}
                     cancelCreateOrder={this.cancelCreateOrder}
                     createOrder={this.createOrder}
+                />
+                <RatingForm
+                    showRating={this.state.showRating}
+                    handleCancelRating={this.cancelRating}
+                    handleCreateRating={this.createRating}
                 />
             </div>
         );

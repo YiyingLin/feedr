@@ -53,7 +53,7 @@ const mockPrivateOrders = [
                 quantity: 2
             }
         ],
-        true
+        true, undefined, 'Me'
     ),
     new OrderModel(133,'John','UBC', 10, '9:46pm', 7788595117, 'Vanier',
         [
@@ -65,7 +65,7 @@ const mockPrivateOrders = [
                 food: new FoodModel('Ham', 12, 'not spicy'),
                 quantity: 3
             }
-        ],false, false
+        ],false, false, 'Me'
     ),
     new OrderModel(213,'Annie','SFU', 10, '9:46pm', 7788595117, 'Totem',
         [
@@ -77,7 +77,7 @@ const mockPrivateOrders = [
                 food: new FoodModel('Beef', 23, 'not spicy'),
                 quantity: 1
             }
-        ],false, true
+        ],false, true, 'Me'
     )
 ];
 
@@ -109,12 +109,12 @@ export default class SenderContainer extends Component {
                 <Paper zDepth={1}>
                     <BottomNavigation selectedIndex={this.state.selectedIndex}>
                         <BottomNavigationItem
-                            label="Public orders"
+                            label="Public Orders"
                             icon={<PublicOrderIcon />}
                             onClick={() => this.selectSection(0)}
                         />
                         <BottomNavigationItem
-                            label="My Taken orders"
+                            label="My Taken Orders"
                             icon={<MyOrdersIcon />}
                             onClick={() => this.selectSection(1)}
                         />

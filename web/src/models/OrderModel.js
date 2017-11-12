@@ -1,5 +1,5 @@
 export default class OrderModel {
-    constructor(orderId, receiver,address,tips,orderTime,phone,restaurant,foodsMap, delivered, canceled) {
+    constructor(orderId, receiver,address,tips,orderTime,phone,restaurant,foodsMap, delivered, canceled, sender) {
         this.orderId = orderId;
         this.receiver = receiver;
         this.address = address;
@@ -10,5 +10,6 @@ export default class OrderModel {
         this.foodsMap = foodsMap;
         this.delivered = delivered;
         this.canceled = canceled;
+        this.sender = sender;
     }
 }
