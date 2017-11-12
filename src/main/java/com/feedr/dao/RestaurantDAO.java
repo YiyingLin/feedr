@@ -21,13 +21,13 @@ public class RestaurantDAO {
 
     public void createRestaurant(String username, String resname, int restaurant_rating, String location) throws SQLException {
         connector.executeQuery(
-                String.format("INSERT INTO restaurant VALUES (%s,%s,%s,%s);", username, resname, restaurant_rating, location)
+                String.format("INSERT INTO restaurant VALUES (%s,%s,%d,%s);", username, resname, restaurant_rating, location)
         );
     }
 
     public void createFood(String res_username, String foodname, double price, String type) throws SQLException {
         connector.executeQuery(
-                String.format("INSERT INTO food VALUES (%s,%s,%s,%s);", res_username, foodname, price, type)
+                String.format("INSERT INTO food VALUES (%s,%s,%f,%s);", res_username, foodname, price, type)
         );
     }
 
@@ -48,9 +48,9 @@ public class RestaurantDAO {
         return resModels;
     }
 
-    public ArrayList<FoodModel> getRestaurantFoods(String username) throws SQLException {
+    public ArrayList<FoodModel> getRestaurantFoods(String resname) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT * FROM restaurant, food WHERE restaurant.username = %s AND restaurant.username = food.res_username;", username)
+                String.format("SELECT * FROM restaurant INNER JOIN food ON restaurant.username = food.res_username WHERE restaurant.resname = %s;", resname)
         );
         ArrayList<FoodModel> foodModels = new ArrayList<>();
         while(resultSet.next()) {
