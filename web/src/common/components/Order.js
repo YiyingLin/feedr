@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
 import Chip from 'material-ui/Chip';
 import DoneIcon from 'material-ui/svg-icons/action/done';
-import NotDoneIcon from 'material-ui/svg-icons/content/clear';
+import Divider from 'material-ui/Divider';
 
 const foodStyle = {
   display: 'flex'
@@ -17,6 +16,11 @@ const titleText = {
     fontWeight: 'bold'
 };
 
+const actionsStyle = {
+    display: 'flex',
+    flexDirection: 'column'
+};
+
 export default class Order extends Component {
     render() {
         return (
@@ -26,6 +30,7 @@ export default class Order extends Component {
                         title={'Order ID: ' + this.props.order.orderId}
                         subtitle={this.props.order.receiver}
                     />
+                    <Divider />
                     <CardText>
                         <span style={titleText}>Address: </span>{this.props.order.address}
                         <span>   </span>
@@ -42,42 +47,20 @@ export default class Order extends Component {
                     </CardText>
                     <CardText style={foodStyle}>
                         <span style={titleText}>Foods: </span>
-                        {this.props.order.foods
-                            .map((f, index) => <Chip key={index}>{f.foodname}</Chip>)}
+                        {this.props.order.foodsMap
+                            .map((f, index) =>
+                                <span key={index} style={{display: 'flex'}}>
+                                    <Chip>{f.food.foodname+'  x  '+f.quantity}</Chip>
+                                </span>)
+                        }
                     </CardText>
-                    {
-                        this.props.private &&
-                        <CardText>
-                            {
-                                !this.props.order.canceled &&
-                                <span style={titleText}>Delivered?:
-                                    {this.props.order.delivered? <DoneIcon />: <NotDoneIcon />}
-                                </span>}
-                            {
-                                !this.props.order.delivered &&
-                                <span style={titleText}>Canceled?:
-                                    {this.props.order.canceled? <DoneIcon />: <NotDoneIcon />}
-                                </span>}
-                        </CardText>
-                    }
-                    {
-                        !this.props.private &&
-                        <CardActions>
-                            <RaisedButton
-                                label="Take this order"
-                                onClick={() => this.props.handleTakeOrder(this.props.order.orderId)}
-                            />
-                        </CardActions>
-                    }
-                    {
-                        this.props.private && !this.props.order.canceled && !this.props.order.delivered &&
-                        <CardActions>
-                            <RaisedButton
-                                label="Cancel this order"
-                                onClick={() => this.props.handleCancelOrder(this.props.order.orderId)}
-                            />
-                        </CardActions>
-                    }
+                    <CardText>
+                        {this.props.order.delivered && <span style={titleText}>Delivered?:<DoneIcon /></span>}
+                        {this.props.order.canceled && <span style={titleText}>Canceled?:<DoneIcon /></span>}
+                    </CardText>
+                    <CardActions style={actionsStyle}>
+                        {this.props.children}
+                    </CardActions>
                 </Card>
             </div>
         );
