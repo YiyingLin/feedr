@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS receiver(
 
 CREATE TABLE IF NOT EXISTS restaurant(
   username VARCHAR(20),
-  resname VARCHAR(40) NOT NULL,
+  resname VARCHAR(40) NOT NULL UNIQUE,
   restaurant_rating INT(2),
   location VARCHAR(60) NOT NULL ,
   PRIMARY KEY (username),
