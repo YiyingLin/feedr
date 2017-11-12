@@ -48,6 +48,18 @@ const mockOrders = [
                 quantity: 1
             }
         ]
+    ),
+    new OrderModel(65,'Me','DT', 12, '12:46pm', 1234566789, 'Raisu',
+        [
+            {
+                food: new FoodModel('Sushi', 22, 'spicy'),
+                quantity: 3
+            },
+            {
+                food: new FoodModel('Sashima', 33, 'not spicy'),
+                quantity: 1
+            }
+        ]
     )
 ];
 
@@ -77,7 +89,7 @@ export default class ReceiverContainer extends Component {
             showCreateOrder: false,
             showRating: false,
             newTip: 0,
-
+            orderOnFocus: ''
         };
         this.openCreateOrder = this.openCreateOrder.bind(this);
         this.cancelCreateOrder = this.cancelCreateOrder.bind(this);
@@ -85,6 +97,8 @@ export default class ReceiverContainer extends Component {
         this.cancelOrder= this.cancelOrder.bind(this);
         this.createRating = this.createRating.bind(this);
         this.cancelRating = this.cancelRating.bind(this);
+        this.enterTip = this.enterTip.bind(this);
+        this.addTip = this.addTip.bind(this);
     }
 
     static isPendingOrder(order) {
@@ -109,11 +123,17 @@ export default class ReceiverContainer extends Component {
     cancelOrder(orderId) {
         console.log('want to cancel order: '+orderId)
     }
-    addTip() {
-        console.log('want to add tip: xxx')
+    addTip(orderId) {
+        this.setState({orderOnFocus: orderId});
+    }
+    enterTip(event) {
+        this.setState({newTip:parseInt(event.target.value,10)})
     }
     confirmDelivery(orderId) {
-        this.setState({showRating: true});
+        this.setState(
+            {orderOnFocus: orderId},
+            () => {this.setState({showRating: true});}
+        );
     }
 
     //rating methods
@@ -153,12 +173,16 @@ export default class ReceiverContainer extends Component {
                                         <RaisedButton
                                             style={addTipStyle}
                                             label="Add tips"
-                                            onClick={this.addTip}
+                                            onClick={() => this.addTip(order.orderId)}
                                         />
                                         <TextField type="number"
-                                                   value={this.state.newTip}
+                                                   onClick={()=>this.setState({orderOnFocus: order.orderId, newTip:0})}
+                                                   value={
+                                                       this.state.orderOnFocus===order.orderId?
+                                                           this.state.newTip: 0
+                                                   }
                                                    hintText="add some tips..."
-                                                   onChange={(event)=> {this.setState({newTip:event.target.value})}} />
+                                                   onChange={this.enterTip} />
                                     </span>
                                 }
                                 {
