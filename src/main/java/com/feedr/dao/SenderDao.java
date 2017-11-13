@@ -41,6 +41,37 @@ public class SenderDao {
         return senders;
     }
 
+    public SenderModel getSender(String username) throws SQLException{
+        ResultSet resultset = connector.executeQuery(
+                String.format("SELECT sender.username,sender_rating,location,phone FROM sender,user " +
+                        "WHERE sender.username = user.username AND sender.username = %s;", username)
+        );
+        String senderName = resultset.getString("username");
+        int rating = resultset.getInt("sender_rating");
+        String location = resultset.getString("location");
+        String phone = resultset.getString("phone");
+        SenderModel sender = new SenderModel(senderName,phone,rating,location);
+        return sender;
+    }
+
+    public void updateSenderRating(String username, int newRating) throws SQLException{
+        connector.executeQuery(
+                String.format("UPDATE sender SET sender_rating = %d WHERE username = %s;", newRating,username)
+        );
+    }
+
+    public void updateLocation(String username, String location) throws SQLException{
+        connector.executeQuery(
+                String.format("UPDATE sender SET location = %s WHERE username = %s;", location,username)
+        );
+    }
+
+    public void deleteSender(String username) throws SQLException{
+        connector.executeQuery(
+                String.format("DELETE FROM sender WHERE username = %s;", username)
+        );
+    }
+
     // the function will assign a sender with an order, and it will also update OrderModel.senderName
     // and set assignedSender field as true
     public void takeOrder(SenderModel sender, OrderModel order) throws SQLException{
@@ -54,6 +85,8 @@ public class SenderDao {
         order.setAssignedSender(true);
     }
 
+
+    // TODO: sender checks orders
     public ArrayList<OrderModel> checkOrders(SenderModel sender) throws SQLException{
         String senderName = sender.getUsername();
         ResultSet resultSet = connector.executeQuery(
@@ -74,9 +107,4 @@ public class SenderDao {
         }
         return senderOrders;
     }
-
-
-
-
-
 }
