@@ -6,6 +6,7 @@ public class CheckOrderModel extends OrderModel{
 
     private boolean isCancelled;
     private boolean isDelivered;
+    private String reason;
 
     public CheckOrderModel(int orderID, String sender, String receiver, String restaurant, double orderCost,
                            double deliverTip, Timestamp orderTime, Timestamp deadline, String location,
@@ -29,5 +30,13 @@ public class CheckOrderModel extends OrderModel{
 
     public void setDelivered(boolean delivered) {
         isDelivered = delivered;
+    }
+
+    public String getReason(){
+        return this.reason;
+    }
+
+    public void setReason(String reason){
+        this.reason = reason;
     }
 }
