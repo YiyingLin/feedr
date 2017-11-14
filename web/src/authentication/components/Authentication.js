@@ -11,14 +11,18 @@ import UserType from "../../utils/UserTypes";
 class Authentication extends Component {
     constructor(props) {
         super(props);
-        this.getUsername = this.getUsername.bind(this);
-        this.getPassword = this.getPassword.bind(this);
-        this.getUserType = this.getUserType.bind(this);
         this.state = {
             username: "",
             password: "",
-            userType: UserType.USER
+            userType: UserType.USER,
+            restaurantName: '',
+            location: ''
         };
+        this.getUsername = this.getUsername.bind(this);
+        this.getPassword = this.getPassword.bind(this);
+        this.getUserType = this.getUserType.bind(this);
+        this.getRestaurantName = this.getRestaurantName.bind(this);
+        this.getLocation = this.getLocation.bind(this);
     }
 
     getUsername(event) {
@@ -33,14 +37,22 @@ class Authentication extends Component {
         this.setState({userType: value});
     }
 
+    getRestaurantName(event) {
+        this.setState({restaurantName: event.target.value});
+    }
+
+    getLocation(event) {
+        this.setState({location: event.target.value});
+    }
+
     render() {
         return (
             <div id="authentication-component">
                 <Card>
                     <CardTitle title={this.props.title} />
                     <CardText className="card-content">
-                        <TextField hintText="username" onChange={this.getUsername} />
-                        <TextField type={'password'} hintText="password" onChange={this.getPassword}/>
+                        <TextField value={this.state.username} hintText="username" onChange={this.getUsername} />
+                        <TextField value={this.state.password} type={'password'} hintText="password" onChange={this.getPassword}/>
                     </CardText>
                     {
                         (this.props.showUserTypes) &&
@@ -53,6 +65,13 @@ class Authentication extends Component {
                                 <MenuItem value={UserType.USER} primaryText={UserType.USER} />
                                 <MenuItem value={UserType.RESTAURANT} primaryText={UserType.RESTAURANT} />
                             </SelectField>
+                        </div>
+                    }
+                    {
+                        (this.state.userType === UserType.RESTAURANT) &&
+                        <div>
+                            <TextField value={this.state.restaurantName} hintText="Restaurant name" onChange={this.getRestaurantName} />
+                            <TextField value={this.state.location} hintText="Location" onChange={this.getLocation} />
                         </div>
                     }
                     <CardActions>

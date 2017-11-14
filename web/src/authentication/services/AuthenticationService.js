@@ -4,7 +4,7 @@ import UserType from "../../utils/UserTypes";
 export function login(username, password) {
     return Promise.resolve({
         username: username,
-        userType: UserType.USER
+        userType: UserType.RESTAURANT
     });
 }
 
