@@ -41,7 +41,7 @@ public class ReceiverDao {
 
     public ReceiverModel getReceiver(String username) throws SQLException {
         ResultSet resultset = connector.executeQuery(
-                String.format("SELECT receiver.username, phone FROM receiver,user" +
+                String.format("SELECT receiver.username, phone FROM receiver,user " +
                         "WHERE receiver.username = user.username AND receiver.username = %s;", username)
         );
         String receiverName = resultset.getString("username");
@@ -57,11 +57,12 @@ public class ReceiverDao {
     }
 
     // TODO: receiver creates order
+    // Need to get the AUTO_INCREMENT KEY orderId
     public void createOrderInfo(String receiver, String restaurant, double tip, Timestamp deadline, String location) throws SQLException {
         String deadlineString = deadline.toString();
         connector.executeQuery(
                 String.format("INSERT INTO order_info (receiver_name, restaurant_name, deliver_tip, deadline, delivery_location) \n" +
-                        "    VALUES (%s,%s,%d,%s,%s);", receiver,restaurant,tip,deadlineString,location)
+                        "    VALUES (%s,%s,%f,%s,%s);", receiver,restaurant,tip,deadlineString,location)
         );
     }
 
@@ -74,15 +75,44 @@ public class ReceiverDao {
         );
     }
 
+    // Query that compute the cost of different foods in the order
+    public void computeFoodCosts (int orderId) throws SQLException {
+        connector.executeQuery(
+                String.format("SELECT order_id,O.foodname,O.food_quantity,price,price* O.food_quantity AS cost " +
+                        "FROM order_include_food O NATURAL LEFT JOIN food " +
+                        "WHERE order_id = %d;", orderId)
+        );
+    }
+
+    // Query that compute the total cost of the order
+    public void computeTotalCosts (int orderId) throws SQLException{
+        connector.executeQuery(
+                String.format("SELECT order_id,SUM(price* O.food_quantity) AS total_cost " +
+                        "FROM order_include_food O NATURAL LEFT JOIN food " +
+                        "WHERE order_id = %d" +
+                        "GROUP BY order_id;", orderId)
+        );
+    }
+
+
+    // Receivers can confirm that their orders have been delivered
+    public void confirmDelivered (int orderId, double finalTip, double finalCost, Timestamp deliveredTime) throws SQLException {
+        String deliveredTimeString = deliveredTime.toString();
+        connector.executeQuery(
+                String.format("INSERT INTO delivered VALUES (%d,%f,%f,%s);", orderId, finalTip,
+                        finalCost,deliveredTimeString)
+        );
+    }
 
     public ArrayList<CheckOrderModel> checkOrders(String receiver) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT DISTINCT order_id,receiver_name,sender_name,restaurant_name,deliver_tip,order_cost,\n" +
-                        "  deadline,delivery_location,phone,\n" +
-                        "  order_id IN (SELECT c.order_id FROM (order_info INNER JOIN cancellation c)) AS isCancelled,\n" +
-                        "  order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered\n" +
-                        "FROM receiver INNER JOIN order_info LEFT JOIN user ON order_info.sender_name = user.username\n" +
-                        "WHERE order_info.receiver_name = '%s';", receiver)
+                String.format("SELECT DISTINCT o.order_id,receiver_name,sender_name,restaurant_name,deliver_tip,order_cost,\n" +
+                        "  deadline,delivery_location,phone,reason,\n" +
+                        "  o.order_id IN (SELECT c.order_id FROM (order_info INNER JOIN cancellation c)) AS isCancelled,\n" +
+                        "  o.order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered\n" +
+                        "FROM (receiver INNER JOIN order_info o LEFT JOIN user ON o.sender_name = user.username) LEFT JOIN\n" +
+                        "cancellation ON o.order_id = cancellation.order_id\n" +
+                        "WHERE o.receiver_name = %s;", receiver)
         );
         ArrayList<CheckOrderModel> checkOrders = new ArrayList<>();
 
@@ -102,6 +132,12 @@ public class ReceiverDao {
             boolean isDelivered = (delivered == 1);
             CheckOrderModel checkOrder = new CheckOrderModel(orderId,sender,receiver,restaurant,
                     orderCost,tips,orderTime,deadline,address,phone,isCancelled,isDelivered);
+            String reason = resultSet.getString("reason");
+            if (reason != null){
+                // if isCancelled == 1 && reason == null, the method may need to throw an error;
+                checkOrder.setReason(reason);
+            }
+            // else checkOrder.getReason() equals to null;
             checkOrders.add(checkOrder);
         }
         return checkOrders;

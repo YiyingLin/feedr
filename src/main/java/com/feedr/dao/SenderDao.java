@@ -90,17 +90,18 @@ public class SenderDao {
     // Return ArrayList<CheckOrderModel> that CheckOrderModel extends OrderModel
     public ArrayList<CheckOrderModel> checkOrders(String sender) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT DISTINCT order_id,sender_name,receiver_name,restaurant_name,deliver_tip,order_cost," +
-                        "  deadline,delivery_location,phone," +
-                        "  order_id IN (SELECT c.order_id FROM (order_info INNER JOIN cancellation c)) AS isCancelled," +
-                        "  order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered" +
-                        "FROM sender INNER JOIN order_info LEFT JOIN user ON order_info.sender_name = user.username" +
-                        "WHERE order_info.sender_name = '%s';", sender)
+                String.format("SELECT DISTINCT o.order_id AS orderID,sender_name,receiver_name,restaurant_name,deliver_tip,order_cost,\n" +
+                        "  deadline,delivery_location,phone,reason,\n" +
+                        "  o.order_id IN (SELECT c.order_id FROM (order_info INNER JOIN cancellation c)) AS isCancelled,\n" +
+                        "  o.order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered\n" +
+                        "FROM (sender INNER JOIN order_info o LEFT JOIN user ON o.sender_name = user.username) LEFT JOIN\n" +
+                        "cancellation ON o.order_id = cancellation.order_id\n" +
+                        "WHERE o.sender_name = '%s';", sender)
         );
         ArrayList<CheckOrderModel> checkOrders = new ArrayList<>();
 
         while (resultSet.next()){
-            int orderId = resultSet.getInt("order_id");
+            int orderId = resultSet.getInt("orderId");
             String receiver = resultSet.getString("receiver_name");
             String restaurant = resultSet.getString("restaurant_name");
             double orderCost = resultSet.getDouble("order_cost");
@@ -115,9 +116,14 @@ public class SenderDao {
             boolean isDelivered = (delivered == 1);
             CheckOrderModel checkOrder = new CheckOrderModel(orderId,sender,receiver,restaurant,
                     orderCost,tips,orderTime,deadline,address,phone,isCancelled,isDelivered);
+            String reason = resultSet.getString("reason");
+            if (reason != null){
+                // if isCancelled == 1 && reason == null, the method may need to throw an error;
+                checkOrder.setReason(reason);
+            }
+            // else checkOrder.getReason() equals to null;
             checkOrders.add(checkOrder);
         }
         return checkOrders;
     }
-
 }
