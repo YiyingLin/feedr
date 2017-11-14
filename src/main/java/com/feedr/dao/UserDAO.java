@@ -25,7 +25,6 @@ public class UserDAO {
 
     public ArrayList<UserModel> getUsers() throws SQLException {
         ResultSet resultSet = connector.executeQuery(
-                "CREATE VIEW userInfo AS SELECT username, phone FROM user;" +
                         "SELECT * FROM userInfo;"
         );
         ArrayList<UserModel> userModels = new ArrayList<>();

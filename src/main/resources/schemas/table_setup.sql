@@ -105,3 +105,5 @@ CREATE TABLE IF NOT EXISTS delivered (
   FOREIGN KEY (order_id) REFERENCES order_info (order_id)
     ON DELETE CASCADE
 );
+
+CREATE VIEW userInfo AS SELECT username, phone FROM user;
