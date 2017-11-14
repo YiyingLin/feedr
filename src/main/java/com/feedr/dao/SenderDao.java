@@ -1,5 +1,6 @@
 package com.feedr.dao;
 
+import com.feedr.models.CheckOrderModel;
 import com.feedr.models.SenderModel;
 import com.feedr.models.OrderModel;
 import com.feedr.util.DatabaseConnector;
@@ -82,17 +83,21 @@ public class SenderDao {
                         senderName, orderId)
         );
         order.setSender(senderName);
-        order.setAssignedSender(true);
+        // order.setAssignedSender(true);
     }
 
-
-    // TODO: sender checks orders
-    public ArrayList<OrderModel> checkOrders(SenderModel sender) throws SQLException{
-        String senderName = sender.getUsername();
+    // Check a sender's all orders whether it is cancelled or delivered
+    // Return ArrayList<CheckOrderModel> that CheckOrderModel extends OrderModel
+    public ArrayList<CheckOrderModel> checkOrders(String sender) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT * FROM order_info WHERE sender_name = %s;", senderName)
+                String.format("SELECT DISTINCT order_id,sender_name,receiver_name,restaurant_name,deliver_tip,order_cost," +
+                        "  deadline,delivery_location,phone," +
+                        "  order_id IN (SELECT c.order_id FROM (order_info INNER JOIN cancellation c)) AS isCancelled," +
+                        "  order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered" +
+                        "FROM sender INNER JOIN order_info LEFT JOIN user ON order_info.sender_name = user.username" +
+                        "WHERE order_info.sender_name = '%s';", sender)
         );
-        ArrayList<OrderModel> senderOrders = new ArrayList<>();
+        ArrayList<CheckOrderModel> checkOrders = new ArrayList<>();
 
         while (resultSet.next()){
             int orderId = resultSet.getInt("order_id");
@@ -103,8 +108,16 @@ public class SenderDao {
             Timestamp orderTime = resultSet.getTimestamp("order_time");
             Timestamp deadline = resultSet.getTimestamp("deadline");
             String address = resultSet.getString("delivery_location");
-
+            String phone = resultSet.getString("phone");
+            int cancelled = resultSet.getInt("isCancelled");
+            int delivered = resultSet.getInt("isDelivered");
+            boolean isCancelled = (cancelled == 1);
+            boolean isDelivered = (delivered == 1);
+            CheckOrderModel checkOrder = new CheckOrderModel(orderId,sender,receiver,restaurant,
+                    orderCost,tips,orderTime,deadline,address,phone,isCancelled,isDelivered);
+            checkOrders.add(checkOrder);
         }
-        return senderOrders;
+        return checkOrders;
     }
+
 }
