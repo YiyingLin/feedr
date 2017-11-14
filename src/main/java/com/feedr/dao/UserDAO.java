@@ -25,7 +25,7 @@ public class UserDAO {
 
     public ArrayList<UserModel> getUsers() throws SQLException {
         ResultSet resultSet = connector.executeQuery(
-                "SELECT * FROM user;"
+                        "SELECT * FROM userInfo;"
         );
         ArrayList<UserModel> userModels = new ArrayList<>();
         while(resultSet.next()) {
@@ -39,7 +39,7 @@ public class UserDAO {
 
     public UserModel getUser(String username) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT username, phone FROM user WHERE username = %s;", username)
+                String.format("SELECT * FROM userInfo WHERE username = %s;", username)
         );
         String phone = resultSet.getString("phone");
         UserModel userModel = new UserModel(username, phone);
