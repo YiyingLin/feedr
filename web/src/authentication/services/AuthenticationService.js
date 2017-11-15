@@ -1,10 +1,14 @@
-import UserType from "../../utils/UserTypes";
-//const request = require('request');
+import axios from 'axios'
 
 export function login(username, password) {
-    return Promise.resolve({
-        username: username,
-        userType: UserType.RESTAURANT
+    return new Promise(function (resolve, reject) {
+        axios.post('http://localhost:8080/signin', {username: username, password: password})
+            .then(function (response) {
+                resolve(response.data);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
     });
 }
 

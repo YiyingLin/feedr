@@ -18,13 +18,13 @@ export default class AuthenticationContainer extends Component {
 
     handleLogin(username, password) {
         login(username, password)
-            .then((result) => {
-                console.log(result.username, result.userType);
-                this.props.loginSuccess(result.username, result.userType);
-            }).catch((err) => {
+            .then((data) => {
+                this.props.loginSuccess(data.username, data.userType)
+            })
+            .catch((err) => {
                 console.log(err);
                 this.setState({alertControl:true});
-                this.setState({alertMessage:err});
+                this.setState({alertMessage:JSON.stringify(err)});
             });
     }
 
