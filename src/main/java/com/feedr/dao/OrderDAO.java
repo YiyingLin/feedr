@@ -25,7 +25,7 @@ public class OrderDAO {
         connector.executeQuery(
                 String.format("INSERT INTO order_info (receiver_name,restaurant_name," +
                         "order_cost,deliver_tip,order_time,deadline,delivery_location)" +
-                        " VALUES (%s,%s,%f,%f,%s,%s,%s);", receiName,restName,order_cost,
+                        " VALUES ('%s','%s',%f,%f,'%s','%s','%s');", receiName,restName,order_cost,
                         deliver_tip,orderTime,deadLine,location)
         );
     }
