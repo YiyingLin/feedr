@@ -20,7 +20,7 @@ public class AuthenticationController {
     @RequestMapping(path = "/signin", method = RequestMethod.POST)
     public String login(HttpServletRequest request, HttpServletResponse response) throws Exception {
         User.Builder builder = User.newBuilder();
-        User user = ProtobufUtil.jsonToProtobuf(builder, request);
+        User user = ProtobufUtil.jsonToProtobuf(builder, request, User.class);
         String password = userDAO.getPassword(user.getUsername());
         if (password.equals(user.getPassword())) {
             builder = User.newBuilder();
