@@ -19,15 +19,15 @@ public class RestaurantDAO {
         this.connector = connector;
     }
 
-    public void createRestaurant(String username, String resname, int restaurant_rating, String location) throws SQLException {
+    public void createRestaurant(String username, String resname, String location) throws SQLException {
         connector.executeQuery(
-                String.format("INSERT INTO restaurant VALUES (%s,%s,%d,%s);", username, resname, restaurant_rating, location)
+                String.format("INSERT INTO restaurant VALUES ('%s','%s',NULL,'%s');", username, resname, location)
         );
     }
 
     public void createFood(String res_username, String foodname, double price, String type) throws SQLException {
         connector.executeQuery(
-                String.format("INSERT INTO food VALUES (%s,%s,%f,%s);", res_username, foodname, price, type)
+                String.format("INSERT INTO food VALUES ('%s','%s',%f,'%s');", res_username, foodname, price, type)
         );
     }
 
@@ -50,7 +50,7 @@ public class RestaurantDAO {
 
     public ArrayList<FoodModel> getRestaurantFoods(String resname) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT * FROM restaurant INNER JOIN food ON restaurant.username = food.res_username WHERE restaurant.resname = %s;", resname)
+                String.format("SELECT * FROM restaurant INNER JOIN food ON restaurant.username = food.res_username WHERE restaurant.resname = '%s';", resname)
         );
         ArrayList<FoodModel> foodModels = new ArrayList<>();
         while(resultSet.next()) {
@@ -66,20 +66,20 @@ public class RestaurantDAO {
 
     public void updateFoodName(String res_username, String oldfoodname, String newfoodname) throws SQLException {
         connector.executeQuery(
-                String.format("UPDATE food SET foodname = %s WHERE res_username = %s AND foodname = %s;",
+                String.format("UPDATE food SET foodname = '%s' WHERE res_username = '%s' AND foodname = '%s';",
                         newfoodname, res_username, oldfoodname)
         );
     }
 
     public void updateFoodType(String res_username, String foodname, String newfoodtype) throws SQLException {
         connector.executeQuery(
-                String.format("UPDATE food SET type = %s WHERE res_username = %s AND foodname = %s;", res_username, foodname, newfoodtype)
+                String.format("UPDATE food SET type = '%s' WHERE res_username = '%s' AND foodname = '%s';", res_username, foodname, newfoodtype)
         );
     }
 
     public void deleteFood(String res_username, String foodname) throws SQLException {
         connector.executeQuery(
-                String.format("DELETE FROM food WHERE res_username = %s AND foodname = %s;", res_username, foodname)
+                String.format("DELETE FROM food WHERE res_username = '%s' AND foodname = '%s';", res_username, foodname)
         );
     }
 }

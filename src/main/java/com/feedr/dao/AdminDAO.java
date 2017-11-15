@@ -51,7 +51,7 @@ public class AdminDAO {
         while(resultSet.next()){
             String username = resultSet.getNString("username");
             String phone = resultSet.getString("phone");
-            UserModel model = new UserModel(username,phone);
+            UserModel model = new UserModel(username,phone,"USER");
             models.add(model);
         }
         return models;
@@ -73,7 +73,7 @@ public class AdminDAO {
             String username = resultSet.getNString("username");
             String phone = resultSet.getString("phone");
             UserModel model;
-            model = new UserModel(username,phone);
+            model = new UserModel(username,phone,"USER");
             userModels.add(model);
         }
         return userModels;
@@ -88,7 +88,7 @@ public class AdminDAO {
                         "FROM restaurant R, order_info O, user U" +
                         "WHERE R.username = O.restaurant_name AND" +
                         "U.username = R.username" +
-                        "O.receiver_name = %s", username)
+                        "O.receiver_name = '%s'", username)
         );
         ArrayList<RestaurantModel> resModels = new ArrayList<>();
         while(resultSet.next()){

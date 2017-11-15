@@ -20,7 +20,7 @@ public class CancellationDAO {
 
     public void createCancellation(int order_id, String username,String reason)throws SQLException {
         connector.executeQuery(
-                String.format("INSERT INTO cancellation VALUES (%d,%s,CURRENT_TIMESTAMP,%s);", order_id,username,reason)
+                String.format("INSERT INTO cancellation VALUES (%d,'%s',CURRENT_TIMESTAMP,'%s');", order_id,username,reason)
         );
     }
 
