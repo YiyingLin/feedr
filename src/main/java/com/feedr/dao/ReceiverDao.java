@@ -18,16 +18,16 @@ public class ReceiverDao {
         this.connector = connector;
     }
 
-    public void createReceiver(String username, int senderRating, String location) throws SQLException {
+    public void createReceiver(String username) throws SQLException {
         connector.executeQuery(
-                String.format("INSERT INTO receiver values (%s);", username)
+                String.format("INSERT INTO receiver values ('%s');", username)
         );
     }
 
     public ArrayList<ReceiverModel> getReceivers() throws SQLException{
         ResultSet resultset = connector.executeQuery(
-                String.format("SELECT receiver.username, phone FROM receiver,user " +
-                        "WHERE receiver.username = user.username;")
+                String.format("SELECT R.username, phone FROM receiver R,user U" +
+                        "WHERE R.username = U.username;")
         );
         ArrayList<ReceiverModel> receivers = new ArrayList<>();
         while(resultset.next()){
@@ -41,8 +41,8 @@ public class ReceiverDao {
 
     public ReceiverModel getReceiver(String username) throws SQLException {
         ResultSet resultset = connector.executeQuery(
-                String.format("SELECT receiver.username, phone FROM receiver,user " +
-                        "WHERE receiver.username = user.username AND receiver.username = %s;", username)
+                String.format("SELECT R.username, phone FROM receiver R,user U" +
+                        "WHERE R.username = U.username AND R.username = '%s';", username)
         );
         String receiverName = resultset.getString("username");
         String phone = resultset.getString("phone");
@@ -52,7 +52,7 @@ public class ReceiverDao {
 
     public void deleteReceiver(String username) throws SQLException {
         connector.executeQuery(
-                String.format("DELETE FROM receiver WHERE username = %s;", username)
+                String.format("DELETE FROM receiver WHERE username = '%s';", username)
         );
     }
 
@@ -62,7 +62,7 @@ public class ReceiverDao {
         String deadlineString = deadline.toString();
         connector.executeQuery(
                 String.format("INSERT INTO order_info (receiver_name, restaurant_name, deliver_tip, deadline, delivery_location) \n" +
-                        "    VALUES (%s,%s,%f,%s,%s);", receiver,restaurant,tip,deadlineString,location)
+                        "    VALUES ('%s','%s',%f,'%s','%s');", receiver,restaurant,tip,deadlineString,location)
         );
     }
 
@@ -70,7 +70,7 @@ public class ReceiverDao {
     // TODO: receiver order food;
     public void createOrderFood(int orderId, String restaurant, String food, int quantity) throws SQLException {
         connector.executeQuery(
-                String.format("INSERT INTO order_include_food VALUES (%d,%s,%s,%d);", orderId,
+                String.format("INSERT INTO order_include_food VALUES (%d,'%s','%s',%d);", orderId,
                         restaurant,food,quantity)
         );
     }
@@ -99,7 +99,7 @@ public class ReceiverDao {
     public void confirmDelivered (int orderId, double finalTip, double finalCost, Timestamp deliveredTime) throws SQLException {
         String deliveredTimeString = deliveredTime.toString();
         connector.executeQuery(
-                String.format("INSERT INTO delivered VALUES (%d,%f,%f,%s);", orderId, finalTip,
+                String.format("INSERT INTO delivered VALUES (%d,%f,%f,'%s');", orderId, finalTip,
                         finalCost,deliveredTimeString)
         );
     }
@@ -112,7 +112,7 @@ public class ReceiverDao {
                         "  o.order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered\n" +
                         "FROM (receiver INNER JOIN order_info o LEFT JOIN user ON o.sender_name = user.username) LEFT JOIN\n" +
                         "cancellation ON o.order_id = cancellation.order_id\n" +
-                        "WHERE o.receiver_name = %s;", receiver)
+                        "WHERE o.receiver_name = '%s';", receiver)
         );
         ArrayList<CheckOrderModel> checkOrders = new ArrayList<>();
 

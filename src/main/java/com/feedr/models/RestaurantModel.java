@@ -8,7 +8,7 @@ public class RestaurantModel extends UserModel{
 
     public RestaurantModel(String username, String phone, String restName,
                            int restRating, String location) {
-        super(username, phone);
+        super(username, phone, "RESTAURANT");
         this.restName = restName;
         this.restRating = restRating;
         this.location = location;

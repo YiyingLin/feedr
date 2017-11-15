@@ -19,16 +19,16 @@ public class SenderDao {
         this.connector = connector;
     }
 
-    public void createSender(String username, int senderRating, String location) throws SQLException{
+    public void createSender(String username, String location) throws SQLException{
         connector.executeQuery(
-                String.format("INSERT INTO sender values (%s,%d,%s);", username, senderRating, location)
+                String.format("INSERT INTO sender values ('%s',NULL,'%s');", username, location)
         );
     }
 
     public ArrayList<SenderModel> getSenders() throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT sender.username,sender_rating,location,phone FROM sender,user " +
-                        "WHERE sender.username = user.username;")
+                String.format("SELECT S.username,sender_rating,location,phone FROM sender S,user U " +
+                        "WHERE S.username = U.username;")
         );
         ArrayList<SenderModel> senders = new ArrayList<>();
         while(resultSet.next()){
@@ -44,8 +44,8 @@ public class SenderDao {
 
     public SenderModel getSender(String username) throws SQLException{
         ResultSet resultset = connector.executeQuery(
-                String.format("SELECT sender.username,sender_rating,location,phone FROM sender,user " +
-                        "WHERE sender.username = user.username AND sender.username = %s;", username)
+                String.format("SELECT S.username,sender_rating,location,phone FROM sender S,user U " +
+                        "WHERE S.username = U.username AND S.username = '%s';", username)
         );
         String senderName = resultset.getString("username");
         int rating = resultset.getInt("sender_rating");
@@ -57,33 +57,30 @@ public class SenderDao {
 
     public void updateSenderRating(String username, int newRating) throws SQLException{
         connector.executeQuery(
-                String.format("UPDATE sender SET sender_rating = %d WHERE username = %s;", newRating,username)
+                String.format("UPDATE sender SET sender_rating = %d WHERE username = '%s';", newRating,username)
         );
     }
 
     public void updateLocation(String username, String location) throws SQLException{
         connector.executeQuery(
-                String.format("UPDATE sender SET location = %s WHERE username = %s;", location,username)
+                String.format("UPDATE sender SET location = '%s' WHERE username = '%s';", location,username)
         );
     }
 
     public void deleteSender(String username) throws SQLException{
         connector.executeQuery(
-                String.format("DELETE FROM sender WHERE username = %s;", username)
+                String.format("DELETE FROM sender WHERE username = '%s';", username)
         );
     }
 
     // the function will assign a sender with an order, and it will also update OrderModel.senderName
     // and set assignedSender field as true
-    public void takeOrder(SenderModel sender, OrderModel order) throws SQLException{
-        String senderName = sender.getUsername();
-        int orderId = order.getOrderID();
+    public void takeOrder(String sender_username, String order_id) throws SQLException{
+
         connector.executeQuery(
-                String.format("UPDATE order_info SET sender_name = %s WHERE order_id = %d;",
-                        senderName, orderId)
+                String.format("UPDATE order_info SET sender_name = '%s' WHERE order_id = %d;",
+                        sender_username, order_id)
         );
-        order.setSender(senderName);
-        // order.setAssignedSender(true);
     }
 
     // Check a sender's all orders whether it is cancelled or delivered
@@ -96,7 +93,7 @@ public class SenderDao {
                         "  o.order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered\n" +
                         "FROM (sender INNER JOIN order_info o LEFT JOIN user ON o.sender_name = user.username) LEFT JOIN\n" +
                         "cancellation ON o.order_id = cancellation.order_id\n" +
-                        "WHERE o.sender_name = '%s';", sender)
+                        "WHERE o.sender_name = ''%s'';", sender)
         );
         ArrayList<CheckOrderModel> checkOrders = new ArrayList<>();
 

@@ -6,7 +6,7 @@ public class SenderModel extends UserModel{
 
     public SenderModel(String username, String phone, int senderRating,
                        String location) {
-        super(username, phone);
+        super(username, phone, "USER");
         this.senderRating = senderRating;
         this.location = location;
     }
