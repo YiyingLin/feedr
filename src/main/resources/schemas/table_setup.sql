@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS user (
   username VARCHAR(20),
   password VARCHAR(50),
   phone VARCHAR(10),
+  type VARCHAR(15),
   PRIMARY KEY (username),
   UNIQUE (phone)
 );
@@ -106,4 +107,4 @@ CREATE TABLE IF NOT EXISTS delivered (
     ON DELETE CASCADE
 );
 
-CREATE VIEW userInfo AS SELECT username, phone FROM user;
+CREATE VIEW userInfo AS SELECT username, phone,type FROM user;

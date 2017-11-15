@@ -17,10 +17,23 @@ public class UserDAO {
         this.connector = connector;
     }
 
-    public void creatUser(String username, String password, String phone) throws SQLException {
+    public void creatUser(String username, String password, String phone,String type) throws SQLException {
         connector.executeQuery(
-                String.format("INSERT INTO user VALUES (%s,%s,%s);", username, password, phone)
+                String.format("INSERT INTO user VALUES (%s,%s,%s, %s);", username, password, phone, type)
         );
+        if(type.equals("USER")){
+            connector.executeQuery(
+                    String.format("INSERT INTO receiver VALUES (%s);", username)
+            );
+            connector.executeQuery(
+                    String.format("INSERT INTO sender VALUES (%s,NULL,NULL);", username)
+            );
+        }
+        if(type.equals("RESTAURANT")){
+            connector.executeQuery(
+                    String.format("INSERT INTO restaurant VALUES (%s,NULL,NULL, NULL);", username)
+            );
+        }
     }
 
     public ArrayList<UserModel> getUsers() throws SQLException {
@@ -31,7 +44,8 @@ public class UserDAO {
         while(resultSet.next()) {
             String username = resultSet.getString("username");
             String phone = resultSet.getString("phone");
-            UserModel userModel = new UserModel(username,phone);
+            String type = resultSet.getString("type");
+            UserModel userModel = new UserModel(username,phone,type);
             userModels.add(userModel);
         }
         return userModels;
@@ -42,7 +56,8 @@ public class UserDAO {
                 String.format("SELECT * FROM userInfo WHERE username = %s;", username)
         );
         String phone = resultSet.getString("phone");
-        UserModel userModel = new UserModel(username, phone);
+        String type = resultSet.getString("type");
+        UserModel userModel = new UserModel(username, phone,type);
         return userModel;
     }
 
