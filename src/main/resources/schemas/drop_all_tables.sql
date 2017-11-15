@@ -1,0 +1,11 @@
+DROP VIEW userInfo;
+DROP TABLE delivered;
+DROP TABLE cancellation;
+DROP TABLE rating;
+DROP TABLE order_include_food;
+DROP TABLE food;
+DROP TABLE order_info;
+DROP TABLE sender;
+DROP TABLE receiver;
+DROP TABLE restaurant;
+DROP TABLE user;
