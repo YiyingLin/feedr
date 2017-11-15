@@ -63,7 +63,7 @@ public class UserDAO {
 
     public String getPassword(String userame) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT password FROM user WHERE username = ''%s'';", userame)
+                String.format("SELECT password FROM user WHERE username = '%s';", userame)
         );
         String password = null;
         while (resultSet.next()) {

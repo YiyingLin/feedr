@@ -3,6 +3,7 @@ package com.feedr.controllers;
 import com.feedr.models.UserModel;
 import com.feedr.dao.UserDAO;
 import com.feedr.protobuf.DemoProto.Demo;
+import com.feedr.util.CookieService;
 import com.feedr.util.ProtobufUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -43,5 +45,11 @@ public class DemoController {
         builder.setPassword("Password");
         String result = ProtobufUtil.protobufToJSON(builder.build());
         return result;
+    }
+
+    @RequestMapping(path = "/demoCookie", method = RequestMethod.GET)
+    public String demoCookie(HttpServletRequest request) throws InvalidProtocolBufferException {
+        return CookieService.getUsernameCookie(request).orElse("") +
+                CookieService.getUserTypeCookie(request).orElse("");
     }
 }
