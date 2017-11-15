@@ -18,13 +18,13 @@ public class OrderDAO {
 
     // Query that insert an new order without assigning the sender
     public void createOrder(String receiName, String restName, Double order_cost,
-                            Double deliver_tip, Date deadline,
+                            Double deliver_tip, Timestamp deadline,
                             String location) throws SQLException{
         String deadLine = deadline.toString();
         connector.executeQuery(
                 String.format("INSERT INTO order_info (receiver_name,restaurant_name," +
                         "order_cost,deliver_tip,order_time,deadline,delivery_location)" +
-                        " VALUES ('%s','%s',%f,%f,CURRENT_TIMESTAMP,'%s','%s');", receiName,restName,order_cost,
+                        " VALUES ('%s','%s',%f,%f,CURRENT_TIMESTAMP,%s,'%s');", receiName,restName,order_cost,
                         deliver_tip,deadLine,location)
         );
     }

@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS order_info(
   order_cost DECIMAL(6,2) NOT NULL ,
   deliver_tip DECIMAL(6,2) NOT NULL ,
   order_time TIMESTAMP,
-  deadline DATETIME,
+  deadline TIMESTAMP,
   delivery_location VARCHAR(60) NOT NULL ,
   PRIMARY KEY (order_id),
   FOREIGN KEY (sender_name) REFERENCES sender (username),
