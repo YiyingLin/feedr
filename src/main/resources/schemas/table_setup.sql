@@ -51,8 +51,8 @@ CREATE TABLE order_info(
   restaurant_name VARCHAR(20) NOT NULL ,
   order_cost DECIMAL(6,2) NOT NULL ,
   deliver_tip DECIMAL(6,2) NOT NULL ,
-  order_time TIMESTAMP,
-  deadline TIMESTAMP,
+  order_time DATETIME,
+  deadline DATETIME,
   delivery_location VARCHAR(100) NOT NULL ,
   PRIMARY KEY (order_id),
   FOREIGN KEY (sender_name) REFERENCES sender (username),
@@ -63,7 +63,7 @@ CREATE TABLE order_info(
 CREATE TABLE cancellation (
   order_id INT,
   username VARCHAR(20) NOT NULL ,
-  cancel_time TIMESTAMP,
+  cancel_time DATETIME,
   reason VARCHAR(100),
   PRIMARY KEY (order_id,username),
   FOREIGN KEY (order_id) REFERENCES order_info (order_id)
@@ -101,7 +101,7 @@ CREATE TABLE delivered (
   order_id INT,
   final_tip DECIMAL(6,2),
   final_total_cost DECIMAL(6,2),
-  delivered_time TIMESTAMP,
+  delivered_time DATETIME,
   PRIMARY KEY (order_id),
   FOREIGN KEY (order_id) REFERENCES order_info (order_id)
     ON DELETE CASCADE
