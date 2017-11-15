@@ -5,28 +5,46 @@ import java.util.Date;
 
 public class OrderModel {
 
-        private int orderID;
-        private String senderName;
-        private String receiverName;
-        private String restaurantName;
-        private double orderCost;
-        private double deliverTip;
-        private Timestamp orderTime;
-        private Timestamp deadline;
-        private String deliveryLocation;
+    private int orderID;
+    private String sender;
+    private String receiver;
+    private String restaurant;
+    private double orderCost;
+    private double deliverTip;
+    private Timestamp orderTime;
+    private Timestamp deadline;
+    private String location;
+    private String phone;
 
-        public OrderModel(int orderID, String senderName, String receiverName, String restaurantName,
-                          double orderCost, double deliverTip, Timestamp orderTime, Timestamp deadline, String deliveryLocation){
-            this.orderID = orderID;
-            this.senderName = senderName;
-            this.receiverName = receiverName;
-            this.restaurantName = restaurantName;
-            this.orderCost = orderCost;
-            this.deliverTip = deliverTip;
-            this.orderTime = orderTime;
-            this.deadline = deadline;
-            this.deliveryLocation = deliveryLocation;
-        }
+    public OrderModel(int orderID, String sender, String receiver, String restaurant,
+                      double orderCost, double deliverTip, Timestamp orderTime, Timestamp deadline,
+                      String location, String phone){
+        this.orderID = orderID;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.restaurant = restaurant;
+        this.orderCost = orderCost;
+        this.deliverTip = deliverTip;
+        this.orderTime = orderTime;
+        this.deadline = deadline;
+        this.location = location;
+        this.phone = phone;
+    }
+
+    // Constructor without sender
+    public OrderModel(int orderID, String receiver, String restaurant,
+                      double orderCost, double deliverTip, Timestamp orderTime, Timestamp deadline,
+                      String location, String phone){
+        this.orderID = orderID;
+        this.receiver = receiver;
+        this.restaurant = restaurant;
+        this.orderCost = orderCost;
+        this.deliverTip = deliverTip;
+        this.orderTime = orderTime;
+        this.deadline = deadline;
+        this.location = location;
+        this.phone = phone;
+    }
 
     public int getOrderID() {
         return orderID;
@@ -36,28 +54,28 @@ public class OrderModel {
         this.orderID = orderID;
     }
 
-    public String getSenderName() {
-        return senderName;
+    public String getSender() {
+        return sender;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
-    public String getReceiverName() {
-        return receiverName;
+    public String getReceiver() {
+        return receiver;
     }
 
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
-    public String getRestaurantName() {
-        return restaurantName;
+    public String getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
+    public void setRestaurant(String restaurant) {
+        this.restaurant = restaurant;
     }
 
     public double getOrderCost() {
@@ -92,15 +110,19 @@ public class OrderModel {
         this.deadline = deadline;
     }
 
-    public String getDeliveryLocation() {
-        return deliveryLocation;
+    public String getLocation() {
+        return location;
     }
 
-    public void setDeliveryLocation(String deliveryLocation) {
-        this.deliveryLocation = deliveryLocation;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
+    public String getPhone() {
+        return phone;
+    }
 
-
-
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }
