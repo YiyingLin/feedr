@@ -25,7 +25,7 @@ public class OrderDAO {
                 String.format("INSERT INTO order_info (receiver_name,restaurant_name," +
                         "order_cost,deliver_tip,order_time,deadline,delivery_location)" +
                         " VALUES ('%s','%s',%f,%f,CURRENT_TIMESTAMP,'%s','%s');", receiName,restName,order_cost,
-                        deliver_tip,deadLine,location)
+                        deliver_tip,deadLine,location)//maybe order_cost need auto calculation
         );
     }
 }
