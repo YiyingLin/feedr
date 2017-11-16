@@ -19,7 +19,9 @@ public class ProfileController {
 
     @Autowired
     private UserDAO userDAO;
+    @Autowired
     private SenderDao senderDao;
+    @Autowired
     private RestaurantDAO restaurantDAO;
 
     @RequestMapping(path = "/profile", method = RequestMethod.POST)
@@ -30,13 +32,10 @@ public class ProfileController {
           String phone = userDAO.getUser(username).getPhone();
           String password = userDAO.getPassword(username);
           String userType = userDAO.getUser(username).getType();
-          long sender_rating = senderDao.getSender(username).getSenderRating();
-          String sender_location = senderDao.getSender(username).getLocation();
-          String res_name = restaurantDAO.getRestaurant(username).getRestName();
-          long res_rating = restaurantDAO.getRestaurant(username).getRestRating();
-          String res_location = restaurantDAO.getRestaurant(username).getLocation();
 
           if(userType.equals("USER")){
+              long sender_rating = senderDao.getSender(username).getSenderRating();
+              String sender_location = senderDao.getSender(username).getLocation();
               builder = Profile.newBuilder();
               builder.setUsername(username);
               builder.setPhone(phone);
@@ -46,6 +45,9 @@ public class ProfileController {
               return ProtobufUtil.protobufToJSON(builder.build());
           }
           else if(userType.equals("RESTAURANT")){
+              String res_name = restaurantDAO.getRestaurant(username).getRestName();
+              long res_rating = restaurantDAO.getRestaurant(username).getRestRating();
+              String res_location = restaurantDAO.getRestaurant(username).getLocation();
               builder = Profile.newBuilder();
               builder.setUsername(username);
               builder.setPhone(phone);
