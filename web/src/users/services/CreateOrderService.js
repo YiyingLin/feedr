@@ -1,21 +1,29 @@
 import FoodModel from "../../models/FoodModel";
+import axios from 'axios';
 
 export async function getAllRestaurants() {
-    return await Promise.resolve(['KFC','McDonald','Pho']);
+    return await new Promise(function (resolve, reject) {
+        axios.get("http://localhost:8080/restaurants")
+            .then(function (response) {
+                resolve(response.data);
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
 }
 
 export async function getAllFoodOfRestaurant(restaurant) {
-    let foods;
-    switch (restaurant) {
-        case 'KFC':
-            foods = [new FoodModel('Chicken wing',10, 'spicy'), new FoodModel('Hamburger', 13.5, 'sweet')];
-            break;
-        case 'McDonald':
-            foods = [new FoodModel('Beef burger', 20, 'nice'), new FoodModel('Chicken nuggets', 15, 'tasty')];
-            break;
-        case 'Pho':
-            foods = [new FoodModel('Noodles', 16, 'salty'), new FoodModel('Rice', 2, 'plain')];
-            break;
-    }
-    return await Promise.resolve(foods);
+    return await new Promise(function (resolve, reject) {
+        axios.get(`http://localhost:8080/restaurant/${restaurant}/food`)
+            .then(function (response) {
+                let foodList = response.data["foodlist"];
+                resolve(
+                    foodList.map(rawFood => new FoodModel(rawFood["foodname"], rawFood["price"], rawFood["type"]))
+                );
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
 }
