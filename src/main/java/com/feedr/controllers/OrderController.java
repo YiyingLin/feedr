@@ -3,7 +3,7 @@ package com.feedr.controllers;
 import com.feedr.dao.OrderDAO;
 import com.feedr.models.FoodModel;
 import com.feedr.models.OrderModel;
-import com.feedr.protobuf.FoodProto.Food;
+import com.feedr.protobuf.RestaurantProto.Food;
 import com.feedr.protobuf.OrderProto.Order;
 import com.feedr.protobuf.OrderProto.OrderList;
 import com.feedr.util.ProtobufUtil;
