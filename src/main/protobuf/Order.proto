@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "Restaurant.proto";
+
+option java_package = "com.feedr.protobuf";
+option java_outer_classname = "OrderProto";
+
+message Order {
+    int32 order_id = 1;
+    string sender_name = 2;
+    string receiver_name = 3;
+    string restaurant_name = 4;
+    double order_cost = 5;
+    double deliver_tip = 6;
+    string order_time = 7;
+    string deadline = 8; //frontend generate datetime format
+    string delivery_location = 9;
+    string phone = 10;
+    bool canceled = 11;
+    bool delivered = 12;
+    repeated Food foodMap = 13;
+    string cancelReason = 14;
+}
+
+message OrderList {
+    repeated Order orders = 1;
+}

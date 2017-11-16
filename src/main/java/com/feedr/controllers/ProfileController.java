@@ -24,8 +24,8 @@ public class ProfileController {
     @Autowired
     private RestaurantDAO restaurantDAO;
 
-    @RequestMapping(path = "/profile", method = RequestMethod.POST)
-    public String login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(path = "/profile", method = RequestMethod.GET)
+    public String profile(HttpServletRequest request, HttpServletResponse response) throws Exception {
           Profile.Builder builder = Profile.newBuilder();
           Profile profile = ProtobufUtil.jsonToProtobuf(builder, request, Profile.class);
           String username = CookieService.getUsernameCookie(request).get();

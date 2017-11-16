@@ -104,8 +104,8 @@ public class SenderDao {
             String restaurant = resultSet.getString("restaurant_name");
             double orderCost = resultSet.getDouble("order_cost");
             double tips = resultSet.getDouble("deliver_tip");
-            Timestamp orderTime = resultSet.getTimestamp("order_time");
-            Timestamp deadline = resultSet.getTimestamp("deadline");
+            String orderTime = resultSet.getString("order_time");
+            String deadline = resultSet.getString("deadline");
             String address = resultSet.getString("delivery_location");
             String phone = resultSet.getString("phone");
             int cancelled = resultSet.getInt("isCancelled");

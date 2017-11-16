@@ -9,7 +9,7 @@ public class CheckOrderModel extends OrderModel{
     private String reason;
 
     public CheckOrderModel(int orderID, String sender, String receiver, String restaurant, double orderCost,
-                           double deliverTip, Timestamp orderTime, Timestamp deadline, String location,
+                           double deliverTip, String orderTime, String deadline, String location,
                            String phone, boolean isCancelled, boolean isDelivered) {
         super(orderID, sender, receiver, restaurant, orderCost, deliverTip, orderTime, deadline, location, phone);
         this.isCancelled = isCancelled;

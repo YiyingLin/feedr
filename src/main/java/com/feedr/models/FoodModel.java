@@ -5,12 +5,29 @@ public class FoodModel {
     private String foodname;
     private Double price;
     private String type;
+    private int quantity;
 
     public FoodModel(String restUsername, String foodname, Double price, String type){
         this.restUsername = restUsername;
         this.foodname = foodname;
         this.price = price;
         this.type = type;
+    }
+
+    public FoodModel(String restUsername, String foodname, Double price, String type, int quantity){
+        this.restUsername = restUsername;
+        this.foodname = foodname;
+        this.price = price;
+        this.type = type;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return this.quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getRestUsername(){
