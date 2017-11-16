@@ -1,17 +1,23 @@
 package com.feedr.dao;
 
 import com.feedr.models.CheckOrderModel;
+import com.feedr.models.FoodModel;
 import com.feedr.models.ReceiverModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ReceiverDao {
     private DatabaseConnector connector;
+    private Connection connection;
+
 
     @Autowired
     public ReceiverDao(DatabaseConnector connector) {
@@ -22,6 +28,7 @@ public class ReceiverDao {
         connector.executeQuery(
                 String.format("INSERT INTO receiver values ('%s');", username)
         );
+
     }
 
     public ArrayList<ReceiverModel> getReceivers() throws SQLException{
@@ -56,24 +63,40 @@ public class ReceiverDao {
         );
     }
 
-    // TODO: receiver creates order
-    // Need to get the AUTO_INCREMENT KEY orderId
-    public void createOrderInfo(String receiver, String restaurant, double tip, Timestamp deadline, String location) throws SQLException {
+    // Receiver makes the whole order
+    public int makeOrder (String receiver, String restaurant, double cost, double tip, Timestamp deadline,
+                          String location, Map<String,Integer> foods) throws SQLException{
+        int orderId = createOrderInfo(receiver,restaurant,cost,tip,deadline,location);
+        for (Map.Entry<String, Integer> pair : foods.entrySet()) {
+            String food = pair.getKey();
+            int quantity = pair.getValue();
+            createOrderFood(orderId,restaurant,food,quantity);
+        }
+        return orderId;
+    }
+
+    // Query that insert new tuple into order_info
+    // Return current order_id
+    public int createOrderInfo(String receiver, String restaurant, double cost, double tip, Timestamp deadline, String location) throws SQLException {
         String deadlineString = deadline.toString();
         connector.executeQuery(
                 String.format("INSERT INTO order_info (receiver_name, restaurant_name, deliver_tip, deadline, delivery_location) \n" +
                         "    VALUES ('%s','%s',%f,'%s','%s');", receiver,restaurant,tip,deadlineString,location)
         );
+        // Get the order_Id immediately;
+        ResultSet rs = connector.executeQuery("SELECT LAST_INSERT_ID()");
+        int orderId = rs.getInt('1');
+        return orderId;
     }
 
-
-    // TODO: receiver order food;
     public void createOrderFood(int orderId, String restaurant, String food, int quantity) throws SQLException {
         connector.executeQuery(
                 String.format("INSERT INTO order_include_food VALUES (%d,'%s','%s',%d);", orderId,
                         restaurant,food,quantity)
         );
     }
+
+
 
     // Query that compute the cost of different foods in the order
     public void computeFoodCosts (int orderId) throws SQLException {
