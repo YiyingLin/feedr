@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "com.feedr.protobuf";
+option java_outer_classname = "ProfileProto";
+
+message Profile {
+    string username = 1;
+    string phone = 2;
+    string password = 3;
+    string type = 4;
+    int32 sender_rating = 5;
+    string sender_location = 6;
+    string res_name = 7;
+    int32 res_rating = 8;
+    string res_location = 9;
+}

@@ -24,7 +24,7 @@ public class ReceiverDao {
         this.connector = connector;
     }
 
-    public void createReceiver(String username, int senderRating, String location) throws SQLException {
+    public void createReceiver(String username) throws SQLException {
         connector.executeQuery(
                 String.format("INSERT INTO receiver values ('%s');", username)
         );
@@ -33,7 +33,7 @@ public class ReceiverDao {
 
     public ArrayList<ReceiverModel> getReceivers() throws SQLException{
         ResultSet resultset = connector.executeQuery(
-                String.format("SELECT R.username, phone FROM receiver R,user U " +
+                String.format("SELECT R.username, phone FROM receiver R,user U" +
                         "WHERE R.username = U.username;")
         );
         ArrayList<ReceiverModel> receivers = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ReceiverDao {
 
     public ReceiverModel getReceiver(String username) throws SQLException {
         ResultSet resultset = connector.executeQuery(
-                String.format("SELECT R.username, phone FROM receiver R,user U " +
+                String.format("SELECT R.username, phone FROM receiver R,user U" +
                         "WHERE R.username = U.username AND R.username = '%s';", username)
         );
         String receiverName = resultset.getString("username");
@@ -80,8 +80,8 @@ public class ReceiverDao {
     public int createOrderInfo(String receiver, String restaurant, double cost, double tip, Timestamp deadline, String location) throws SQLException {
         String deadlineString = deadline.toString();
         connector.executeQuery(
-                String.format("INSERT INTO order_info (receiver_name,restaurant_name,order_cost,deliver_tip,order_time,deadline,delivery_location) \n" +
-                        "VALUES ('%s','%s',%f,%f,now(),'%s','%s');", receiver,restaurant,cost,tip,deadlineString,location)
+                String.format("INSERT INTO order_info (receiver_name, restaurant_name, deliver_tip, deadline, delivery_location) \n" +
+                        "    VALUES ('%s','%s',%f,'%s','%s');", receiver,restaurant,tip,deadlineString,location)
         );
         // Get the order_Id immediately;
         ResultSet rs = connector.executeQuery("SELECT LAST_INSERT_ID()");
@@ -91,8 +91,8 @@ public class ReceiverDao {
 
     public void createOrderFood(int orderId, String restaurant, String food, int quantity) throws SQLException {
         connector.executeQuery(
-                String.format("INSERT INTO order_include_food VALUES (%d,'%s','%s',%d);",
-                        orderId,restaurant,food,quantity)
+                String.format("INSERT INTO order_include_food VALUES (%d,'%s','%s',%d);", orderId,
+                        restaurant,food,quantity)
         );
     }
 
@@ -122,8 +122,8 @@ public class ReceiverDao {
     public void confirmDelivered (int orderId, double finalTip, double finalCost, Timestamp deliveredTime) throws SQLException {
         String deliveredTimeString = deliveredTime.toString();
         connector.executeQuery(
-                String.format("INSERT INTO delivered VALUES (%d,%f,%f,'%s');",
-                        orderId, finalTip, finalCost,deliveredTimeString)
+                String.format("INSERT INTO delivered VALUES (%d,%f,%f,'%s');", orderId, finalTip,
+                        finalCost,deliveredTimeString)
         );
     }
 
@@ -145,8 +145,8 @@ public class ReceiverDao {
             String restaurant = resultSet.getString("restaurant_name");
             double orderCost = resultSet.getDouble("order_cost");
             double tips = resultSet.getDouble("deliver_tip");
-            Timestamp orderTime = resultSet.getTimestamp("order_time");
-            Timestamp deadline = resultSet.getTimestamp("deadline");
+            String orderTime = resultSet.getString("order_time");
+            String deadline = resultSet.getString("deadline");
             String address = resultSet.getString("delivery_location");
             String phone = resultSet.getString("phone");
             int cancelled = resultSet.getInt("isCancelled");

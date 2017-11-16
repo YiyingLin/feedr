@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+@Component
 public class SenderDao {
     private DatabaseConnector connector;
 
@@ -19,9 +20,9 @@ public class SenderDao {
         this.connector = connector;
     }
 
-    public void createSender(String username, int senderRating, String location) throws SQLException{
+    public void createSender(String username, String location) throws SQLException{
         connector.executeQuery(
-                String.format("INSERT INTO sender VALUES ('%s',%d,'%s');", username, senderRating, location)
+                String.format("INSERT INTO sender values ('%s',NULL,'%s');", username, location)
         );
     }
 
@@ -75,14 +76,12 @@ public class SenderDao {
 
     // the function will assign a sender with an order, and it will also update OrderModel.senderName
     // and set assignedSender field as true
-    public void takeOrder(String sender, int orderId) throws SQLException{
-        // String senderName = sender.getUsername();
+    public void takeOrder(String sender_username, String order_id) throws SQLException{
+
         connector.executeQuery(
                 String.format("UPDATE order_info SET sender_name = '%s' WHERE order_id = %d;",
-                        sender, orderId)
+                        sender_username, order_id)
         );
-        // order.setSender(senderName);
-        // order.setAssignedSender(true);
     }
 
     // Check a sender's all orders whether it is cancelled or delivered
@@ -95,7 +94,7 @@ public class SenderDao {
                         "  o.order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered\n" +
                         "FROM (sender INNER JOIN order_info o LEFT JOIN user ON o.sender_name = user.username) LEFT JOIN\n" +
                         "cancellation ON o.order_id = cancellation.order_id\n" +
-                        "WHERE o.sender_name = '%s';", sender)
+                        "WHERE o.sender_name = ''%s'';", sender)
         );
         ArrayList<CheckOrderModel> checkOrders = new ArrayList<>();
 
@@ -105,8 +104,8 @@ public class SenderDao {
             String restaurant = resultSet.getString("restaurant_name");
             double orderCost = resultSet.getDouble("order_cost");
             double tips = resultSet.getDouble("deliver_tip");
-            Timestamp orderTime = resultSet.getTimestamp("order_time");
-            Timestamp deadline = resultSet.getTimestamp("deadline");
+            String orderTime = resultSet.getString("order_time");
+            String deadline = resultSet.getString("deadline");
             String address = resultSet.getString("delivery_location");
             String phone = resultSet.getString("phone");
             int cancelled = resultSet.getInt("isCancelled");

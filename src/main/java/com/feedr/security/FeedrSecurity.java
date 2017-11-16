@@ -16,8 +16,8 @@ public class FeedrSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/demo").permitAll()
-                .antMatchers("/hello").permitAll();
+        http.csrf().disable()
+                .authorizeRequests()
+                .anyRequest().permitAll();
     }
 }

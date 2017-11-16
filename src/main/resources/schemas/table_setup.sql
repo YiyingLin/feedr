@@ -1,21 +1,22 @@
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE user (
   username VARCHAR(20),
   password VARCHAR(50),
   phone VARCHAR(10),
+  type VARCHAR(15),
   PRIMARY KEY (username),
   UNIQUE (phone)
 );
 
-CREATE TABLE IF NOT EXISTS sender(
+CREATE TABLE sender(
   username VARCHAR(20),
   sender_rating INT(2),
-  location VARCHAR(60),
+  location VARCHAR(100),
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES user (username)
     ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS receiver(
+CREATE TABLE receiver(
   username VARCHAR(20),
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES user (username)
@@ -23,17 +24,17 @@ CREATE TABLE IF NOT EXISTS receiver(
 );
 
 
-CREATE TABLE IF NOT EXISTS restaurant(
+CREATE TABLE restaurant(
   username VARCHAR(20),
-  resname VARCHAR(40) NOT NULL,
+  resname VARCHAR(40) NOT NULL UNIQUE,
   restaurant_rating INT(2),
-  location VARCHAR(60) NOT NULL ,
+  location VARCHAR(100) NOT NULL ,
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES user (username)
     ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS food (
+CREATE TABLE food (
   res_username VARCHAR(20) NOT NULL,
   foodname VARCHAR(40),
   price DECIMAL(6,2) NOT NULL ,
@@ -43,26 +44,26 @@ CREATE TABLE IF NOT EXISTS food (
     ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS order_info(
+CREATE TABLE order_info(
   order_id INT AUTO_INCREMENT,
   sender_name VARCHAR(20),
   receiver_name VARCHAR(20) NOT NULL,
   restaurant_name VARCHAR(20) NOT NULL ,
   order_cost DECIMAL(6,2) NOT NULL ,
   deliver_tip DECIMAL(6,2) NOT NULL ,
-  order_time TIMESTAMP,
+  order_time DATETIME,
   deadline DATETIME,
-  delivery_location VARCHAR(60) NOT NULL ,
+  delivery_location VARCHAR(100) NOT NULL ,
   PRIMARY KEY (order_id),
   FOREIGN KEY (sender_name) REFERENCES sender (username),
   FOREIGN KEY (receiver_name) REFERENCES receiver (username),
   FOREIGN KEY (restaurant_name) REFERENCES restaurant (username)
 );
 
-CREATE TABLE IF NOT EXISTS cancellation (
+CREATE TABLE cancellation (
   order_id INT,
   username VARCHAR(20) NOT NULL ,
-  cancel_time TIMESTAMP,
+  cancel_time DATETIME,
   reason VARCHAR(100),
   PRIMARY KEY (order_id,username),
   FOREIGN KEY (order_id) REFERENCES order_info (order_id)
@@ -73,7 +74,7 @@ CREATE TABLE IF NOT EXISTS cancellation (
 );
 
 
-CREATE TABLE IF NOT EXISTS order_include_food (
+CREATE TABLE order_include_food (
   order_id INT,
   res_username VARCHAR(20),
   foodname VARCHAR(40),
@@ -85,7 +86,7 @@ CREATE TABLE IF NOT EXISTS order_include_food (
     ON DELETE NO ACTION
 );
 
-CREATE TABLE IF NOT EXISTS rating (
+CREATE TABLE rating (
   order_id INT,
   receiver_to_sender_rate INTEGER,
   reveiver_to_rest_rate INTEGER,
@@ -96,12 +97,14 @@ CREATE TABLE IF NOT EXISTS rating (
     ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS delivered (
+CREATE TABLE delivered (
   order_id INT,
   final_tip DECIMAL(6,2),
   final_total_cost DECIMAL(6,2),
-  delivered_time TIMESTAMP,
+  delivered_time DATETIME,
   PRIMARY KEY (order_id),
   FOREIGN KEY (order_id) REFERENCES order_info (order_id)
     ON DELETE CASCADE
 );
+
+CREATE VIEW userInfo AS SELECT username, phone,type FROM user;
