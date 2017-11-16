@@ -34,7 +34,7 @@ public class ProfileController {
           String userType = userDAO.getUser(username).getType();
 
           if(userType.equals("USER")){
-              long sender_rating = senderDao.getSender(username).getSenderRating();
+              int sender_rating = senderDao.getSender(username).getSenderRating();
               String sender_location = senderDao.getSender(username).getLocation();
               builder = Profile.newBuilder();
               builder.setUsername(username);
@@ -46,7 +46,7 @@ public class ProfileController {
           }
           else if(userType.equals("RESTAURANT")){
               String res_name = restaurantDAO.getRestaurant(username).getRestName();
-              long res_rating = restaurantDAO.getRestaurant(username).getRestRating();
+              int res_rating = restaurantDAO.getRestaurant(username).getRestRating();
               String res_location = restaurantDAO.getRestaurant(username).getLocation();
               builder = Profile.newBuilder();
               builder.setUsername(username);

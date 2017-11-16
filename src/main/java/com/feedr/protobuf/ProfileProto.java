@@ -59,9 +59,9 @@ public final class ProfileProto {
         getTypeBytes();
 
     /**
-     * <code>optional int64 sender_rating = 5;</code>
+     * <code>optional int32 sender_rating = 5;</code>
      */
-    long getSenderRating();
+    int getSenderRating();
 
     /**
      * <code>optional string sender_location = 6;</code>
@@ -84,9 +84,9 @@ public final class ProfileProto {
         getResNameBytes();
 
     /**
-     * <code>optional int64 res_rating = 8;</code>
+     * <code>optional int32 res_rating = 8;</code>
      */
-    long getResRating();
+    int getResRating();
 
     /**
      * <code>optional string res_location = 9;</code>
@@ -114,10 +114,10 @@ public final class ProfileProto {
       phone_ = "";
       password_ = "";
       type_ = "";
-      senderRating_ = 0L;
+      senderRating_ = 0;
       senderLocation_ = "";
       resName_ = "";
-      resRating_ = 0L;
+      resRating_ = 0;
       resLocation_ = "";
     }
 
@@ -172,7 +172,7 @@ public final class ProfileProto {
             }
             case 40: {
 
-              senderRating_ = input.readInt64();
+              senderRating_ = input.readInt32();
               break;
             }
             case 50: {
@@ -189,7 +189,7 @@ public final class ProfileProto {
             }
             case 64: {
 
-              resRating_ = input.readInt64();
+              resRating_ = input.readInt32();
               break;
             }
             case 74: {
@@ -358,11 +358,11 @@ public final class ProfileProto {
     }
 
     public static final int SENDER_RATING_FIELD_NUMBER = 5;
-    private long senderRating_;
+    private int senderRating_;
     /**
-     * <code>optional int64 sender_rating = 5;</code>
+     * <code>optional int32 sender_rating = 5;</code>
      */
-    public long getSenderRating() {
+    public int getSenderRating() {
       return senderRating_;
     }
 
@@ -435,11 +435,11 @@ public final class ProfileProto {
     }
 
     public static final int RES_RATING_FIELD_NUMBER = 8;
-    private long resRating_;
+    private int resRating_;
     /**
-     * <code>optional int64 res_rating = 8;</code>
+     * <code>optional int32 res_rating = 8;</code>
      */
-    public long getResRating() {
+    public int getResRating() {
       return resRating_;
     }
 
@@ -501,8 +501,8 @@ public final class ProfileProto {
       if (!getTypeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, type_);
       }
-      if (senderRating_ != 0L) {
-        output.writeInt64(5, senderRating_);
+      if (senderRating_ != 0) {
+        output.writeInt32(5, senderRating_);
       }
       if (!getSenderLocationBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, senderLocation_);
@@ -510,8 +510,8 @@ public final class ProfileProto {
       if (!getResNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, resName_);
       }
-      if (resRating_ != 0L) {
-        output.writeInt64(8, resRating_);
+      if (resRating_ != 0) {
+        output.writeInt32(8, resRating_);
       }
       if (!getResLocationBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 9, resLocation_);
@@ -535,9 +535,9 @@ public final class ProfileProto {
       if (!getTypeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, type_);
       }
-      if (senderRating_ != 0L) {
+      if (senderRating_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(5, senderRating_);
+          .computeInt32Size(5, senderRating_);
       }
       if (!getSenderLocationBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, senderLocation_);
@@ -545,9 +545,9 @@ public final class ProfileProto {
       if (!getResNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, resName_);
       }
-      if (resRating_ != 0L) {
+      if (resRating_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(8, resRating_);
+          .computeInt32Size(8, resRating_);
       }
       if (!getResLocationBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, resLocation_);
@@ -605,15 +605,13 @@ public final class ProfileProto {
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + SENDER_RATING_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getSenderRating());
+      hash = (53 * hash) + getSenderRating();
       hash = (37 * hash) + SENDER_LOCATION_FIELD_NUMBER;
       hash = (53 * hash) + getSenderLocation().hashCode();
       hash = (37 * hash) + RES_NAME_FIELD_NUMBER;
       hash = (53 * hash) + getResName().hashCode();
       hash = (37 * hash) + RES_RATING_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getResRating());
+      hash = (53 * hash) + getResRating();
       hash = (37 * hash) + RES_LOCATION_FIELD_NUMBER;
       hash = (53 * hash) + getResLocation().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -742,13 +740,13 @@ public final class ProfileProto {
 
         type_ = "";
 
-        senderRating_ = 0L;
+        senderRating_ = 0;
 
         senderLocation_ = "";
 
         resName_ = "";
 
-        resRating_ = 0L;
+        resRating_ = 0;
 
         resLocation_ = "";
 
@@ -840,7 +838,7 @@ public final class ProfileProto {
           type_ = other.type_;
           onChanged();
         }
-        if (other.getSenderRating() != 0L) {
+        if (other.getSenderRating() != 0) {
           setSenderRating(other.getSenderRating());
         }
         if (!other.getSenderLocation().isEmpty()) {
@@ -851,7 +849,7 @@ public final class ProfileProto {
           resName_ = other.resName_;
           onChanged();
         }
-        if (other.getResRating() != 0L) {
+        if (other.getResRating() != 0) {
           setResRating(other.getResRating());
         }
         if (!other.getResLocation().isEmpty()) {
@@ -1160,28 +1158,28 @@ public final class ProfileProto {
         return this;
       }
 
-      private long senderRating_ ;
+      private int senderRating_ ;
       /**
-       * <code>optional int64 sender_rating = 5;</code>
+       * <code>optional int32 sender_rating = 5;</code>
        */
-      public long getSenderRating() {
+      public int getSenderRating() {
         return senderRating_;
       }
       /**
-       * <code>optional int64 sender_rating = 5;</code>
+       * <code>optional int32 sender_rating = 5;</code>
        */
-      public Builder setSenderRating(long value) {
+      public Builder setSenderRating(int value) {
         
         senderRating_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 sender_rating = 5;</code>
+       * <code>optional int32 sender_rating = 5;</code>
        */
       public Builder clearSenderRating() {
         
-        senderRating_ = 0L;
+        senderRating_ = 0;
         onChanged();
         return this;
       }
@@ -1324,28 +1322,28 @@ public final class ProfileProto {
         return this;
       }
 
-      private long resRating_ ;
+      private int resRating_ ;
       /**
-       * <code>optional int64 res_rating = 8;</code>
+       * <code>optional int32 res_rating = 8;</code>
        */
-      public long getResRating() {
+      public int getResRating() {
         return resRating_;
       }
       /**
-       * <code>optional int64 res_rating = 8;</code>
+       * <code>optional int32 res_rating = 8;</code>
        */
-      public Builder setResRating(long value) {
+      public Builder setResRating(int value) {
         
         resRating_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 res_rating = 8;</code>
+       * <code>optional int32 res_rating = 8;</code>
        */
       public Builder clearResRating() {
         
-        resRating_ = 0L;
+        resRating_ = 0;
         onChanged();
         return this;
       }
@@ -1483,9 +1481,9 @@ public final class ProfileProto {
     java.lang.String[] descriptorData = {
       "\n\rProfile.proto\"\266\001\n\007Profile\022\020\n\010username\030" +
       "\001 \001(\t\022\r\n\005phone\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\022\014" +
-      "\n\004type\030\004 \001(\t\022\025\n\rsender_rating\030\005 \001(\003\022\027\n\017s" +
+      "\n\004type\030\004 \001(\t\022\025\n\rsender_rating\030\005 \001(\005\022\027\n\017s" +
       "ender_location\030\006 \001(\t\022\020\n\010res_name\030\007 \001(\t\022\022" +
-      "\n\nres_rating\030\010 \001(\003\022\024\n\014res_location\030\t \001(\t" +
+      "\n\nres_rating\030\010 \001(\005\022\024\n\014res_location\030\t \001(\t" +
       "B\"\n\022com.feedr.protobufB\014ProfileProtob\006pr" +
       "oto3"
     };

@@ -8,9 +8,9 @@ message Profile {
     string phone = 2;
     string password = 3;
     string type = 4;
-    int64 sender_rating = 5;
+    int32 sender_rating = 5;
     string sender_location = 6;
     string res_name = 7;
-    int64 res_rating = 8;
+    int32 res_rating = 8;
     string res_location = 9;
 }
