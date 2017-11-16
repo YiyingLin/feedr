@@ -19,7 +19,7 @@ public class RatingDAO {
     }
 
     public void createRating(int order_id, int receiver_to_sender_rate, int receiver_to_rest_rate, String receiver_to_sender_comment, String receiver_to_rest_comment)
-    throws SQLException{
+            throws SQLException {
         connector.executeUpdate(String.format("INSERT INTO rating VALUES(%d,%d,%d,'%s','%s');",order_id,receiver_to_sender_rate,receiver_to_rest_rate,receiver_to_sender_comment,receiver_to_rest_comment));
     }
 
@@ -33,7 +33,7 @@ public class RatingDAO {
             int restRate = resultSet.getInt("receiver_to_rest_rate");
             String senderComment = resultSet.getString("receiver_to_sender_comment");
             String restComment = resultSet.getString("receiver_to_rest_comment");
-            ratingModel = new RatingModel(order_id,senderRate,restRate,senderComment,restComment)
+            ratingModel = new RatingModel(order_id,senderRate,restRate,senderComment,restComment);
         }
         return ratingModel;
     }
