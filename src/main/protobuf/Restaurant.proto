@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "com.feedr.protobuf";
+option java_outer_classname = "FoodProto";
+
+message Food {
+    string res_username = 1;
+    string foodname = 2;
+    double price = 3;
+    string type = 4;
+}
