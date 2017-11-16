@@ -1,0 +1,13 @@
+INSERT INTO food VALUES ('bubble_waffle','milktea',4,'Drink');
+INSERT INTO food VALUES ('bubble_waffle','waffle',6,'Dessert');
+INSERT INTO food VALUES ('bubble_waffle','nutella',3,'Dessert');
+INSERT INTO food VALUES ('five_tastes','chicken_rice',13,'Rice');
+INSERT INTO food VALUES ('five_tastes','beef_noodle',15,'Noodle');
+INSERT INTO food VALUES ('five_tastes','fried_rice',10,'Rice');
+INSERT INTO food VALUES ('mercante_pond','coffee',3,'Drink');
+INSERT INTO food VALUES ('mercante_pond','pasta',20,'Noodle');
+INSERT INTO food VALUES ('mercante_pond','ice_cream',5,'Dessert');
+INSERT INTO food VALUES ('pizza_g','seafood_pizza',50,'Pizza');
+INSERT INTO food VALUES ('pizza_g','vegan_pizza',13,'Vegan');
+INSERT INTO food VALUES ('pizza_g','hawaiian_pizza',15,'Pizza');
+INSERT INTO food VALUES ('pizza_g','coke',3,'Drink');
