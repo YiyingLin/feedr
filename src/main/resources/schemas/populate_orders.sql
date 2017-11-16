@@ -36,3 +36,12 @@ VALUES ('DanielWU', 'jasper_c', 'pizza_g', 35.00, 4.00, '2017-11-14 19:05:00', '
 
 INSERT INTO order_info(sender_name,receiver_name,restaurant_name,order_cost,deliver_tip,order_time,deadline,delivery_location)
 VALUES ('jasper_c', 'DanielWU', 'pizza_g', 28.00, 3.00, '2017-11-11 11:11:11', '2017-11-11 11:21:00','Hugh Dempster Pavilion, 6245 Agronomy Rd');
+
+INSERT INTO order_info(receiver_name, restaurant_name, order_cost, deliver_tip, order_time, deadline, delivery_location)
+VALUES ('jasper_c','mercante_pond',30.00,3.00,'2017-11-17 20:13:00','2017-11-17 20:30:00','Earth Sciences Building, 2207 Main Mall');
+
+INSERT INTO order_info(receiver_name, restaurant_name, order_cost, deliver_tip, order_time, deadline, delivery_location)
+VALUES ('Jack_kk','pizza_g',23.00,2.30,'2017-11-17 19:42:00','2017-11-17 20:00:00','ICICS, 2366 Main Mall');
+
+INSERT INTO order_info(receiver_name, restaurant_name, order_cost, deliver_tip, order_time, deadline, delivery_location)
+VALUES ('eve_ubc','five_tastes',28.00,3.0,'2017-11-17 19:19:00','2017-11-17 19:33:00','Ponderosa Oak, 2075 Lower Mall');

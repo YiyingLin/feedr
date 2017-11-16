@@ -24,3 +24,6 @@ INSERT INTO order_include_food VALUES (12,'pizza_g','vegan_pizza',1);
 INSERT INTO order_include_food VALUES (12,'pizza_g','hawaiian_pizza',1);
 INSERT INTO order_include_food VALUES (12,'pizza_g','coke',1);
 INSERT INTO order_include_food VALUES (13,'pizza_g','seafood_pizza',1);
+INSERT INTO order_include_food VALUES (14,'mercante_pond','coffee',7);
+INSERT INTO order_include_food VALUES (15,'pizza_g','hawaiian_pizza',1);
+INSERT INTO order_include_food VALUES (16,'five_tastes','beef_noodle',1);
