@@ -48,6 +48,21 @@ public class RestaurantDAO {
         return resModels;
     }
 
+    public RestaurantModel getRestaurant(String username) throws SQLException {
+        ResultSet resultSet = connector.executeQuery(
+                "SELECT * FROM restaurant WHERE username ="+username+";"
+        );
+        RestaurantModel resModel = null;
+        while(resultSet.next()) {
+            String phone = resultSet.getString("phone");
+            String resname = resultSet.getString("resname");
+            int restaurant_rating = resultSet.getInt("restaurant_rating");
+            String location = resultSet.getString("location");
+            resModel = new RestaurantModel(username, phone, resname, restaurant_rating, location);
+        }
+        return resModel;
+    }
+
     public ArrayList<FoodModel> getRestaurantFoods(String resname) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
                 String.format("SELECT * FROM restaurant INNER JOIN food ON restaurant.username = food.res_username WHERE restaurant.resname = '%s';", resname)

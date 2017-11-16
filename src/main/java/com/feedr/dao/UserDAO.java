@@ -55,9 +55,12 @@ public class UserDAO {
         ResultSet resultSet = connector.executeQuery(
                 String.format("SELECT * FROM userInfo WHERE username = '%s';", username)
         );
-        String phone = resultSet.getString("phone");
-        String type = resultSet.getString("type");
-        UserModel userModel = new UserModel(username, phone,type);
+        UserModel userModel = null;
+        while (resultSet.next()) {
+            String phone = resultSet.getString("phone");
+            String type = resultSet.getString("type");
+            userModel = new UserModel(username, phone,type);
+        }
         return userModel;
     }
 
