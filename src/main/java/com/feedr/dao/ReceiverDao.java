@@ -33,8 +33,8 @@ public class ReceiverDao {
 
     public ArrayList<ReceiverModel> getReceivers() throws SQLException{
         ResultSet resultset = connector.executeQuery(
-                String.format("SELECT receiver.username, phone FROM receiver,user " +
-                        "WHERE receiver.username = user.username;")
+                String.format("SELECT R.username, phone FROM receiver R,user U " +
+                        "WHERE R.username = U.username;")
         );
         ArrayList<ReceiverModel> receivers = new ArrayList<>();
         while(resultset.next()){
@@ -48,8 +48,8 @@ public class ReceiverDao {
 
     public ReceiverModel getReceiver(String username) throws SQLException {
         ResultSet resultset = connector.executeQuery(
-                String.format("SELECT receiver.username, phone FROM receiver,user " +
-                        "WHERE receiver.username = user.username AND receiver.username = '%s';", username)
+                String.format("SELECT R.username, phone FROM receiver R,user U " +
+                        "WHERE R.username = U.username AND R.username = '%s';", username)
         );
         String receiverName = resultset.getString("username");
         String phone = resultset.getString("phone");
@@ -63,6 +63,7 @@ public class ReceiverDao {
         );
     }
 
+    // Receiver makes the whole order
     public int makeOrder (String receiver, String restaurant, double cost, double tip, Timestamp deadline,
                           String location, Map<String,Integer> foods) throws SQLException{
         int orderId = createOrderInfo(receiver,restaurant,cost,tip,deadline,location);

@@ -27,8 +27,8 @@ public class SenderDao {
 
     public ArrayList<SenderModel> getSenders() throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT sender.username,sender_rating,location,phone FROM sender,user " +
-                        "WHERE sender.username = user.username;")
+                String.format("SELECT S.username,sender_rating,location,phone FROM sender S,user U " +
+                        "WHERE S.username = U.username;")
         );
         ArrayList<SenderModel> senders = new ArrayList<>();
         while(resultSet.next()){
@@ -44,8 +44,8 @@ public class SenderDao {
 
     public SenderModel getSender(String username) throws SQLException{
         ResultSet resultset = connector.executeQuery(
-                String.format("SELECT sender.username,sender_rating,location,phone FROM sender,user " +
-                        "WHERE sender.username = user.username AND sender.username = '%s';", username)
+                String.format("SELECT S.username,sender_rating,location,phone FROM sender S,user U " +
+                        "WHERE S.username = U.username AND S.username = '%s';", username)
         );
         String senderName = resultset.getString("username");
         int rating = resultset.getInt("sender_rating");
