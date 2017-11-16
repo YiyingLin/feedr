@@ -7,6 +7,8 @@ import PublicOrderIcon from 'material-ui/svg-icons/places/airport-shuttle';
 import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import {getPublicOrders} from "../services/GetOrdersService";
+import Dialog from 'material-ui/Dialog';
 
 const orderListStyle = {
     marginTop: '20px',
@@ -87,20 +89,38 @@ export default class SenderContainer extends Component {
         this.state = {
             orders: mockOrders,
             privateOrders: mockPrivateOrders,
-            selectedIndex: 0
+            selectedIndex: 0,
+            alertControl: false,
+            alertMessage: ""
         };
         this.selectSection = this.selectSection.bind(this);
         this.handleCancelOrder = this.handleCancelOrder.bind(this);
         this.handleTakeOrder = this.handleTakeOrder.bind(this);
+        this.getPublicOrders = this.getPublicOrders.bind(this);
+        this.getPublicOrders();
     }
     selectSection(index) {
         this.setState({selectedIndex: index});
+        if (index === 0) {
+            this.getPublicOrders();
+        }
     }
     handleCancelOrder(orderId) {
         console.log('want to cancel order: '+orderId)
     }
     handleTakeOrder(orderId) {
         console.log('want to take order: '+orderId)
+    }
+
+    getPublicOrders() {
+        getPublicOrders().then(orders => {
+            console.log(orders);
+            this.setState({orders: orders})
+        }).catch((err) => {
+            console.log(err);
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
     }
 
     render() {
@@ -147,6 +167,20 @@ export default class SenderContainer extends Component {
                         )}
                     </div>
                 }
+                <Dialog
+                    actions={
+                        <RaisedButton
+                            label="OK"
+                            primary={true}
+                            onClick={() => this.setState({alertControl:false})}
+                        />
+                    }
+                    modal={false}
+                    open={this.state.alertControl}
+                    onRequestClose={() => this.setState({alertControl:false})}
+                >
+                    {this.state.alertMessage}
+                </Dialog>
             </div>
         );
     }

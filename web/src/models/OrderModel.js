@@ -6,7 +6,7 @@ export default class OrderModel {
         this.receiver = receiver;
         this.address = address;
         this.tips = tips;
-        this.orderTime = orderTime;
+        this.orderTime = orderTime; // this is deadline
         this.phone = phone;
         this.restaurant = restaurant;
         this.foodsMap = foodsMap;
