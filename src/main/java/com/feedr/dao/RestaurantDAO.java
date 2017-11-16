@@ -33,11 +33,11 @@ public class RestaurantDAO {
 
     public ArrayList<RestaurantModel> getRestaurants() throws SQLException {
         ResultSet resultSet = connector.executeQuery(
-                "SELECT * FROM restaurant, user;"
+                "SELECT * FROM restaurant R, user U WHERE R.username=U.username;"
         );
         ArrayList<RestaurantModel> resModels = new ArrayList<>();
         while(resultSet.next()) {
-            String username = resultSet.getString("username");
+            String username = resultSet.getString("R.username");
             String phone = resultSet.getString("phone");
             String resname = resultSet.getString("resname");
             int restaurant_rating = resultSet.getInt("restaurant_rating");
