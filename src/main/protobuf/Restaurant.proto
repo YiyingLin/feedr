@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 option java_package = "com.feedr.protobuf";
-option java_outer_classname = "FoodProto";
+option java_outer_classname = "RestaurantProto";
 
 message Food {
     string res_username = 1;
@@ -9,4 +9,8 @@ message Food {
     double price = 3;
     string type = 4;
     int32 quantity = 5; //only used when querying for orders
+}
+
+message Restaurant {
+    repeated Food foodlist = 1;
 }

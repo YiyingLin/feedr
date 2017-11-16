@@ -124,12 +124,12 @@ public final class OrderProto {
     /**
      * <code>repeated .Food foodMap = 13;</code>
      */
-    java.util.List<com.feedr.protobuf.FoodProto.Food> 
+    java.util.List<com.feedr.protobuf.RestaurantProto.Food> 
         getFoodMapList();
     /**
      * <code>repeated .Food foodMap = 13;</code>
      */
-    com.feedr.protobuf.FoodProto.Food getFoodMap(int index);
+    com.feedr.protobuf.RestaurantProto.Food getFoodMap(int index);
     /**
      * <code>repeated .Food foodMap = 13;</code>
      */
@@ -137,12 +137,12 @@ public final class OrderProto {
     /**
      * <code>repeated .Food foodMap = 13;</code>
      */
-    java.util.List<? extends com.feedr.protobuf.FoodProto.FoodOrBuilder> 
+    java.util.List<? extends com.feedr.protobuf.RestaurantProto.FoodOrBuilder> 
         getFoodMapOrBuilderList();
     /**
      * <code>repeated .Food foodMap = 13;</code>
      */
-    com.feedr.protobuf.FoodProto.FoodOrBuilder getFoodMapOrBuilder(
+    com.feedr.protobuf.RestaurantProto.FoodOrBuilder getFoodMapOrBuilder(
         int index);
 
     /**
@@ -277,11 +277,11 @@ public final class OrderProto {
             }
             case 106: {
               if (!((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
-                foodMap_ = new java.util.ArrayList<com.feedr.protobuf.FoodProto.Food>();
+                foodMap_ = new java.util.ArrayList<com.feedr.protobuf.RestaurantProto.Food>();
                 mutable_bitField0_ |= 0x00001000;
               }
               foodMap_.add(
-                  input.readMessage(com.feedr.protobuf.FoodProto.Food.parser(), extensionRegistry));
+                  input.readMessage(com.feedr.protobuf.RestaurantProto.Food.parser(), extensionRegistry));
               break;
             }
             case 114: {
@@ -609,17 +609,17 @@ public final class OrderProto {
     }
 
     public static final int FOODMAP_FIELD_NUMBER = 13;
-    private java.util.List<com.feedr.protobuf.FoodProto.Food> foodMap_;
+    private java.util.List<com.feedr.protobuf.RestaurantProto.Food> foodMap_;
     /**
      * <code>repeated .Food foodMap = 13;</code>
      */
-    public java.util.List<com.feedr.protobuf.FoodProto.Food> getFoodMapList() {
+    public java.util.List<com.feedr.protobuf.RestaurantProto.Food> getFoodMapList() {
       return foodMap_;
     }
     /**
      * <code>repeated .Food foodMap = 13;</code>
      */
-    public java.util.List<? extends com.feedr.protobuf.FoodProto.FoodOrBuilder> 
+    public java.util.List<? extends com.feedr.protobuf.RestaurantProto.FoodOrBuilder> 
         getFoodMapOrBuilderList() {
       return foodMap_;
     }
@@ -632,13 +632,13 @@ public final class OrderProto {
     /**
      * <code>repeated .Food foodMap = 13;</code>
      */
-    public com.feedr.protobuf.FoodProto.Food getFoodMap(int index) {
+    public com.feedr.protobuf.RestaurantProto.Food getFoodMap(int index) {
       return foodMap_.get(index);
     }
     /**
      * <code>repeated .Food foodMap = 13;</code>
      */
-    public com.feedr.protobuf.FoodProto.FoodOrBuilder getFoodMapOrBuilder(
+    public com.feedr.protobuf.RestaurantProto.FoodOrBuilder getFoodMapOrBuilder(
         int index) {
       return foodMap_.get(index);
     }
@@ -1850,22 +1850,22 @@ public final class OrderProto {
         return this;
       }
 
-      private java.util.List<com.feedr.protobuf.FoodProto.Food> foodMap_ =
+      private java.util.List<com.feedr.protobuf.RestaurantProto.Food> foodMap_ =
         java.util.Collections.emptyList();
       private void ensureFoodMapIsMutable() {
         if (!((bitField0_ & 0x00001000) == 0x00001000)) {
-          foodMap_ = new java.util.ArrayList<com.feedr.protobuf.FoodProto.Food>(foodMap_);
+          foodMap_ = new java.util.ArrayList<com.feedr.protobuf.RestaurantProto.Food>(foodMap_);
           bitField0_ |= 0x00001000;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.feedr.protobuf.FoodProto.Food, com.feedr.protobuf.FoodProto.Food.Builder, com.feedr.protobuf.FoodProto.FoodOrBuilder> foodMapBuilder_;
+          com.feedr.protobuf.RestaurantProto.Food, com.feedr.protobuf.RestaurantProto.Food.Builder, com.feedr.protobuf.RestaurantProto.FoodOrBuilder> foodMapBuilder_;
 
       /**
        * <code>repeated .Food foodMap = 13;</code>
        */
-      public java.util.List<com.feedr.protobuf.FoodProto.Food> getFoodMapList() {
+      public java.util.List<com.feedr.protobuf.RestaurantProto.Food> getFoodMapList() {
         if (foodMapBuilder_ == null) {
           return java.util.Collections.unmodifiableList(foodMap_);
         } else {
@@ -1885,7 +1885,7 @@ public final class OrderProto {
       /**
        * <code>repeated .Food foodMap = 13;</code>
        */
-      public com.feedr.protobuf.FoodProto.Food getFoodMap(int index) {
+      public com.feedr.protobuf.RestaurantProto.Food getFoodMap(int index) {
         if (foodMapBuilder_ == null) {
           return foodMap_.get(index);
         } else {
@@ -1896,7 +1896,7 @@ public final class OrderProto {
        * <code>repeated .Food foodMap = 13;</code>
        */
       public Builder setFoodMap(
-          int index, com.feedr.protobuf.FoodProto.Food value) {
+          int index, com.feedr.protobuf.RestaurantProto.Food value) {
         if (foodMapBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1913,7 +1913,7 @@ public final class OrderProto {
        * <code>repeated .Food foodMap = 13;</code>
        */
       public Builder setFoodMap(
-          int index, com.feedr.protobuf.FoodProto.Food.Builder builderForValue) {
+          int index, com.feedr.protobuf.RestaurantProto.Food.Builder builderForValue) {
         if (foodMapBuilder_ == null) {
           ensureFoodMapIsMutable();
           foodMap_.set(index, builderForValue.build());
@@ -1926,7 +1926,7 @@ public final class OrderProto {
       /**
        * <code>repeated .Food foodMap = 13;</code>
        */
-      public Builder addFoodMap(com.feedr.protobuf.FoodProto.Food value) {
+      public Builder addFoodMap(com.feedr.protobuf.RestaurantProto.Food value) {
         if (foodMapBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1943,7 +1943,7 @@ public final class OrderProto {
        * <code>repeated .Food foodMap = 13;</code>
        */
       public Builder addFoodMap(
-          int index, com.feedr.protobuf.FoodProto.Food value) {
+          int index, com.feedr.protobuf.RestaurantProto.Food value) {
         if (foodMapBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1960,7 +1960,7 @@ public final class OrderProto {
        * <code>repeated .Food foodMap = 13;</code>
        */
       public Builder addFoodMap(
-          com.feedr.protobuf.FoodProto.Food.Builder builderForValue) {
+          com.feedr.protobuf.RestaurantProto.Food.Builder builderForValue) {
         if (foodMapBuilder_ == null) {
           ensureFoodMapIsMutable();
           foodMap_.add(builderForValue.build());
@@ -1974,7 +1974,7 @@ public final class OrderProto {
        * <code>repeated .Food foodMap = 13;</code>
        */
       public Builder addFoodMap(
-          int index, com.feedr.protobuf.FoodProto.Food.Builder builderForValue) {
+          int index, com.feedr.protobuf.RestaurantProto.Food.Builder builderForValue) {
         if (foodMapBuilder_ == null) {
           ensureFoodMapIsMutable();
           foodMap_.add(index, builderForValue.build());
@@ -1988,7 +1988,7 @@ public final class OrderProto {
        * <code>repeated .Food foodMap = 13;</code>
        */
       public Builder addAllFoodMap(
-          java.lang.Iterable<? extends com.feedr.protobuf.FoodProto.Food> values) {
+          java.lang.Iterable<? extends com.feedr.protobuf.RestaurantProto.Food> values) {
         if (foodMapBuilder_ == null) {
           ensureFoodMapIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -2028,14 +2028,14 @@ public final class OrderProto {
       /**
        * <code>repeated .Food foodMap = 13;</code>
        */
-      public com.feedr.protobuf.FoodProto.Food.Builder getFoodMapBuilder(
+      public com.feedr.protobuf.RestaurantProto.Food.Builder getFoodMapBuilder(
           int index) {
         return getFoodMapFieldBuilder().getBuilder(index);
       }
       /**
        * <code>repeated .Food foodMap = 13;</code>
        */
-      public com.feedr.protobuf.FoodProto.FoodOrBuilder getFoodMapOrBuilder(
+      public com.feedr.protobuf.RestaurantProto.FoodOrBuilder getFoodMapOrBuilder(
           int index) {
         if (foodMapBuilder_ == null) {
           return foodMap_.get(index);  } else {
@@ -2045,7 +2045,7 @@ public final class OrderProto {
       /**
        * <code>repeated .Food foodMap = 13;</code>
        */
-      public java.util.List<? extends com.feedr.protobuf.FoodProto.FoodOrBuilder> 
+      public java.util.List<? extends com.feedr.protobuf.RestaurantProto.FoodOrBuilder> 
            getFoodMapOrBuilderList() {
         if (foodMapBuilder_ != null) {
           return foodMapBuilder_.getMessageOrBuilderList();
@@ -2056,31 +2056,31 @@ public final class OrderProto {
       /**
        * <code>repeated .Food foodMap = 13;</code>
        */
-      public com.feedr.protobuf.FoodProto.Food.Builder addFoodMapBuilder() {
+      public com.feedr.protobuf.RestaurantProto.Food.Builder addFoodMapBuilder() {
         return getFoodMapFieldBuilder().addBuilder(
-            com.feedr.protobuf.FoodProto.Food.getDefaultInstance());
+            com.feedr.protobuf.RestaurantProto.Food.getDefaultInstance());
       }
       /**
        * <code>repeated .Food foodMap = 13;</code>
        */
-      public com.feedr.protobuf.FoodProto.Food.Builder addFoodMapBuilder(
+      public com.feedr.protobuf.RestaurantProto.Food.Builder addFoodMapBuilder(
           int index) {
         return getFoodMapFieldBuilder().addBuilder(
-            index, com.feedr.protobuf.FoodProto.Food.getDefaultInstance());
+            index, com.feedr.protobuf.RestaurantProto.Food.getDefaultInstance());
       }
       /**
        * <code>repeated .Food foodMap = 13;</code>
        */
-      public java.util.List<com.feedr.protobuf.FoodProto.Food.Builder> 
+      public java.util.List<com.feedr.protobuf.RestaurantProto.Food.Builder> 
            getFoodMapBuilderList() {
         return getFoodMapFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.feedr.protobuf.FoodProto.Food, com.feedr.protobuf.FoodProto.Food.Builder, com.feedr.protobuf.FoodProto.FoodOrBuilder> 
+          com.feedr.protobuf.RestaurantProto.Food, com.feedr.protobuf.RestaurantProto.Food.Builder, com.feedr.protobuf.RestaurantProto.FoodOrBuilder> 
           getFoodMapFieldBuilder() {
         if (foodMapBuilder_ == null) {
           foodMapBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              com.feedr.protobuf.FoodProto.Food, com.feedr.protobuf.FoodProto.Food.Builder, com.feedr.protobuf.FoodProto.FoodOrBuilder>(
+              com.feedr.protobuf.RestaurantProto.Food, com.feedr.protobuf.RestaurantProto.Food.Builder, com.feedr.protobuf.RestaurantProto.FoodOrBuilder>(
                   foodMap_,
                   ((bitField0_ & 0x00001000) == 0x00001000),
                   getParentForChildren(),
@@ -2984,7 +2984,7 @@ public final class OrderProto {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          com.feedr.protobuf.FoodProto.getDescriptor(),
+          com.feedr.protobuf.RestaurantProto.getDescriptor(),
         }, assigner);
     internal_static_Order_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -2998,7 +2998,7 @@ public final class OrderProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_OrderList_descriptor,
         new java.lang.String[] { "Orders", });
-    com.feedr.protobuf.FoodProto.getDescriptor();
+    com.feedr.protobuf.RestaurantProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
