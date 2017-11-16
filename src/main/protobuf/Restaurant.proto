@@ -8,4 +8,5 @@ message Food {
     string foodname = 2;
     double price = 3;
     string type = 4;
+    int32 quantity = 5; //only used when querying for orders
 }

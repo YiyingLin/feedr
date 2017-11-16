@@ -52,6 +52,15 @@ public final class FoodProto {
      */
     com.google.protobuf.ByteString
         getTypeBytes();
+
+    /**
+     * <pre>
+     *only used when querying for orders
+     * </pre>
+     *
+     * <code>optional int32 quantity = 5;</code>
+     */
+    int getQuantity();
   }
   /**
    * Protobuf type {@code Food}
@@ -69,6 +78,7 @@ public final class FoodProto {
       foodname_ = "";
       price_ = 0D;
       type_ = "";
+      quantity_ = 0;
     }
 
     @java.lang.Override
@@ -117,6 +127,11 @@ public final class FoodProto {
               java.lang.String s = input.readStringRequireUtf8();
 
               type_ = s;
+              break;
+            }
+            case 40: {
+
+              quantity_ = input.readInt32();
               break;
             }
           }
@@ -253,6 +268,19 @@ public final class FoodProto {
       }
     }
 
+    public static final int QUANTITY_FIELD_NUMBER = 5;
+    private int quantity_;
+    /**
+     * <pre>
+     *only used when querying for orders
+     * </pre>
+     *
+     * <code>optional int32 quantity = 5;</code>
+     */
+    public int getQuantity() {
+      return quantity_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -277,6 +305,9 @@ public final class FoodProto {
       if (!getTypeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, type_);
       }
+      if (quantity_ != 0) {
+        output.writeInt32(5, quantity_);
+      }
     }
 
     public int getSerializedSize() {
@@ -296,6 +327,10 @@ public final class FoodProto {
       }
       if (!getTypeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, type_);
+      }
+      if (quantity_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, quantity_);
       }
       memoizedSize = size;
       return size;
@@ -323,6 +358,8 @@ public final class FoodProto {
               other.getPrice()));
       result = result && getType()
           .equals(other.getType());
+      result = result && (getQuantity()
+          == other.getQuantity());
       return result;
     }
 
@@ -342,6 +379,8 @@ public final class FoodProto {
           java.lang.Double.doubleToLongBits(getPrice()));
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
+      hash = (37 * hash) + QUANTITY_FIELD_NUMBER;
+      hash = (53 * hash) + getQuantity();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -468,6 +507,8 @@ public final class FoodProto {
 
         type_ = "";
 
+        quantity_ = 0;
+
         return this;
       }
 
@@ -494,6 +535,7 @@ public final class FoodProto {
         result.foodname_ = foodname_;
         result.price_ = price_;
         result.type_ = type_;
+        result.quantity_ = quantity_;
         onBuilt();
         return result;
       }
@@ -549,6 +591,9 @@ public final class FoodProto {
         if (!other.getType().isEmpty()) {
           type_ = other.type_;
           onChanged();
+        }
+        if (other.getQuantity() != 0) {
+          setQuantity(other.getQuantity());
         }
         onChanged();
         return this;
@@ -808,6 +853,44 @@ public final class FoodProto {
         onChanged();
         return this;
       }
+
+      private int quantity_ ;
+      /**
+       * <pre>
+       *only used when querying for orders
+       * </pre>
+       *
+       * <code>optional int32 quantity = 5;</code>
+       */
+      public int getQuantity() {
+        return quantity_;
+      }
+      /**
+       * <pre>
+       *only used when querying for orders
+       * </pre>
+       *
+       * <code>optional int32 quantity = 5;</code>
+       */
+      public Builder setQuantity(int value) {
+        
+        quantity_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *only used when querying for orders
+       * </pre>
+       *
+       * <code>optional int32 quantity = 5;</code>
+       */
+      public Builder clearQuantity() {
+        
+        quantity_ = 0;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -871,10 +954,10 @@ public final class FoodProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020Restaurant.proto\"K\n\004Food\022\024\n\014res_userna" +
+      "\n\020Restaurant.proto\"]\n\004Food\022\024\n\014res_userna" +
       "me\030\001 \001(\t\022\020\n\010foodname\030\002 \001(\t\022\r\n\005price\030\003 \001(" +
-      "\001\022\014\n\004type\030\004 \001(\tB\037\n\022com.feedr.protobufB\tF" +
-      "oodProtob\006proto3"
+      "\001\022\014\n\004type\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005B\037\n\022com" +
+      ".feedr.protobufB\tFoodProtob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -893,7 +976,7 @@ public final class FoodProto {
     internal_static_Food_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Food_descriptor,
-        new java.lang.String[] { "ResUsername", "Foodname", "Price", "Type", });
+        new java.lang.String[] { "ResUsername", "Foodname", "Price", "Type", "Quantity", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
