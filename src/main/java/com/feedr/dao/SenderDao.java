@@ -21,7 +21,7 @@ public class SenderDao {
 
     public void createSender(String username, int senderRating, String location) throws SQLException{
         connector.executeQuery(
-                String.format("INSERT INTO sender values (%s,%d,%s);", username, senderRating, location)
+                String.format("INSERT INTO sender VALUES ('%s',%d,'%s');", username, senderRating, location)
         );
     }
 
@@ -45,7 +45,7 @@ public class SenderDao {
     public SenderModel getSender(String username) throws SQLException{
         ResultSet resultset = connector.executeQuery(
                 String.format("SELECT sender.username,sender_rating,location,phone FROM sender,user " +
-                        "WHERE sender.username = user.username AND sender.username = %s;", username)
+                        "WHERE sender.username = user.username AND sender.username = '%s';", username)
         );
         String senderName = resultset.getString("username");
         int rating = resultset.getInt("sender_rating");
@@ -57,32 +57,31 @@ public class SenderDao {
 
     public void updateSenderRating(String username, int newRating) throws SQLException{
         connector.executeQuery(
-                String.format("UPDATE sender SET sender_rating = %d WHERE username = %s;", newRating,username)
+                String.format("UPDATE sender SET sender_rating = %d WHERE username = '%s';", newRating,username)
         );
     }
 
     public void updateLocation(String username, String location) throws SQLException{
         connector.executeQuery(
-                String.format("UPDATE sender SET location = %s WHERE username = %s;", location,username)
+                String.format("UPDATE sender SET location = '%s' WHERE username = '%s';", location,username)
         );
     }
 
     public void deleteSender(String username) throws SQLException{
         connector.executeQuery(
-                String.format("DELETE FROM sender WHERE username = %s;", username)
+                String.format("DELETE FROM sender WHERE username = '%s';", username)
         );
     }
 
     // the function will assign a sender with an order, and it will also update OrderModel.senderName
     // and set assignedSender field as true
-    public void takeOrder(SenderModel sender, OrderModel order) throws SQLException{
-        String senderName = sender.getUsername();
-        int orderId = order.getOrderID();
+    public void takeOrder(String sender, int orderId) throws SQLException{
+        // String senderName = sender.getUsername();
         connector.executeQuery(
-                String.format("UPDATE order_info SET sender_name = %s WHERE order_id = %d;",
-                        senderName, orderId)
+                String.format("UPDATE order_info SET sender_name = '%s' WHERE order_id = %d;",
+                        sender, orderId)
         );
-        order.setSender(senderName);
+        // order.setSender(senderName);
         // order.setAssignedSender(true);
     }
 
