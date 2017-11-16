@@ -22,10 +22,11 @@ public class AuthenticationController {
         User.Builder builder = User.newBuilder();
         User user = ProtobufUtil.jsonToProtobuf(builder, request, User.class);
         String password = userDAO.getPassword(user.getUsername());
+        String userType = userDAO.getUser(user.getUsername()).getType();
         if (password.equals(user.getPassword())) {
             builder = User.newBuilder();
             builder.setUsername(user.getUsername());
-            builder.setUserType("RESTAURANT");
+            builder.setUserType(userType);
             return ProtobufUtil.protobufToJSON(builder.build());
         } else {
             throw new Exception("Authentication failed");

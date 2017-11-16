@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+@Component
 public class SenderDao {
     private DatabaseConnector connector;
 
