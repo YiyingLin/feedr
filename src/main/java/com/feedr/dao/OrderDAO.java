@@ -86,4 +86,11 @@ public class OrderDAO {
         }
         return foodModels;
     }
+
+    public void updateTip(int order_id, double newtip) throws SQLException{
+        connector.executeUpdate(
+                String.format("UPDATE order_info SET delivery_tip = %f WHERE order_id = %d", newtip, order_id)
+        );
+    }
+
 }
