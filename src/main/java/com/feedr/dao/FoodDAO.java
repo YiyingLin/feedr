@@ -28,7 +28,7 @@ public class FoodDAO {
     //get all food from a specific restaurant
     public ArrayList<FoodModel> getFoods(String res_username) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT * FROM food WHERE res_username = '%s'", res_username)
+                String.format("SELECT * FROM food WHERE res_username = '%s';", res_username)
         );
         ArrayList<FoodModel> foodModels = new ArrayList<>();
         while(resultSet.next()){
