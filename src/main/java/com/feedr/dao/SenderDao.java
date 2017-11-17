@@ -76,9 +76,8 @@ public class SenderDao {
 
     // the function will assign a sender with an order, and it will also update OrderModel.senderName
     // and set assignedSender field as true
-    public void takeOrder(String sender_username, String order_id) throws SQLException{
-
-        connector.executeQuery(
+    public void takeOrder(String sender_username, int order_id) throws SQLException{
+        connector.executeUpdate(
                 String.format("UPDATE order_info SET sender_name = '%s' WHERE order_id = %d;",
                         sender_username, order_id)
         );

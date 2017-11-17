@@ -109,6 +109,12 @@ public class OrderController {
         return "";
     }
 
+    @RequestMapping(path = "/takeOrder", method = RequestMethod.GET)
+    public String takeOrder(@RequestParam String senderUsername, @RequestParam int orderId) throws Exception {
+        senderDao.takeOrder(senderUsername, orderId);
+        return senderUsername + orderId;
+    }
+
     private void setupBasicOrder(Order.Builder orderBuilder, OrderModel orderModel) throws SQLException {
         orderBuilder.setOrderId(orderModel.getOrderID());
         orderBuilder.setReceiverName(orderModel.getReceiver());

@@ -5,7 +5,7 @@ import PublicOrderIcon from 'material-ui/svg-icons/places/airport-shuttle';
 import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import {getPublicOrders, getPrivateOrders} from "../services/OrdersHttpService";
+import {getPublicOrders, getPrivateOrders, takeOrder} from "../services/OrdersHttpService";
 import Dialog from 'material-ui/Dialog';
 
 const orderListStyle = {
@@ -43,9 +43,17 @@ export default class SenderContainer extends Component {
     }
     handleCancelOrder(orderId) {
         console.log('want to cancel order: '+orderId)
+        // for simplicity sender cancellation is disallowed
     }
     handleTakeOrder(orderId) {
         console.log('want to take order: '+orderId)
+        takeOrder(orderId).then(() => {
+            this.getPublicOrders();
+            this.getPrivateOrders();
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
     }
 
     getPublicOrders() {
