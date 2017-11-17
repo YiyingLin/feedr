@@ -117,3 +117,16 @@ export function createNewOrder(order) {
             });
     });
 }
+
+export function confirmOwnDelivery(deliveryRating) {
+    return new Promise(function (resolve, reject) {
+        axios.post(`http://localhost:8080/confirmDelivery`, deliveryRating)
+            .then(function (response) {
+                console.log(response);
+                resolve();
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
+}

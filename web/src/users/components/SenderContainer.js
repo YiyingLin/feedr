@@ -8,6 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {getPublicOrders, getPrivateOrders, takeOrder} from "../services/OrdersHttpService";
 import Dialog from 'material-ui/Dialog';
 
+const Cookie = require('js-cookie');
+
 const orderListStyle = {
     marginTop: '20px',
     position: 'relative',
@@ -96,7 +98,10 @@ export default class SenderContainer extends Component {
                     <div style={orderListStyle}>
                         {this.state.orders.map((order, index) =>
                             <Order key={index} order={order}>
-                                <RaisedButton label="Take this order" onClick={() => this.handleTakeOrder(order.orderId)}/>
+                                {
+                                    order.receiver !== Cookie.get('username') &&
+                                    <RaisedButton label="Take this order" onClick={() => this.handleTakeOrder(order.orderId)}/>
+                                }
                             </Order>
                         )}
                     </div>

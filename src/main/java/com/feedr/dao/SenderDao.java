@@ -48,6 +48,7 @@ public class SenderDao {
                 String.format("SELECT S.username,sender_rating,location,phone FROM sender S,user U " +
                         "WHERE S.username = U.username AND S.username = '%s';", username)
         );
+        resultset.next();
         String senderName = resultset.getString("username");
         int rating = resultset.getInt("sender_rating");
         String location = resultset.getString("location");

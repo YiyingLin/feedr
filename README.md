@@ -9,11 +9,13 @@ cd web;
 
 yarn install;
 
-yarn build;
+yarn run build;
 
 cd ..;
 
-./gradlew bootRun;
+./gradlew build;
+
+java -jar build/libs/Feedr-0.1.0.jar
 
 You should see a react page at localhost:8080
 

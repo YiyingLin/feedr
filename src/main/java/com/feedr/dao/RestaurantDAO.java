@@ -51,7 +51,10 @@ public class RestaurantDAO {
 
     public RestaurantModel getRestaurant(String username) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
-                "SELECT * FROM restaurant WHERE username ='"+username+"';"
+                String.format(
+                        "SELECT * FROM restaurant, user WHERE user.username ='%s' AND user.username=restaurant.username;",
+                        username
+                )
         );
         RestaurantModel resModel = null;
         while(resultSet.next()) {

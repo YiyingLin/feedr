@@ -4,6 +4,7 @@ import com.feedr.dao.*;
 import com.feedr.models.CheckOrderModel;
 import com.feedr.models.FoodModel;
 import com.feedr.models.OrderModel;
+import com.feedr.protobuf.RatingProto.Rating;
 import com.feedr.protobuf.RestaurantProto.Food;
 import com.feedr.protobuf.OrderProto.Order;
 import com.feedr.protobuf.OrderProto.OrderList;
@@ -34,6 +35,9 @@ public class OrderController {
 
     @Autowired
     private CancellationDAO cancellationDAO;
+
+    @Autowired
+    private RatingDAO ratingDAO;
 
     @RequestMapping(path = "/publicOrders", method = RequestMethod.GET)
     public String getPublicOrders() throws Exception {
@@ -113,6 +117,21 @@ public class OrderController {
     public String takeOrder(@RequestParam String senderUsername, @RequestParam int orderId) throws Exception {
         senderDao.takeOrder(senderUsername, orderId);
         return senderUsername + orderId;
+    }
+
+    @RequestMapping(path = "/confirmDelivery", method = RequestMethod.POST)
+    public String confirmDelivery(HttpServletRequest request) throws Exception {
+        Rating.Builder builder = Rating.newBuilder();
+        Rating rating = ProtobufUtil.jsonToProtobuf(builder, request, Rating.class);
+        receiverDao.confirmDelivered(rating.getOrderId());
+        ratingDAO.createRating(
+                rating.getOrderId(),
+                rating.getSenderRating(),
+                rating.getRestaurantRating(),
+                rating.getCommentSender(),
+                rating.getCommentRestaurant()
+        );
+        return "";
     }
 
     private void setupBasicOrder(Order.Builder orderBuilder, OrderModel orderModel) throws SQLException {

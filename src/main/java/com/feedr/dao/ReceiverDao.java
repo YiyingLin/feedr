@@ -1,7 +1,6 @@
 package com.feedr.dao;
 
 import com.feedr.models.CheckOrderModel;
-import com.feedr.models.FoodModel;
 import com.feedr.models.ReceiverModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Map;
@@ -110,22 +108,34 @@ public class ReceiverDao {
     }
 
     // Query that compute the total cost of the order
-    public void computeTotalCosts (int orderId) throws SQLException{
-        connector.executeQuery(
-                String.format("SELECT order_id,SUM(price* O.food_quantity) AS total_cost " +
-                        "FROM order_include_food O NATURAL LEFT JOIN food " +
-                        "WHERE order_id = %d" +
+    private double computeTotalFoodCosts(int orderId) throws SQLException{
+        ResultSet resultSet = connector.executeQuery(
+                String.format("SELECT order_id,SUM(price* O.food_quantity) AS total_food_cost\n" +
+                        "FROM order_include_food O NATURAL JOIN food\n" +
+                        "WHERE order_id = %d\n" +
                         "GROUP BY order_id;", orderId)
         );
+        resultSet.next();
+        return resultSet.getDouble("total_food_cost");
     }
 
 
     // Receivers can confirm that their orders have been delivered
-    public void confirmDelivered (int orderId, double finalTip, double finalCost, Timestamp deliveredTime) throws SQLException {
-        String deliveredTimeString = deliveredTime.toString();
-        connector.executeQuery(
-                String.format("INSERT INTO delivered VALUES (%d,%f,%f,'%s');", orderId, finalTip,
-                        finalCost,deliveredTimeString)
+    public void confirmDelivered (int orderId) throws SQLException {
+        connector.executeUpdate(
+                String.format("INSERT INTO delivered(order_id, delivered_time) VALUES (%d, NOW());", orderId)
+        );
+        //update final tip
+        ResultSet rsTip = connector.executeQuery(String.format("SELECT deliver_tip from order_info WHERE order_id=%d;", orderId));
+        rsTip.next();
+        double finalTip = rsTip.getDouble(1);
+        connector.executeUpdate(
+                String.format("UPDATE delivered SET final_tip = %f WHERE order_id = %d;", finalTip, orderId)
+        );
+        //update final cost
+        double finalFoodCost = computeTotalFoodCosts(orderId);
+        connector.executeUpdate(
+                String.format("UPDATE delivered SET final_total_cost = %f WHERE order_id = %d;", finalFoodCost+finalTip, orderId)
         );
     }
 

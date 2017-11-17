@@ -63,7 +63,12 @@ export default class RatingForm extends Component {
     }
 
     createRating() {
-        this.props.handleCreateRating();
+        this.props.handleCreateRating({
+            senderRating: this.state.senderRating,
+            restaurantRating: this.state.restaurantRating,
+            commentSender: this.state.commentSender,
+            commentRestaurant: this.state.commentRestaurant
+        });
         this.clearStates();
     }
 
