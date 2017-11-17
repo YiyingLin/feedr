@@ -18,13 +18,6 @@ public class FoodDAO {
         this.connector = connector;
     }
 
-    //The recommended Java mapping for the DECIMAL and NUMERIC types is java.math.BigDecimal, a Java type that also expresses fixed-point numbers with absolute precision.
-    public void creatFood(String res_username, String foodname, double price, String type) throws SQLException{
-        connector.executeQuery(
-                String.format("INSERT INTO food VALUES (''%s'','%s',"+ price + ", '%s');", res_username, foodname, type)
-        );
-    }
-
     //get all food from a specific restaurant
     public ArrayList<FoodModel> getFoods(String res_username) throws SQLException{
         ResultSet resultSet = connector.executeQuery(

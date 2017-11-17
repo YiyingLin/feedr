@@ -20,11 +20,11 @@ public class RestaurantDAO {
         this.connector = connector;
     }
 
-    public void createRestaurant(String username, String resname, String location) throws SQLException {
-        connector.executeQuery(
-                String.format("INSERT INTO restaurant VALUES ('%s','%s',NULL,'%s');", username, resname, location)
-        );
-    }
+//    public void createRestaurant(String username, String resname, String location) throws SQLException {
+//        connector.executeQuery(
+//                String.format("INSERT INTO restaurant VALUES ('%s','%s',NULL,'%s');", username, resname, location)
+//        );
+//    }
 
     public void createFood(String res_username, String foodname, double price, String type) throws SQLException {
         connector.executeUpdate(
@@ -67,22 +67,6 @@ public class RestaurantDAO {
         return resModel;
     }
 
-    public ArrayList<FoodModel> getRestaurantFoods(String resname) throws SQLException {
-        ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT * FROM restaurant INNER JOIN food ON restaurant.username = food.res_username WHERE restaurant.resname = '%s';", resname)
-        );
-        ArrayList<FoodModel> foodModels = new ArrayList<>();
-        while(resultSet.next()) {
-            String res_username = resultSet.getString("res_username");
-            String foodname = resultSet.getString("foodname");
-            double price = resultSet.getDouble("price");
-            String type = resultSet.getString("type");
-            FoodModel foodModel = new FoodModel(res_username, foodname, price, type);
-            foodModels.add(foodModel);
-        }
-        return foodModels;
-    }
-
     public ArrayList<CheckOrderModel> getRestaurantOrders(String resname) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
                 String.format("SELECT DISTINCT o.order_id,o.order_time AS order_time,receiver_name,sender_name,restaurant_name,deliver_tip,order_cost,\n" +
@@ -123,18 +107,18 @@ public class RestaurantDAO {
         return checkOrders;
     }
 
-    public void updateFoodName(String res_username, String oldfoodname, String newfoodname) throws SQLException {
-        connector.executeQuery(
-                String.format("UPDATE food SET foodname = '%s' WHERE res_username = '%s' AND foodname = '%s';",
-                        newfoodname, res_username, oldfoodname)
-        );
-    }
-
-    public void updateFoodType(String res_username, String foodname, String newfoodtype) throws SQLException {
-        connector.executeQuery(
-                String.format("UPDATE food SET type = '%s' WHERE res_username = '%s' AND foodname = '%s';", res_username, foodname, newfoodtype)
-        );
-    }
+//    public void updateFoodName(String res_username, String oldfoodname, String newfoodname) throws SQLException {
+//        connector.executeQuery(
+//                String.format("UPDATE food SET foodname = '%s' WHERE res_username = '%s' AND foodname = '%s';",
+//                        newfoodname, res_username, oldfoodname)
+//        );
+//    }
+//
+//    public void updateFoodType(String res_username, String foodname, String newfoodtype) throws SQLException {
+//        connector.executeQuery(
+//                String.format("UPDATE food SET type = '%s' WHERE res_username = '%s' AND foodname = '%s';", res_username, foodname, newfoodtype)
+//        );
+//    }
 
     public void deleteFood(String res_username, String foodname) throws SQLException {
         connector.executeUpdate(

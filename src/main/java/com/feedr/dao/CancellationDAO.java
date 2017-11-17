@@ -26,32 +26,32 @@ public class CancellationDAO {
         );
     }
 
-    public ArrayList<CancellationModel> getCancellations() throws SQLException{
-        ResultSet resultSet = connector.executeQuery(
-                "SELECT * FROM cancellation;"
-        );
-        ArrayList<CancellationModel> cancellationModels = new ArrayList<>();
-        while(resultSet.next()) {
-            int order_id = resultSet.getInt("order_id");
-            String username = resultSet.getString("username");
-            Timestamp cancel_time = resultSet.getTimestamp("cancel_time");
-            String reason = resultSet.getString("reason");
-            CancellationModel cancellationModel = new CancellationModel(order_id,username,cancel_time,reason);
-            cancellationModels.add(cancellationModel);
-        }
-        return cancellationModels;
-    }
-
-    public CancellationModel getCancellation(int order_id) throws SQLException{
-        ResultSet resultSet = connector.executeQuery(
-               String.format( "SELECT * FROM cancellation WHERE order_id = %d;", order_id)
-        );
-
-        String username = resultSet.getString("username");
-        Timestamp cancel_time = resultSet.getTimestamp("cancel_time");
-        String reason = resultSet.getString("reason");
-        CancellationModel cancellationModel = new CancellationModel(order_id,username,cancel_time,reason);
-
-        return cancellationModel;
-    }
+//    public ArrayList<CancellationModel> getCancellations() throws SQLException{
+//        ResultSet resultSet = connector.executeQuery(
+//                "SELECT * FROM cancellation;"
+//        );
+//        ArrayList<CancellationModel> cancellationModels = new ArrayList<>();
+//        while(resultSet.next()) {
+//            int order_id = resultSet.getInt("order_id");
+//            String username = resultSet.getString("username");
+//            Timestamp cancel_time = resultSet.getTimestamp("cancel_time");
+//            String reason = resultSet.getString("reason");
+//            CancellationModel cancellationModel = new CancellationModel(order_id,username,cancel_time,reason);
+//            cancellationModels.add(cancellationModel);
+//        }
+//        return cancellationModels;
+//    }
+//
+//    public CancellationModel getCancellation(int order_id) throws SQLException{
+//        ResultSet resultSet = connector.executeQuery(
+//               String.format( "SELECT * FROM cancellation WHERE order_id = %d;", order_id)
+//        );
+//
+//        String username = resultSet.getString("username");
+//        Timestamp cancel_time = resultSet.getTimestamp("cancel_time");
+//        String reason = resultSet.getString("reason");
+//        CancellationModel cancellationModel = new CancellationModel(order_id,username,cancel_time,reason);
+//
+//        return cancellationModel;
+//    }
 }
