@@ -10,6 +10,7 @@ import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigati
 import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
 import Paper from 'material-ui/Paper';
 import {getPrivateOrders} from "../services/GetOrdersService";
+import Dialog from 'material-ui/Dialog';
 
 const orderListStyle = {
     marginTop: '20px',
@@ -37,7 +38,9 @@ export default class ReceiverContainer extends Component {
             showCreateOrder: false,
             showRating: false,
             newTip: 0,
-            orderOnFocus: ''
+            orderOnFocus: '',
+            alertControl: false,
+            alertMessage: ""
         };
         this.openCreateOrder = this.openCreateOrder.bind(this);
         this.cancelCreateOrder = this.cancelCreateOrder.bind(this);
@@ -173,6 +176,20 @@ export default class ReceiverContainer extends Component {
                     handleCancelRating={this.cancelRating}
                     handleCreateRating={this.createRating}
                 />
+                <Dialog
+                    actions={
+                        <RaisedButton
+                            label="OK"
+                            primary={true}
+                            onClick={() => this.setState({alertControl:false})}
+                        />
+                    }
+                    modal={false}
+                    open={this.state.alertControl}
+                    onRequestClose={() => this.setState({alertControl:false})}
+                >
+                    {this.state.alertMessage}
+                </Dialog>
             </div>
         );
     }
