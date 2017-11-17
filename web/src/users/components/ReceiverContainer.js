@@ -9,7 +9,7 @@ import RatingForm from "./RatingForm";
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
 import Paper from 'material-ui/Paper';
-import {getPrivateOrders} from "../services/GetOrdersService";
+import {getPrivateOrders, cancelOrder} from "../services/OrdersHttpService";
 import Dialog from 'material-ui/Dialog';
 
 const orderListStyle = {
@@ -74,7 +74,13 @@ export default class ReceiverContainer extends Component {
 
     //manipulate existing orders methods
     cancelOrder(orderId) {
-        console.log('want to cancel order: '+orderId)
+        console.log("want to cancel: "+orderId);
+        cancelOrder(orderId, "").then(() => {
+            this.getPrivateOrders();
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
     }
     addTip(orderId) {
         this.setState({orderOnFocus: orderId});

@@ -78,3 +78,15 @@ export function getPrivateOrders(isSender) {
             });
     });
 }
+
+export function cancelOrder(orderId, reason) {
+    return new Promise(function (resolve, reject) {
+        axios.get(`http://localhost:8080/cancelOrders?orderId=${orderId}&username=${Cookie.get('username')}&reason=${reason}`)
+            .then(function (response) {
+                resolve();
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
+}

@@ -3,12 +3,14 @@ package com.feedr.dao;
 import com.feedr.models.CancellationModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+@Component
 public class CancellationDAO {
 
     private DatabaseConnector connector;
@@ -19,8 +21,8 @@ public class CancellationDAO {
     }
 
     public void createCancellation(int order_id, String username,String reason)throws SQLException {
-        connector.executeQuery(
-                String.format("INSERT INTO cancellation VALUES (%d,'%s',CURRENT_TIMESTAMP,'%s');", order_id,username,reason)
+        connector.executeUpdate(
+                String.format("INSERT INTO cancellation VALUES (%d,'%s',NOW(),'%s');", order_id,username,reason)
         );
     }
 

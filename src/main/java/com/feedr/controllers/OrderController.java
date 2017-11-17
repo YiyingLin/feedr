@@ -1,9 +1,6 @@
 package com.feedr.controllers;
 
-import com.feedr.dao.OrderDAO;
-import com.feedr.dao.ReceiverDao;
-import com.feedr.dao.RestaurantDAO;
-import com.feedr.dao.SenderDao;
+import com.feedr.dao.*;
 import com.feedr.models.CheckOrderModel;
 import com.feedr.models.FoodModel;
 import com.feedr.models.OrderModel;
@@ -12,10 +9,7 @@ import com.feedr.protobuf.OrderProto.Order;
 import com.feedr.protobuf.OrderProto.OrderList;
 import com.feedr.util.ProtobufUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,6 +30,9 @@ public class OrderController {
 
     @Autowired
     private RestaurantDAO restaurantDAO;
+
+    @Autowired
+    private CancellationDAO cancellationDAO;
 
     @RequestMapping(path = "/publicOrders", method = RequestMethod.GET)
     public String getPublicOrders() throws Exception {
@@ -87,6 +84,12 @@ public class OrderController {
         OrderList.Builder listBuilder = OrderList.newBuilder();
         listBuilder.addAllOrders(orders);
         return ProtobufUtil.protobufToJSON(listBuilder.build());
+    }
+
+    @RequestMapping(path = "/cancelOrders", method = RequestMethod.GET)
+    public String cancelOrder(@RequestParam int orderId, @RequestParam String username, @RequestParam String reason) throws SQLException {
+        cancellationDAO.createCancellation(orderId, username, reason);
+        return username + reason + orderId;
     }
 
     private void setupBasicOrder(Order.Builder orderBuilder, OrderModel orderModel) throws SQLException {
