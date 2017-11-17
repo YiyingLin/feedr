@@ -71,9 +71,9 @@ public class RatingDAO {
 
     public UserRatingModel getSenderRating(String username) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT O.sender_name, AVG(R.receiver_to_sender_rate) AS average_rating" +
-                        "FROM rating R, order_info O" +
-                        "WHERE R.order_id = O.order_id AND" +
+                String.format("SELECT O.sender_name, AVG(R.receiver_to_sender_rate) AS average_rating\n" +
+                        "FROM rating R, order_info O\n" +
+                        "WHERE R.order_id = O.order_id AND\n" +
                         "O.sender_name = '%s';", username)
         );
         UserRatingModel model = null;
@@ -86,9 +86,9 @@ public class RatingDAO {
 
     public UserRatingModel getRestaurantRating(String username) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT O.sender_name, AVG(R.receiver_to_sender_rate) AS average_rating" +
-                        "FROM rating R, order_info O" +
-                        "WHERE R.order_id = O.order_id AND" +
+                String.format("SELECT O.sender_name, AVG(R.receiver_to_sender_rate) AS average_rating\n" +
+                        "FROM rating R, order_info O\n" +
+                        "WHERE R.order_id = O.order_id AND\n" +
                         "O.restaurant_name = '%s';", username)
         );
         UserRatingModel model = null;
@@ -98,8 +98,5 @@ public class RatingDAO {
         }
         return model;
     }
-
-
-
 }
 
