@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import Order from "../../common/components/Order";
-import OrderModel from "../../models/OrderModel";
-import FoodModel from "../../models/FoodModel";
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import PublicOrderIcon from 'material-ui/svg-icons/places/airport-shuttle';
 import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import {getPublicOrders} from "../services/GetOrdersService";
+import {getPublicOrders, getPrivateOrders} from "../services/GetOrdersService";
 import Dialog from 'material-ui/Dialog';
 
 const orderListStyle = {
@@ -16,79 +14,12 @@ const orderListStyle = {
     left: '25%'
 };
 
-const mockOrders = [
-    new OrderModel(123,'Marlon','2205 lower mall', 10, '8:46pm', 7788595117, 'PG',
-        [
-            {
-                food: new FoodModel('Chicken', 123, 'spicy'),
-                quantity: 2
-            },
-            {
-                food: new FoodModel('Rice', 12, 'not spicy'),
-                quantity: 1
-            }
-        ]
-    ),
-    new OrderModel(13,'John','UBC', 10, '9:46pm', 7788595117, 'Vanier',
-        [
-            {
-                food: new FoodModel('Water', 123, 'spicy'),
-                quantity: 4
-            },
-            {
-                food: new FoodModel('Ham', 12, 'not spicy'),
-                quantity: 1
-            }
-        ]
-    )
-];
-
-const mockPrivateOrders = [
-    new OrderModel(123,'Marlon','2205 lower mall', 10, '8:46pm', 7788595117, 'PG',
-        [
-            {
-                food: new FoodModel('Chicken', 123, 'spicy'),
-                quantity: 3
-            },
-            {
-                food: new FoodModel('Rice', 12, 'not spicy'),
-                quantity: 2
-            }
-        ],
-        true, undefined, 'Me'
-    ),
-    new OrderModel(133,'John','UBC', 10, '9:46pm', 7788595117, 'Vanier',
-        [
-            {
-                food: new FoodModel('Water', 123, 'spicy'),
-                quantity: 1
-            },
-            {
-                food: new FoodModel('Ham', 12, 'not spicy'),
-                quantity: 3
-            }
-        ],false, false, 'Me'
-    ),
-    new OrderModel(213,'Annie','SFU', 10, '9:46pm', 7788595117, 'Totem',
-        [
-            {
-                food: new FoodModel('Noodle', 20, 'spicy'),
-                quantity: 2
-            },
-            {
-                food: new FoodModel('Beef', 23, 'not spicy'),
-                quantity: 1
-            }
-        ],false, true, 'Me'
-    )
-];
-
 export default class SenderContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orders: mockOrders,
-            privateOrders: mockPrivateOrders,
+            orders: [],
+            privateOrders: [],
             selectedIndex: 0,
             alertControl: false,
             alertMessage: ""
@@ -97,12 +28,17 @@ export default class SenderContainer extends Component {
         this.handleCancelOrder = this.handleCancelOrder.bind(this);
         this.handleTakeOrder = this.handleTakeOrder.bind(this);
         this.getPublicOrders = this.getPublicOrders.bind(this);
+        this.getPrivateOrders = this.getPrivateOrders.bind(this);
         this.getPublicOrders();
+        this.getPrivateOrders();
     }
     selectSection(index) {
         this.setState({selectedIndex: index});
         if (index === 0) {
             this.getPublicOrders();
+        }
+        if (index === 1) {
+            this.getPrivateOrders();
         }
     }
     handleCancelOrder(orderId) {
@@ -114,10 +50,17 @@ export default class SenderContainer extends Component {
 
     getPublicOrders() {
         getPublicOrders().then(orders => {
-            console.log(orders);
             this.setState({orders: orders})
         }).catch((err) => {
-            console.log(err);
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
+    }
+
+    getPrivateOrders() {
+        getPrivateOrders(true).then(orders => {
+            this.setState({privateOrders: orders})
+        }).catch((err) => {
             this.setState({alertControl:true});
             this.setState({alertMessage:JSON.stringify(err)});
         });

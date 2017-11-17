@@ -88,13 +88,13 @@ public class SenderDao {
     // Return ArrayList<CheckOrderModel> that CheckOrderModel extends OrderModel
     public ArrayList<CheckOrderModel> checkOrders(String sender) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT DISTINCT o.order_id AS orderID,sender_name,receiver_name,restaurant_name,deliver_tip,order_cost,\n" +
+                String.format("SELECT DISTINCT o.order_id AS orderID,o.order_time AS order_time,sender_name,receiver_name,restaurant_name,deliver_tip,order_cost,\n" +
                         "  deadline,delivery_location,phone,reason,\n" +
                         "  o.order_id IN (SELECT c.order_id FROM (order_info INNER JOIN cancellation c)) AS isCancelled,\n" +
                         "  o.order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered\n" +
                         "FROM (sender INNER JOIN order_info o LEFT JOIN user ON o.sender_name = user.username) LEFT JOIN\n" +
                         "cancellation ON o.order_id = cancellation.order_id\n" +
-                        "WHERE o.sender_name = ''%s'';", sender)
+                        "WHERE o.sender_name = '%s';", sender)
         );
         ArrayList<CheckOrderModel> checkOrders = new ArrayList<>();
 

@@ -38,9 +38,7 @@ public class OrderDAO {
         ResultSet resultSet = connector.executeQuery(
                 "SELECT * FROM order_info O, userinfo\n" +
                         "WHERE O.order_id NOT IN (\n" +
-                        "  SELECT DISTINCT O2.order_id from order_info O2, delivered D WHERE O2.order_id=D.order_id\n" +
-                        "  UNION\n" +
-                        "  SELECT DISTINCT order_id from order_info O3, sender S WHERE O3.sender_name=S.username\n" +
+                        "SELECT order_id from deliveredorders UNION SELECT order_id from takenorders UNION SELECT order_id from cancelledorders\n" +
                         ") AND userinfo.username=O.receiver_name;"
         );
         ArrayList<OrderModel> orderModels = new ArrayList<>();
