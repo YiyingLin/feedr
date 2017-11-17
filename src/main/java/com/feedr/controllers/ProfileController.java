@@ -7,6 +7,7 @@ import com.feedr.protobuf.ProfileProto.Profile;
 import com.feedr.util.CookieService;
 import com.feedr.util.ProtobufUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +25,9 @@ public class ProfileController {
     @Autowired
     private RestaurantDAO restaurantDAO;
 
-    @RequestMapping(path = "/profile", method = RequestMethod.GET)
-    public String profile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-          Profile.Builder builder = Profile.newBuilder();
-          Profile profile = ProtobufUtil.jsonToProtobuf(builder, request, Profile.class);
-          String username = CookieService.getUsernameCookie(request).get();
+    @RequestMapping(path = "/profile/{username}", method = RequestMethod.GET)
+    public String profile(@PathVariable String username) throws Exception {
+          Profile.Builder builder;
           String phone = userDAO.getUser(username).getPhone();
           String password = userDAO.getPassword(username);
           String userType = userDAO.getUser(username).getType();
