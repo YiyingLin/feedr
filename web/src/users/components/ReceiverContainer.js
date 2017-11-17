@@ -9,7 +9,7 @@ import RatingForm from "./RatingForm";
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
 import Paper from 'material-ui/Paper';
-import {getPrivateOrders, cancelOrder} from "../services/OrdersHttpService";
+import {getPrivateOrders, cancelOrder, createNewOrder} from "../services/OrdersHttpService";
 import Dialog from 'material-ui/Dialog';
 
 const orderListStyle = {
@@ -68,8 +68,15 @@ export default class ReceiverContainer extends Component {
     }
 
     createOrder(order) {
-        console.log('want to create order: '+ order);
+        console.log('want to create order: ');
+        console.log(order);
         this.setState({showCreateOrder: false});
+        createNewOrder(order).then(() => {
+            this.getPrivateOrders();
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
     }
 
     //manipulate existing orders methods

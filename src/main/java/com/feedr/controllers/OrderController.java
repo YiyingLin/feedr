@@ -11,6 +11,7 @@ import com.feedr.util.ProtobufUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +91,22 @@ public class OrderController {
     public String cancelOrder(@RequestParam int orderId, @RequestParam String username, @RequestParam String reason) throws SQLException {
         cancellationDAO.createCancellation(orderId, username, reason);
         return username + reason + orderId;
+    }
+
+    @RequestMapping(path = "/createNewOrder", method = RequestMethod.POST)
+    public String createNewOrder(HttpServletRequest request) throws Exception {
+        Order.Builder builder = Order.newBuilder();
+        Order order = ProtobufUtil.jsonToProtobuf(builder, request, Order.class);
+        orderDAO.createOrder(
+                order.getReceiverName(),
+                order.getRestaurantName(),
+                order.getOrderCost(),
+                order.getDeliverTip(),
+                order.getDeadline(),
+                order.getDeliveryLocation(),
+                order.getFoodMapList()
+        );
+        return "";
     }
 
     private void setupBasicOrder(Order.Builder orderBuilder, OrderModel orderModel) throws SQLException {

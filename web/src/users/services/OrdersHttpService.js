@@ -90,3 +90,16 @@ export function cancelOrder(orderId, reason) {
             });
     });
 }
+
+export function createNewOrder(order) {
+    return new Promise(function (resolve, reject) {
+        axios.post(`http://localhost:8080/createNewOrder`, order)
+            .then(function (response) {
+                console.log(response);
+                resolve();
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
+}
