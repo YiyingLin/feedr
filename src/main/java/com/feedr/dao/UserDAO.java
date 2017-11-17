@@ -16,7 +16,8 @@ public class UserDAO {
     public UserDAO(DatabaseConnector connector) {
         this.connector = connector;
     }
-
+    
+    // I don't think this method should take resName and resLocation as parameters unless frontend can input empty Strings automatically.
     public void creatUser(String username, String password, String phone,String type, String resName, String resLocation) throws SQLException {
         connector.executeQuery(
                 String.format("INSERT INTO user VALUES (''%s'','%s','%s', '%s');", username, password, phone, type)
@@ -34,6 +35,14 @@ public class UserDAO {
                     String.format("INSERT INTO restaurant VALUES ('%s','%s',NULL, '%s');", username,resName,resLocation)
             );
         }
+    }
+
+    public String getUserType(String username) throws SQLException {
+
+        ResultSet rs = connector.executeQuery(
+                String.format("SELECT type FROM user WHERE username = '%s';", username)
+        );
+        return rs.getString(1);
     }
 
     public ArrayList<UserModel> getUsers() throws SQLException {
