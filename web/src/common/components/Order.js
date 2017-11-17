@@ -5,7 +5,8 @@ import DoneIcon from 'material-ui/svg-icons/action/done';
 import Divider from 'material-ui/Divider';
 
 const foodStyle = {
-  display: 'flex'
+    display: 'flex',
+    flexWrap: 'wrap'
 };
 const orderStyle = {
     width: '50%',

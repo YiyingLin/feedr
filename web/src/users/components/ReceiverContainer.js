@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import OrderModel from "../../models/OrderModel";
-import FoodModel from "../../models/FoodModel";
 import Order from "../../common/components/Order";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -11,57 +9,8 @@ import RatingForm from "./RatingForm";
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
 import Paper from 'material-ui/Paper';
-
-const mockOrders = [
-    new OrderModel(32,'Me','2205 lower mall', 10, '8:46pm', 7788595117, 'PG',
-        [
-            {
-                food: new FoodModel('Chicken', 123, 'spicy'),
-                quantity: 1
-            },
-            {
-                food: new FoodModel('Rice', 12, 'not spicy'),
-                quantity: 3
-            }
-        ], true, false, 'Snow'
-    ),
-    new OrderModel(44,'Me','UBC', 10, '10:46pm', 7788595117, 'Vanier',
-        [
-            {
-                food: new FoodModel('Water', 123, 'spicy'),
-                quantity: 2
-            },
-            {
-                food: new FoodModel('Ham', 12, 'not spicy'),
-                quantity: 1
-            }
-        ], false, true
-    ),
-    new OrderModel(55,'Me','UBC', 10, '11:46pm', 1234566789, 'KFC',
-        [
-            {
-                food: new FoodModel('Water', 123, 'spicy'),
-                quantity: 3
-            },
-            {
-                food: new FoodModel('Ham', 12, 'not spicy'),
-                quantity: 1
-            }
-        ]
-    ),
-    new OrderModel(65,'Me','DT', 12, '12:46pm', 1234566789, 'Raisu',
-        [
-            {
-                food: new FoodModel('Sushi', 22, 'spicy'),
-                quantity: 3
-            },
-            {
-                food: new FoodModel('Sashima', 33, 'not spicy'),
-                quantity: 1
-            }
-        ]
-    )
-];
+import {getPrivateOrders, cancelOrder, createNewOrder} from "../services/OrdersHttpService";
+import Dialog from 'material-ui/Dialog';
 
 const orderListStyle = {
     marginTop: '20px',
@@ -85,11 +34,13 @@ export default class ReceiverContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orders: mockOrders,
+            orders: [],
             showCreateOrder: false,
             showRating: false,
             newTip: 0,
-            orderOnFocus: ''
+            orderOnFocus: '',
+            alertControl: false,
+            alertMessage: ""
         };
         this.openCreateOrder = this.openCreateOrder.bind(this);
         this.cancelCreateOrder = this.cancelCreateOrder.bind(this);
@@ -99,6 +50,8 @@ export default class ReceiverContainer extends Component {
         this.cancelRating = this.cancelRating.bind(this);
         this.enterTip = this.enterTip.bind(this);
         this.addTip = this.addTip.bind(this);
+        this.getPrivateOrders = this.getPrivateOrders.bind(this);
+        this.getPrivateOrders();
     }
 
     static isPendingOrder(order) {
@@ -115,13 +68,26 @@ export default class ReceiverContainer extends Component {
     }
 
     createOrder(order) {
-        console.log('want to create order: '+ order);
+        console.log('want to create order: ');
+        console.log(order);
         this.setState({showCreateOrder: false});
+        createNewOrder(order).then(() => {
+            this.getPrivateOrders();
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
     }
 
     //manipulate existing orders methods
     cancelOrder(orderId) {
-        console.log('want to cancel order: '+orderId)
+        console.log("want to cancel: "+orderId);
+        cancelOrder(orderId, "").then(() => {
+            this.getPrivateOrders();
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
     }
     addTip(orderId) {
         this.setState({orderOnFocus: orderId});
@@ -144,13 +110,25 @@ export default class ReceiverContainer extends Component {
         this.setState({showRating: false});
     }
 
+    getPrivateOrders() {
+        getPrivateOrders(false).then(orders => {
+            this.setState({orders: orders})
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
+    }
+
     render() {
         return (
             <div>
                 <Paper zDepth={1}>
                     {/*Receiver only has one panel*/}
                     <BottomNavigation selectedIndex={0}>
-                        <BottomNavigationItem label="My Orders" icon={<MyOrdersIcon />}/>
+                        <BottomNavigationItem label="My Orders"
+                                              icon={<MyOrdersIcon />}
+                                              onClick={() => this.getPrivateOrders()}
+                        />
                     </BottomNavigation>
                 </Paper>
                 <div style={orderListStyle}>
@@ -211,6 +189,20 @@ export default class ReceiverContainer extends Component {
                     handleCancelRating={this.cancelRating}
                     handleCreateRating={this.createRating}
                 />
+                <Dialog
+                    actions={
+                        <RaisedButton
+                            label="OK"
+                            primary={true}
+                            onClick={() => this.setState({alertControl:false})}
+                        />
+                    }
+                    modal={false}
+                    open={this.state.alertControl}
+                    onRequestClose={() => this.setState({alertControl:false})}
+                >
+                    {this.state.alertMessage}
+                </Dialog>
             </div>
         );
     }

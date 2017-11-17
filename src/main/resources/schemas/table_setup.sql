@@ -108,3 +108,6 @@ CREATE TABLE delivered (
 );
 
 CREATE VIEW userInfo AS SELECT username, phone,type FROM user;
+CREATE VIEW deliveredOrders AS SELECT DISTINCT O.order_id from order_info O, delivered D WHERE O.order_id=D.order_id;
+CREATE VIEW takenOrders AS SELECT DISTINCT order_id from order_info O, sender S WHERE O.sender_name=S.username;
+CREATE VIEW cancelledOrders AS SELECT DISTINCT O.order_id from order_info O, cancellation C WHERE o.order_id=C.order_id;

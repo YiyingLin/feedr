@@ -12,6 +12,7 @@ import Chip from 'material-ui/Chip';
 
 const _ = require('lodash');
 const moment = require('moment');
+const Cookie = require('js-cookie');
 
 const titleTextStyle = {
     fontWeight: 'bold'
@@ -41,10 +42,12 @@ export default class OrderForm extends Component {
             selectedRestaurant: 0,
             foodsOnMenu: [],
             selectedFood: 0,
-            foodsOrdered: [],
+            foodsOrdered: [],//{food: foodModel, quantity: number}
             address: '',
             tip: '',
-            totalPrice: 0
+            totalPrice: 0, //excluding tip
+            date: '',
+            time: ''
         };
         this.selectRestaurant = this.selectRestaurant.bind(this);
         this.getFoodsMenu = this.getFoodsMenu.bind(this);
@@ -61,6 +64,31 @@ export default class OrderForm extends Component {
         this.updateFoodsOrderedHelper = this.updateFoodsOrderedHelper.bind(this);
 
         getAllRestaurants().then((restaurants) => this.setState({restaurants:restaurants}));
+    }
+
+    //create / cancel
+    handleCreateOrder() {
+        let order = {
+            receiver_name: Cookie.get("username"),
+            restaurant_name: this.state.restaurants[this.state.selectedRestaurant],
+            order_cost: this.state.totalPrice,//excluding tip
+            deliver_tip: this.state.tip,
+            deadline: this.state.date+" "+this.state.time+".0",
+            delivery_location: this.state.address,
+            foodMap: this.state.foodsOrdered.map(f => ({
+                quantity: f.quantity,
+                res_username: this.state.restaurants[this.state.selectedRestaurant],
+                foodname: f.food.foodname,
+                price: f.food.price,
+                type: f.food.foodType
+            }))
+        };
+        this.props.createOrder(order);
+        this.clearStates();
+    }
+    handleCancelCreateOrder() {
+        this.props.cancelCreateOrder();
+        this.clearStates();
     }
 
     clearStates() {
@@ -136,22 +164,16 @@ export default class OrderForm extends Component {
 
     enterDate(event, value) {
         let datetime = moment(value);
-        console.log(datetime.format("dddd, MMMM Do YYYY"));
+        let formatted = datetime.format("YYYY-MM-D");
+        console.log(formatted);
+        this.setState({date: formatted});
     }
 
     enterTime(event, value) {
         let datetime = moment(value);
-        console.log(datetime.format("HH:mm:ss"));
-    }
-
-    //create / cancel
-    handleCreateOrder() {
-        this.props.createOrder('implement this');
-        this.clearStates();
-    }
-    handleCancelCreateOrder() {
-        this.props.cancelCreateOrder();
-        this.clearStates();
+        let formatted = datetime.format("HH:mm:ss");
+        console.log(formatted);
+        this.setState({time: formatted});
     }
 
     restaurantAndFood = () =>

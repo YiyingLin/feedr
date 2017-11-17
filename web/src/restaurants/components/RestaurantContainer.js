@@ -5,47 +5,80 @@ import ManageMenuIcon from 'material-ui/svg-icons/action/dns';
 import Paper from 'material-ui/Paper';
 import RestaurantOrderList from './RestaurantOrderList';
 import ManageFood from './ManageFood';
-import OrderModel from "../../models/OrderModel";
-import FoodModel from "../../models/FoodModel";
-
-const mockOrders = [
-    new OrderModel(123,'Marlon','2205 lower mall', 10, '8:46pm', 7788595117, 'PG',
-        [
-            {
-                food: new FoodModel('Chicken', 123, 'spicy'),
-                quantity: 2
-            },
-            {
-                food: new FoodModel('Rice', 12, 'not spicy'),
-                quantity: 1
-            }
-        ]
-    ),
-    new OrderModel(13,'John','UBC', 10, '9:46pm', 7788595117, 'Vanier',
-        [
-            {
-                food: new FoodModel('Water', 123, 'spicy'),
-                quantity: 4
-            },
-            {
-                food: new FoodModel('Ham', 12, 'not spicy'),
-                quantity: 1
-            }
-        ]
-    )
-];
+import {getRestaurantOrders, restaurantCreateFood, restaurantDeleteFood} from '../services/RestaurantHttpService';
+import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
+import {restaurantGetItsMenu} from "../services/RestaurantHttpService";
 
 export default class RestaurantContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            selectedIndex: 0
-        }
+            selectedIndex: 0,
+            orders: [],
+            menu: [],
+            alertControl: false,
+            alertMessage: ""
+        };
+        this.getRestaurantOrder = this.getRestaurantOrder.bind(this);
+        this.getOwnMenu = this.getOwnMenu.bind(this);
+        this.deleteFood = this.deleteFood.bind(this);
+        this.createFood = this.createFood.bind(this);
+        this.getRestaurantOrder();
+        this.getOwnMenu();
     }
 
     selectSection(index) {
         this.setState({selectedIndex: index});
+        if (index === 0) {
+            this.getRestaurantOrder();
+        }
+        if (index === 1) {
+            this.getOwnMenu();
+        }
+    }
+
+    getRestaurantOrder() {
+        getRestaurantOrders().then(orders => {
+            this.setState({orders: orders})
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
+    }
+
+    getOwnMenu() {
+        restaurantGetItsMenu().then(menu => {
+            this.setState({menu: menu})
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
+    }
+
+    deleteFood(foodname) {
+        let self = this;
+        restaurantDeleteFood(foodname)
+            .then(function () {
+                self.getOwnMenu();
+            })
+            .catch((err) => {
+                this.setState({alertControl:true});
+                this.setState({alertMessage:JSON.stringify(err)});
+            });
+    }
+
+    createFood(foodModel) {
+        let self = this;
+        restaurantCreateFood(foodModel)
+            .then(function () {
+                self.getOwnMenu();
+            })
+            .catch((err) => {
+                this.setState({alertControl:true});
+                this.setState({alertMessage:JSON.stringify(err)});
+            });
     }
 
     render() {
@@ -67,15 +100,32 @@ export default class RestaurantContainer extends Component {
                 {
                     this.state.selectedIndex===0 &&
                     <div>
-                        <RestaurantOrderList orders={mockOrders} />
+                        <RestaurantOrderList orders={this.state.orders} />
                     </div>
                 }
                 {
                     this.state.selectedIndex===1 &&
                     <div>
-                        <ManageFood />
+                        <ManageFood menu={this.state.menu}
+                                    deleteFood={this.deleteFood}
+                                    createFood={this.createFood}
+                        />
                     </div>
                 }
+                <Dialog
+                    actions={
+                        <RaisedButton
+                            label="OK"
+                            primary={true}
+                            onClick={() => this.setState({alertControl:false})}
+                        />
+                    }
+                    modal={false}
+                    open={this.state.alertControl}
+                    onRequestClose={() => this.setState({alertControl:false})}
+                >
+                    {this.state.alertMessage}
+                </Dialog>
             </div>
         );
     }

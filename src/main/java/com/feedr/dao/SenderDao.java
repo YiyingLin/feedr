@@ -76,9 +76,8 @@ public class SenderDao {
 
     // the function will assign a sender with an order, and it will also update OrderModel.senderName
     // and set assignedSender field as true
-    public void takeOrder(String sender_username, String order_id) throws SQLException{
-
-        connector.executeQuery(
+    public void takeOrder(String sender_username, int order_id) throws SQLException{
+        connector.executeUpdate(
                 String.format("UPDATE order_info SET sender_name = '%s' WHERE order_id = %d;",
                         sender_username, order_id)
         );
@@ -88,13 +87,13 @@ public class SenderDao {
     // Return ArrayList<CheckOrderModel> that CheckOrderModel extends OrderModel
     public ArrayList<CheckOrderModel> checkOrders(String sender) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT DISTINCT o.order_id AS orderID,sender_name,receiver_name,restaurant_name,deliver_tip,order_cost,\n" +
+                String.format("SELECT DISTINCT o.order_id AS orderID,o.order_time AS order_time,sender_name,receiver_name,restaurant_name,deliver_tip,order_cost,\n" +
                         "  deadline,delivery_location,phone,reason,\n" +
                         "  o.order_id IN (SELECT c.order_id FROM (order_info INNER JOIN cancellation c)) AS isCancelled,\n" +
                         "  o.order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered\n" +
                         "FROM (sender INNER JOIN order_info o LEFT JOIN user ON o.sender_name = user.username) LEFT JOIN\n" +
                         "cancellation ON o.order_id = cancellation.order_id\n" +
-                        "WHERE o.sender_name = ''%s'';", sender)
+                        "WHERE o.sender_name = '%s';", sender)
         );
         ArrayList<CheckOrderModel> checkOrders = new ArrayList<>();
 

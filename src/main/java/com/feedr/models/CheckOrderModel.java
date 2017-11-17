@@ -1,7 +1,5 @@
 package com.feedr.models;
 
-import java.sql.Timestamp;
-
 public class CheckOrderModel extends OrderModel{
 
     private boolean isCancelled;

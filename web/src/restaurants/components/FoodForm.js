@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import FoodModel from "../../models/FoodModel";
 
 
 const titleText = {
@@ -20,6 +21,7 @@ export default class FoodForm extends Component {
         this.createFoodWrapper = this.createFoodWrapper.bind(this);
         this.setFoodname = this.setFoodname.bind(this);
         this.setPrice = this.setPrice.bind(this);
+        this.setFoodType = this.setFoodType.bind(this);
     }
 
     setFoodname(event) {
@@ -39,7 +41,7 @@ export default class FoodForm extends Component {
     }
 
     createFoodWrapper() {
-        this.props.createFood();
+        this.props.createFood(new FoodModel(this.state.foodname, this.state.price, this.state.foodType));
     }
 
     render() {

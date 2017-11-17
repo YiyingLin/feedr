@@ -5,6 +5,7 @@ import com.feedr.models.FoodModel;
 import com.feedr.models.ReceiverModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Map;
 
+@Component
 public class ReceiverDao {
     private DatabaseConnector connector;
     private Connection connection;
@@ -129,7 +131,7 @@ public class ReceiverDao {
 
     public ArrayList<CheckOrderModel> checkOrders(String receiver) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
-                String.format("SELECT DISTINCT o.order_id,receiver_name,sender_name,restaurant_name,deliver_tip,order_cost,\n" +
+                String.format("SELECT DISTINCT o.order_id,o.order_time AS order_time,receiver_name,sender_name,restaurant_name,deliver_tip,order_cost,\n" +
                         "  deadline,delivery_location,phone,reason,\n" +
                         "  o.order_id IN (SELECT c.order_id FROM (order_info INNER JOIN cancellation c)) AS isCancelled,\n" +
                         "  o.order_id IN (SELECT d.order_id FROM (order_info INNER JOIN delivered d)) AS isDelivered\n" +
@@ -141,14 +143,14 @@ public class ReceiverDao {
 
         while (resultSet.next()){
             int orderId = resultSet.getInt("order_id");
-            String sender = resultSet.getString("sender_name");
+            String sender = (resultSet.getString("sender_name")==null)?"":resultSet.getString("sender_name");
             String restaurant = resultSet.getString("restaurant_name");
             double orderCost = resultSet.getDouble("order_cost");
             double tips = resultSet.getDouble("deliver_tip");
             String orderTime = resultSet.getString("order_time");
             String deadline = resultSet.getString("deadline");
             String address = resultSet.getString("delivery_location");
-            String phone = resultSet.getString("phone");
+            String phone = (resultSet.getString("phone")==null)?"":resultSet.getString("phone");
             int cancelled = resultSet.getInt("isCancelled");
             int delivered = resultSet.getInt("isDelivered");
             boolean isCancelled = (cancelled == 1);
