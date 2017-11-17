@@ -165,24 +165,24 @@ export default class ReceiverContainer extends Component {
                                         onClick={() => this.cancelOrder(order.orderId)}
                                     />
                                 }
-                                {
-                                    ReceiverContainer.isPendingOrder(order) &&
-                                    <span>
-                                        <RaisedButton
-                                            style={addTipStyle}
-                                            label="Add tips"
-                                            onClick={() => this.addTip(order.orderId)}
-                                        />
-                                        <TextField type="number"
-                                                   onClick={()=>this.setState({orderOnFocus: order.orderId, newTip:0})}
-                                                   value={
-                                                       this.state.orderOnFocus===order.orderId?
-                                                           this.state.newTip: 0
-                                                   }
-                                                   hintText="add some tips..."
-                                                   onChange={this.enterTip} />
-                                    </span>
-                                }
+                                {/*{*/}
+                                    {/*ReceiverContainer.isPendingOrder(order) &&*/}
+                                    {/*<span>*/}
+                                        {/*<RaisedButton*/}
+                                            {/*style={addTipStyle}*/}
+                                            {/*label="Add tips"*/}
+                                            {/*onClick={() => this.addTip(order.orderId)}*/}
+                                        {/*/>*/}
+                                        {/*<TextField type="number"*/}
+                                                   {/*onClick={()=>this.setState({orderOnFocus: order.orderId, newTip:0})}*/}
+                                                   {/*value={*/}
+                                                       {/*this.state.orderOnFocus===order.orderId?*/}
+                                                           {/*this.state.newTip: 0*/}
+                                                   {/*}*/}
+                                                   {/*hintText="add some tips..."*/}
+                                                   {/*onChange={this.enterTip} />*/}
+                                    {/*</span>*/}
+                                {/*}*/}
                                 {
                                     ReceiverContainer.isPendingOrder(order) && order.sender &&
                                     <RaisedButton
