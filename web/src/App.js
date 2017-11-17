@@ -11,6 +11,8 @@ import ActionHome from 'material-ui/svg-icons/action/home';
 import IconButton from 'material-ui/IconButton';
 import UserTypes from "./utils/UserTypes";
 import MyProfile from "./profiles/components/MyProfile";
+import getProfile from "./profiles/services/ProfileHttpServices";
+import Dialog from 'material-ui/Dialog';
 
 const Cookie = require('js-cookie');
 
@@ -20,7 +22,10 @@ class App extends Component {
         this.state = {
             userType: Cookie.get('userType'),
             username: Cookie.get('username'),
-            showProfile: false
+            showProfile: false,
+            profile: '',
+            alertControl: false,
+            alertMessage: ""
         };
         this.loginSuccess = this.loginSuccess.bind(this);
         this.updateUserType = this.updateUserType.bind(this);
@@ -48,7 +53,13 @@ class App extends Component {
     };
 
     profileControl() {
-        this.setState({showProfile: !this.state.showProfile});
+        getProfile(Cookie.get("username")).then(profileModel => {
+            this.setState({showProfile: !this.state.showProfile});
+            this.setState({profile: profileModel});
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
     }
 
     render() {
@@ -77,7 +88,25 @@ class App extends Component {
                         </div>:
                         <AuthenticationContainer loginSuccess={this.loginSuccess} />
                     }
-                    <MyProfile show={this.state.showProfile} handleClose={this.profileControl} />
+                    <MyProfile
+                        profile={this.state.profile}
+                        show={this.state.showProfile}
+                        handleClose={this.profileControl}
+                    />
+                    <Dialog
+                        actions={
+                            <RaisedButton
+                                label="OK"
+                                primary={true}
+                                onClick={() => this.setState({alertControl:false})}
+                            />
+                        }
+                        modal={false}
+                        open={this.state.alertControl}
+                        onRequestClose={() => this.setState({alertControl:false})}
+                    >
+                        {this.state.alertMessage}
+                    </Dialog>
                 </div>
             </MuiThemeProvider>
         );

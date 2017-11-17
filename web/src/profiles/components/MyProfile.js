@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
+import UserTypes from "../../utils/UserTypes";
+const Cookie = require('js-cookie');
 
 const titleText = {
     fontWeight: 'bold'
@@ -20,27 +22,41 @@ export default class MyProfile extends Component {
                 open={this.props.show}
             >
                 <div>
-                    <form>
-                        <div>
-                            <span style={titleText}>Food name:</span>
-                            <span></span>
-                        </div>
-                        <div>
-                            <span style={titleText}>Food price:</span>
-                            <span></span>
-                            {/*<TextField*/}
-                            {/*hintText="how much?..."*/}
-                            {/*type='number'*/}
-                            {/*value={this.state.price}*/}
-                            {/*fullWidth={true}*/}
-                            {/*onChange={this.setPrice}*/}
-                            {/*/>*/}
-                        </div>
-                        <div>
-                            <span style={titleText}>Food type:</span>
-                            <span></span>
-                        </div>
-                    </form>
+                    <div>
+                        <span style={titleText}>Username:</span>
+                        <span>{this.props.profile.username}</span>
+                    </div>
+                    <div>
+                        <span style={titleText}>Phone: </span>
+                        <span>{this.props.profile.phone}</span>
+                    </div>
+                    {
+                        Cookie.get("userType") === UserTypes.RESTAURANT ?
+                            <div>
+                                {/*<div>*/}
+                                    {/*<span style={titleText}>Restaurant name</span>*/}
+                                    {/*<span>{this.props.profile.res_name}</span>*/}
+                                {/*</div>*/}
+                                <div>
+                                    <span style={titleText}>Restaurant rating: </span>
+                                    <span>{this.props.profile.res_rating}</span>
+                                </div>
+                                <div>
+                                    <span style={titleText}>Restaurant location: </span>
+                                    <span>{this.props.profile.res_location}</span>
+                                </div>
+                            </div> :
+                            <div>
+                                <div>
+                                    <span style={titleText}>Sender rating: </span>
+                                    <span>{this.props.profile.sender_rating}</span>
+                                </div>
+                                <div>
+                                    <span style={titleText}>Sender location: </span>
+                                    <span>{this.props.profile.sender_location}</span>
+                                </div>
+                            </div>
+                    }
                 </div>
             </Dialog>
         );
