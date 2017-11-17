@@ -21,6 +21,28 @@ public class RatingDAO {
     public void createRating(int order_id, int receiver_to_sender_rate, int receiver_to_rest_rate, String receiver_to_sender_comment, String receiver_to_rest_comment)
             throws SQLException {
         connector.executeUpdate(String.format("INSERT INTO rating VALUES(%d,%d,%d,'%s','%s');",order_id,receiver_to_sender_rate,receiver_to_rest_rate,receiver_to_sender_comment,receiver_to_rest_comment));
+
+        ResultSet rs1 = connector.executeQuery(String.format("SELECT O.sender_name, AVG(R.receiver_to_sender_rate) AS avg_sender" +
+                "FROM rating R, order_info O" +
+                "WHERE R.order_id = O.order_id AND" +
+                "O.order_id = %d;", order_id));
+
+        while(rs1.next()){
+            String sender_name = rs1.getString("sender_name");
+            int avg_sender = rs1.getShort("avg_sender");
+            connector.executeUpdate(String.format("UPDATE sender SET sender_rating = %d WHERE username = '%s';",avg_sender,sender_name));
+        }
+
+        ResultSet rs2 = connector.executeQuery(String.format("SELECT O.restaurant_name, AVG(R.receiver_to_rest_rate) AS avg_rest" +
+                "FROM rating R, order_info O" +
+                "WHERE R.order_id = O.order_id AND" +
+                "O.order_id = %d;", order_id));
+
+        while(rs2.next()){
+            String rest_name = rs2.getString("restaurant_name");
+            int avg_rest = rs1.getShort("avg_rest");
+            connector.executeUpdate(String.format("UPDATE restaurant SET restaurant_rating = %d WHERE username = '%s';",avg_rest,rest_name));
+        }
     }
 
     public RatingModel getRating(int order_id) throws SQLException{
