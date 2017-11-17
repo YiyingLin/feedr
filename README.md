@@ -17,11 +17,7 @@ cd ..;
 
 java -jar build/libs/Feedr-0.1.0.jar
 
-You should see a react page at localhost:8080
-
-To visit /demo and /hello
-
-Download PostMan
+Go to localhost:8080
 
 ### To build Protobuf
 ./gradlew generateProto
