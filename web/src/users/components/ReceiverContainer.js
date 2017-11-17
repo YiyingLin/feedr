@@ -9,8 +9,10 @@ import RatingForm from "./RatingForm";
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import MyOrdersIcon from 'material-ui/svg-icons/action/assignment';
 import Paper from 'material-ui/Paper';
-import {getPrivateOrders, cancelOrder, createNewOrder} from "../services/OrdersHttpService";
+import {getPrivateOrders, cancelOrder, createNewOrder, confirmOwnDelivery} from "../services/OrdersHttpService";
 import Dialog from 'material-ui/Dialog';
+
+const _ = require('lodash');
 
 const orderListStyle = {
     marginTop: '20px',
@@ -51,6 +53,7 @@ export default class ReceiverContainer extends Component {
         this.enterTip = this.enterTip.bind(this);
         this.addTip = this.addTip.bind(this);
         this.getPrivateOrders = this.getPrivateOrders.bind(this);
+        this.doConfirmDelivery = this.doConfirmDelivery.bind(this);
         this.getPrivateOrders();
     }
 
@@ -100,6 +103,25 @@ export default class ReceiverContainer extends Component {
             {orderOnFocus: orderId},
             () => {this.setState({showRating: true});}
         );
+    }
+
+    doConfirmDelivery(rating) {
+        let deliveryRating = {
+            senderRating: rating.senderRating,
+            restaurantRating: rating.restaurantRating,
+            commentSender: rating.commentSender,
+            commentRestaurant: rating.commentRestaurant,
+            orderId: this.state.orderOnFocus
+        };
+        console.log("want to confirm delivery:");
+        console.log(deliveryRating);
+        confirmOwnDelivery(deliveryRating).then(() => {
+            this.getPrivateOrders(false);
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
+        this.setState({showRating: false});
     }
 
     //rating methods
@@ -164,7 +186,7 @@ export default class ReceiverContainer extends Component {
                                     </span>
                                 }
                                 {
-                                    ReceiverContainer.isPendingOrder(order) &&
+                                    ReceiverContainer.isPendingOrder(order) && order.sender &&
                                     <RaisedButton
                                         label="Confirm delivery"
                                         onClick={() => this.confirmDelivery(order.orderId)}
@@ -187,7 +209,7 @@ export default class ReceiverContainer extends Component {
                 <RatingForm
                     showRating={this.state.showRating}
                     handleCancelRating={this.cancelRating}
-                    handleCreateRating={this.createRating}
+                    handleCreateRating={this.doConfirmDelivery}
                 />
                 <Dialog
                     actions={

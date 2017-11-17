@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "com.feedr.protobuf";
+option java_outer_classname = "RatingProto";
+
+message Rating {
+    int32 orderId = 1;
+    int32 senderRating = 2;
+    int32 restaurantRating = 3;
+    string commentSender = 4;
+    string commentRestaurant = 5;
+}
