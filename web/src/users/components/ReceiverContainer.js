@@ -12,8 +12,6 @@ import Paper from 'material-ui/Paper';
 import {getPrivateOrders, cancelOrder, createNewOrder, confirmOwnDelivery} from "../services/OrdersHttpService";
 import Dialog from 'material-ui/Dialog';
 
-const _ = require('lodash');
-
 const orderListStyle = {
     marginTop: '20px',
     position: 'relative',

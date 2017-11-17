@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import IconButton from 'material-ui/IconButton';
 import UserTypes from "./utils/UserTypes";
+import MyProfile from "./profiles/components/MyProfile";
 
 const Cookie = require('js-cookie');
 
@@ -18,11 +19,13 @@ class App extends Component {
         super(props);
         this.state = {
             userType: Cookie.get('userType'),
-            username: Cookie.get('username')
+            username: Cookie.get('username'),
+            showProfile: false
         };
         this.loginSuccess = this.loginSuccess.bind(this);
         this.updateUserType = this.updateUserType.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
+        this.profileControl = this.profileControl.bind(this);
     }
 
     loginSuccess(username, userType) {
@@ -44,6 +47,10 @@ class App extends Component {
         this.state.setState({userType: userType});
     };
 
+    profileControl() {
+        this.setState({showProfile: !this.state.showProfile});
+    }
+
     render() {
         const appBar =
             <AppBar title={'Feedr'}
@@ -51,7 +58,7 @@ class App extends Component {
                     iconElementRight={
                         <span>
                             <span>{'Hello, '+this.state.username+'   '}</span>
-                            <RaisedButton label="My Profile" primary={true} />
+                            <RaisedButton label="My Profile" primary={true} onClick={this.profileControl} />
                             <span>{'   '}</span>
                             <RaisedButton label="logout" onClick={this.handleLogout}/>
                         </span>
@@ -70,6 +77,7 @@ class App extends Component {
                         </div>:
                         <AuthenticationContainer loginSuccess={this.loginSuccess} />
                     }
+                    <MyProfile show={this.state.showProfile} handleClose={this.profileControl} />
                 </div>
             </MuiThemeProvider>
         );
