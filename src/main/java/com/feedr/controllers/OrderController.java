@@ -2,6 +2,7 @@ package com.feedr.controllers;
 
 import com.feedr.dao.OrderDAO;
 import com.feedr.dao.ReceiverDao;
+import com.feedr.dao.RestaurantDAO;
 import com.feedr.dao.SenderDao;
 import com.feedr.models.CheckOrderModel;
 import com.feedr.models.FoodModel;
@@ -33,6 +34,9 @@ public class OrderController {
     @Autowired
     private SenderDao senderDao;
 
+    @Autowired
+    private RestaurantDAO restaurantDAO;
+
     @RequestMapping(path = "/publicOrders", method = RequestMethod.GET)
     public String getPublicOrders() throws Exception {
         List<Order> orders = new ArrayList<>();
@@ -63,6 +67,19 @@ public class OrderController {
     public String getSenderPrivateOrders(@PathVariable String senderName) throws Exception {
         List<Order> orders = new ArrayList<>();
         for (CheckOrderModel orderModel : senderDao.checkOrders(senderName)) {
+            Order.Builder orderBuilder = Order.newBuilder();
+            setupPrivateOrder(orderBuilder, orderModel);
+            orders.add(orderBuilder.build());
+        }
+        OrderList.Builder listBuilder = OrderList.newBuilder();
+        listBuilder.addAllOrders(orders);
+        return ProtobufUtil.protobufToJSON(listBuilder.build());
+    }
+
+    @RequestMapping(path = "/restaurants/{restaurantName}/orders", method = RequestMethod.GET)
+    public String getOrdersOfRestaurant(@PathVariable String restaurantName) throws Exception {
+        List<Order> orders = new ArrayList<>();
+        for (CheckOrderModel orderModel : restaurantDAO.getRestaurantOrders(restaurantName)) {
             Order.Builder orderBuilder = Order.newBuilder();
             setupPrivateOrder(orderBuilder, orderModel);
             orders.add(orderBuilder.build());
