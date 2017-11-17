@@ -27,7 +27,7 @@ public class RestaurantDAO {
     }
 
     public void createFood(String res_username, String foodname, double price, String type) throws SQLException {
-        connector.executeQuery(
+        connector.executeUpdate(
                 String.format("INSERT INTO food VALUES ('%s','%s',%f,'%s');", res_username, foodname, price, type)
         );
     }
@@ -134,7 +134,7 @@ public class RestaurantDAO {
     }
 
     public void deleteFood(String res_username, String foodname) throws SQLException {
-        connector.executeQuery(
+        connector.executeUpdate(
                 String.format("DELETE FROM food WHERE res_username = '%s' AND foodname = '%s';", res_username, foodname)
         );
     }

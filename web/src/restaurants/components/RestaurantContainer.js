@@ -5,7 +5,7 @@ import ManageMenuIcon from 'material-ui/svg-icons/action/dns';
 import Paper from 'material-ui/Paper';
 import RestaurantOrderList from './RestaurantOrderList';
 import ManageFood from './ManageFood';
-import {getRestaurantOrders} from '../services/RestaurantHttpService';
+import {getRestaurantOrders, restaurantCreateFood, restaurantDeleteFood} from '../services/RestaurantHttpService';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import {restaurantGetItsMenu} from "../services/RestaurantHttpService";
@@ -23,6 +23,8 @@ export default class RestaurantContainer extends Component {
         };
         this.getRestaurantOrder = this.getRestaurantOrder.bind(this);
         this.getOwnMenu = this.getOwnMenu.bind(this);
+        this.deleteFood = this.deleteFood.bind(this);
+        this.createFood = this.createFood.bind(this);
         this.getRestaurantOrder();
         this.getOwnMenu();
     }
@@ -55,6 +57,30 @@ export default class RestaurantContainer extends Component {
         });
     }
 
+    deleteFood(foodname) {
+        let self = this;
+        restaurantDeleteFood(foodname)
+            .then(function () {
+                self.getOwnMenu();
+            })
+            .catch((err) => {
+                this.setState({alertControl:true});
+                this.setState({alertMessage:JSON.stringify(err)});
+            });
+    }
+
+    createFood(foodModel) {
+        let self = this;
+        restaurantCreateFood(foodModel)
+            .then(function () {
+                self.getOwnMenu();
+            })
+            .catch((err) => {
+                this.setState({alertControl:true});
+                this.setState({alertMessage:JSON.stringify(err)});
+            });
+    }
+
     render() {
         return (
             <div>
@@ -80,7 +106,10 @@ export default class RestaurantContainer extends Component {
                 {
                     this.state.selectedIndex===1 &&
                     <div>
-                        <ManageFood menu={this.state.menu} />
+                        <ManageFood menu={this.state.menu}
+                                    deleteFood={this.deleteFood}
+                                    createFood={this.createFood}
+                        />
                     </div>
                 }
                 <Dialog

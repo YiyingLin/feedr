@@ -8,11 +8,9 @@ import com.feedr.protobuf.RestaurantProto.Restaurant;
 import com.feedr.protobuf.RestaurantProto.Food;
 import com.feedr.util.ProtobufUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +40,14 @@ public class RestaurantController {
         return ProtobufUtil.protobufToJSON(restaurantBuilder.build());
     }
 
+    @RequestMapping(path = "/new/restaurants/food/", method = RequestMethod.POST)
+    public String createFood(HttpServletRequest request) throws Exception {
+        Food.Builder builder = Food.newBuilder();
+        Food food = ProtobufUtil.jsonToProtobuf(builder, request, Food.class);
+        restaurantDAO.createFood(food.getResUsername(), food.getFoodname(), food.getPrice(), food.getType());
+        return "";
+    }
+
     @RequestMapping(path = "/restaurants", method = RequestMethod.GET)
     public String restaurants() throws Exception {
         List<RestaurantModel> restaurantModels = restaurantDAO.getRestaurants();
@@ -50,5 +56,14 @@ public class RestaurantController {
                 .map(restaurantModel -> "\""+restaurantModel.getUsername()+"\"") //a quick hack
                 .collect(Collectors.toList()).toString();
     }
+
+    @CrossOrigin(origins = {"http://localhost:3000"})
+    @RequestMapping(path = "/restaurants/{restaurantName}/food/{foodname}", method = RequestMethod.DELETE)
+    public String deleteFood(@PathVariable String restaurantName, @PathVariable String foodname) throws Exception {
+        restaurantDAO.deleteFood(restaurantName, foodname);
+        return "";
+    }
+
+
 
 }

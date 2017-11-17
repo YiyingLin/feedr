@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import FoodModel from "../../models/FoodModel";
 import Food from "../../common/components/Food";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -24,13 +23,6 @@ const addFoodStyle = {
     bottom: '10%'
 };
 
-const mockmenu = [
-    new FoodModel('Chicken', 123, 'spicy'),
-    new FoodModel('Rice', 12, 'not spicy'),
-    new FoodModel('Water', 123, 'spicy'),
-    new FoodModel('Ham', 12, 'not spicy')
-];
-
 export default class ManageFood extends Component {
     constructor(props) {
         super(props);
@@ -50,12 +42,9 @@ export default class ManageFood extends Component {
         this.setState({showCreateFood: false});
     }
 
-    createFood() {
+    createFood(foodModel) {
         this.setState({showCreateFood: false});
-    }
-
-    deleteFood(foodname) {
-        console.log(`want to delete food ${foodname}`);
+        this.props.createFood(foodModel);
     }
 
     render() {
@@ -64,10 +53,7 @@ export default class ManageFood extends Component {
                 <div style={foodListStyle}>
                     {
                         this.props.menu.map(foodModel =>
-                            <Food key={foodModel.foodname}
-                                  food={foodModel}
-                                  handleDelete={()=>this.deleteFood(foodModel.foodname)}
-                            />)
+                            <Food key={foodModel.foodname} food={foodModel}/>)
                     }
                 </div>
                 <FloatingActionButton style={addFoodStyle} onClick={this.openCreateFood}>

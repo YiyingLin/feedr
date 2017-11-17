@@ -56,3 +56,35 @@ export function restaurantGetItsMenu() {
             });
     });
 }
+
+export function restaurantCreateFood(foodModel) {
+    return new Promise(function (resolve, reject) {
+        axios.post(
+            `http://localhost:8080/new/restaurants/food/`, {
+                res_username: Cookie.get('username'),
+                foodname: foodModel.foodname,
+                price: foodModel.price,
+                type: foodModel.foodType,
+                quantity: -1
+            })
+            .then(function (response) {
+                resolve();
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
+}
+
+export function restaurantDeleteFood(foodName) {
+    return new Promise(function (resolve, reject) {
+        axios.delete(
+            `http://localhost:8080/restaurants/${Cookie.get('username')}/food/${foodName}`)
+            .then(function (response) {
+                resolve();
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
+}
