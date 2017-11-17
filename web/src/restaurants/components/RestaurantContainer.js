@@ -8,6 +8,7 @@ import ManageFood from './ManageFood';
 import {getRestaurantOrders} from '../services/RestaurantHttpService';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
+import {restaurantGetItsMenu} from "../services/RestaurantHttpService";
 
 export default class RestaurantContainer extends Component {
 
@@ -16,11 +17,14 @@ export default class RestaurantContainer extends Component {
         this.state = {
             selectedIndex: 0,
             orders: [],
+            menu: [],
             alertControl: false,
             alertMessage: ""
         };
         this.getRestaurantOrder = this.getRestaurantOrder.bind(this);
+        this.getOwnMenu = this.getOwnMenu.bind(this);
         this.getRestaurantOrder();
+        this.getOwnMenu();
     }
 
     selectSection(index) {
@@ -28,11 +32,23 @@ export default class RestaurantContainer extends Component {
         if (index === 0) {
             this.getRestaurantOrder();
         }
+        if (index === 1) {
+            this.getOwnMenu();
+        }
     }
 
     getRestaurantOrder() {
         getRestaurantOrders().then(orders => {
             this.setState({orders: orders})
+        }).catch((err) => {
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.stringify(err)});
+        });
+    }
+
+    getOwnMenu() {
+        restaurantGetItsMenu().then(menu => {
+            this.setState({menu: menu})
         }).catch((err) => {
             this.setState({alertControl:true});
             this.setState({alertMessage:JSON.stringify(err)});
@@ -64,7 +80,7 @@ export default class RestaurantContainer extends Component {
                 {
                     this.state.selectedIndex===1 &&
                     <div>
-                        <ManageFood />
+                        <ManageFood menu={this.state.menu} />
                     </div>
                 }
                 <Dialog

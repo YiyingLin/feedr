@@ -35,7 +35,6 @@ export default class ManageFood extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            menu: mockmenu,
             showCreateFood: false
         };
         this.openCreateFood = this.openCreateFood.bind(this);
@@ -59,13 +58,12 @@ export default class ManageFood extends Component {
         console.log(`want to delete food ${foodname}`);
     }
 
-
     render() {
         return (
             <div style={manageFoodContainer}>
                 <div style={foodListStyle}>
                     {
-                        this.state.menu.map(foodModel =>
+                        this.props.menu.map(foodModel =>
                             <Food key={foodModel.foodname}
                                   food={foodModel}
                                   handleDelete={()=>this.deleteFood(foodModel.foodname)}

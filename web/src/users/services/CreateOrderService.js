@@ -15,7 +15,7 @@ export async function getAllRestaurants() {
 
 export async function getAllFoodOfRestaurant(restaurant) {
     return await new Promise(function (resolve, reject) {
-        axios.get(`http://localhost:8080/restaurant/${restaurant}/food`)
+        axios.get(`http://localhost:8080/restaurants/${restaurant}/food`)
             .then(function (response) {
                 let foodList = response.data["foodlist"];
                 resolve(

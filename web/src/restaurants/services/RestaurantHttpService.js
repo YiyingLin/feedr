@@ -41,3 +41,18 @@ export function getRestaurantOrders() {
             });
     });
 }
+
+export function restaurantGetItsMenu() {
+    return new Promise(function (resolve, reject) {
+        axios.get(`http://localhost:8080/restaurants/${Cookie.get('username')}/food`)
+            .then(function (response) {
+                let foodList = response.data["foodlist"];
+                resolve(
+                    foodList.map(rawFood => new FoodModel(rawFood["foodname"], rawFood["price"], rawFood["type"]))
+                );
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
+}

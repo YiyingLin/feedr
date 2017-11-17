@@ -26,7 +26,7 @@ public class RestaurantController {
     @Autowired
     private RestaurantDAO restaurantDAO;
 
-    @RequestMapping(path = "/restaurant/{restaurantName}/food", method = RequestMethod.GET)
+    @RequestMapping(path = "/restaurants/{restaurantName}/food", method = RequestMethod.GET)
     public String foods(@PathVariable String restaurantName) throws Exception {
         ArrayList<Food> foodlist = new ArrayList<>();
         for (FoodModel foodModel : foodDAO.getFoods(restaurantName)) {
