@@ -55,7 +55,7 @@ CREATE TABLE order_info(
   deadline DATETIME,
   delivery_location VARCHAR(100) NOT NULL ,
   PRIMARY KEY (order_id),
-  FOREIGN KEY (sender_name) REFERENCES sender (username) ON DELETE CASCADE,
+  FOREIGN KEY (sender_name) REFERENCES sender (username) ON DELETE SET NULL,
   FOREIGN KEY (receiver_name) REFERENCES receiver (username) ON DELETE CASCADE,
   FOREIGN KEY (restaurant_name) REFERENCES restaurant (username) ON DELETE CASCADE
 );
