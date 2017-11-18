@@ -3,6 +3,7 @@ import Authentication from './Authentication';
 import RaisedButton from 'material-ui/RaisedButton';
 import {login, signup} from "../services/AuthenticationService";
 import Dialog from 'material-ui/Dialog';
+import {createProfile} from "../../profiles/services/ProfileHttpServices";
 
 export default class AuthenticationContainer extends Component {
     constructor(props) {
@@ -14,10 +15,11 @@ export default class AuthenticationContainer extends Component {
         };
         this.changeMode = this.changeMode.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleSignup = this.handleSignup.bind(this);
     }
 
-    handleLogin(username, password) {
-        login(username, password)
+    handleLogin(profileModel) {
+        login(profileModel.username, profileModel.password)
             .then((data) => {
                 this.props.loginSuccess(data.username, data.userType)
             })
@@ -28,16 +30,15 @@ export default class AuthenticationContainer extends Component {
             });
     }
 
-    handleSignup(username, password, userType) {
-        console.log(username, password, userType);
-        signup(username, password, userType)
-            .then((result) => {
-
-            }).catch((err) => {
-                console.log(err);
-                this.setState({alertControl:true});
-                this.setState({alertMessage:err});
-            });
+    handleSignup(profileModel) {
+        console.log(profileModel);
+        createProfile(profileModel).then((result) => {
+            this.setState({loginMode: true});
+        }).catch((err) => {
+            console.log(err);
+            this.setState({alertControl:true});
+            this.setState({alertMessage:JSON.parse(err)});
+        });
     }
 
     changeMode() {

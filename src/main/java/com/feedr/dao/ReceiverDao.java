@@ -24,88 +24,38 @@ public class ReceiverDao {
         this.connector = connector;
     }
 
-    public void createReceiver(String username) throws SQLException {
-        connector.executeQuery(
-                String.format("INSERT INTO receiver values ('%s');", username)
-        );
-
-    }
-
-    public ArrayList<ReceiverModel> getReceivers() throws SQLException{
-        ResultSet resultset = connector.executeQuery(
-                String.format("SELECT R.username, phone FROM receiver R,user U" +
-                        "WHERE R.username = U.username;")
-        );
-        ArrayList<ReceiverModel> receivers = new ArrayList<>();
-        while(resultset.next()){
-            String username = resultset.getString("username");
-            String phone = resultset.getString("phone");
-            ReceiverModel receiver = new ReceiverModel(username,phone);
-            receivers.add(receiver);
-        }
-        return receivers;
-    }
-
-    public ReceiverModel getReceiver(String username) throws SQLException {
-        ResultSet resultset = connector.executeQuery(
-                String.format("SELECT R.username, phone FROM receiver R,user U" +
-                        "WHERE R.username = U.username AND R.username = '%s';", username)
-        );
-        String receiverName = resultset.getString("username");
-        String phone = resultset.getString("phone");
-        ReceiverModel receiver = new ReceiverModel(receiverName, phone);
-        return receiver;
-    }
-
-    public void deleteReceiver(String username) throws SQLException {
-        connector.executeQuery(
-                String.format("DELETE FROM receiver WHERE username = '%s';", username)
-        );
-    }
-
-    // Receiver makes the whole order
-    public int makeOrder (String receiver, String restaurant, double cost, double tip, Timestamp deadline,
-                          String location, Map<String,Integer> foods) throws SQLException{
-        int orderId = createOrderInfo(receiver,restaurant,cost,tip,deadline,location);
-        for (Map.Entry<String, Integer> pair : foods.entrySet()) {
-            String food = pair.getKey();
-            int quantity = pair.getValue();
-            createOrderFood(orderId,restaurant,food,quantity);
-        }
-        return orderId;
-    }
-
-    // Query that insert new tuple into order_info
-    // Return current order_id
-    public int createOrderInfo(String receiver, String restaurant, double cost, double tip, Timestamp deadline, String location) throws SQLException {
-        String deadlineString = deadline.toString();
-        connector.executeQuery(
-                String.format("INSERT INTO order_info (receiver_name, restaurant_name, deliver_tip, deadline, delivery_location) \n" +
-                        "    VALUES ('%s','%s',%f,'%s','%s');", receiver,restaurant,tip,deadlineString,location)
-        );
-        // Get the order_Id immediately;
-        ResultSet rs = connector.executeQuery("SELECT LAST_INSERT_ID()");
-        int orderId = rs.getInt('1');
-        return orderId;
-    }
-
-    public void createOrderFood(int orderId, String restaurant, String food, int quantity) throws SQLException {
-        connector.executeQuery(
-                String.format("INSERT INTO order_include_food VALUES (%d,'%s','%s',%d);", orderId,
-                        restaurant,food,quantity)
-        );
-    }
-
-
-
-    // Query that compute the cost of different foods in the order
-    public void computeFoodCosts (int orderId) throws SQLException {
-        connector.executeQuery(
-                String.format("SELECT order_id,O.foodname,O.food_quantity,price,price* O.food_quantity AS cost " +
-                        "FROM order_include_food O NATURAL LEFT JOIN food " +
-                        "WHERE order_id = %d;", orderId)
-        );
-    }
+//    public void createReceiver(String username) throws SQLException {
+//        connector.executeQuery(
+//                String.format("INSERT INTO receiver values ('%s');", username)
+//        );
+//
+//    }
+//
+//    public ArrayList<ReceiverModel> getReceivers() throws SQLException{
+//        ResultSet resultset = connector.executeQuery(
+//                String.format("SELECT R.username, phone FROM receiver R,user U" +
+//                        "WHERE R.username = U.username;")
+//        );
+//        ArrayList<ReceiverModel> receivers = new ArrayList<>();
+//        while(resultset.next()){
+//            String username = resultset.getString("username");
+//            String phone = resultset.getString("phone");
+//            ReceiverModel receiver = new ReceiverModel(username,phone);
+//            receivers.add(receiver);
+//        }
+//        return receivers;
+//    }
+//
+//    public ReceiverModel getReceiver(String username) throws SQLException {
+//        ResultSet resultset = connector.executeQuery(
+//                String.format("SELECT R.username, phone FROM receiver R,user U" +
+//                        "WHERE R.username = U.username AND R.username = '%s';", username)
+//        );
+//        String receiverName = resultset.getString("username");
+//        String phone = resultset.getString("phone");
+//        ReceiverModel receiver = new ReceiverModel(receiverName, phone);
+//        return receiver;
+//    }
 
     // Query that compute the total cost of the order
     private double computeTotalFoodCosts(int orderId) throws SQLException{

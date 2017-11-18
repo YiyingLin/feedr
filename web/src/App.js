@@ -11,7 +11,7 @@ import ActionHome from 'material-ui/svg-icons/action/home';
 import IconButton from 'material-ui/IconButton';
 import UserTypes from "./utils/UserTypes";
 import MyProfile from "./profiles/components/MyProfile";
-import getProfile from "./profiles/services/ProfileHttpServices";
+import {getProfile} from "./profiles/services/ProfileHttpServices";
 import Dialog from 'material-ui/Dialog';
 
 const Cookie = require('js-cookie');
