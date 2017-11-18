@@ -4,7 +4,6 @@ import com.feedr.dao.RestaurantDAO;
 import com.feedr.dao.SenderDao;
 import com.feedr.dao.UserDAO;
 import com.feedr.protobuf.ProfileProto.Profile;
-import com.feedr.util.CookieService;
 import com.feedr.util.ProtobufUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class ProfileController {
@@ -59,5 +57,20 @@ public class ProfileController {
           else{
               throw new Exception("No such user type!");
           }
+    }
+
+    @RequestMapping(path = "/createProfile", method = RequestMethod.POST)
+    public String createProfile(HttpServletRequest request) throws Exception {
+        Profile.Builder builder = Profile.newBuilder();
+        Profile profile = ProtobufUtil.jsonToProtobuf(builder, request, Profile.class);
+        userDAO.createUser(
+                profile.getUsername(),
+                profile.getPassword(),
+                profile.getPhone(),
+                profile.getType(),
+                profile.getResName(),
+                profile.getResLocation()
+        );
+        return "";
     }
 }

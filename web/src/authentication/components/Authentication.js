@@ -6,7 +6,9 @@ import "./Authentication.css";
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import UserType from "../../utils/UserTypes";
+import ProfileModel from "../../models/ProfileModel";
 
+const Cookie = require('js-cookie');
 
 class Authentication extends Component {
     constructor(props) {
@@ -16,13 +18,19 @@ class Authentication extends Component {
             password: "",
             userType: UserType.USER,
             restaurantName: '',
-            location: ''
+            location: '',
+            phone: ''
         };
         this.getUsername = this.getUsername.bind(this);
         this.getPassword = this.getPassword.bind(this);
         this.getUserType = this.getUserType.bind(this);
         this.getRestaurantName = this.getRestaurantName.bind(this);
         this.getLocation = this.getLocation.bind(this);
+        this.getPhone = this.getPhone.bind(this);
+    }
+
+    getPhone(event) {
+        this.setState({phone: event.target.value});
     }
 
     getUsername(event) {
@@ -57,6 +65,7 @@ class Authentication extends Component {
                     {
                         (this.props.showUserTypes) &&
                         <div>
+                            <TextField value={this.state.phone} hintText="phone" onChange={this.getPhone} /><br/>
                             <span>Signup as...</span><br/>
                             <SelectField
                                 value={this.state.userType}
@@ -78,9 +87,17 @@ class Authentication extends Component {
                         <RaisedButton
                             label={this.props.submitName}
                             onClick={() => this.props.handleSubmit(
-                                this.state.username,
-                                this.state.password,
-                                this.state.userType)
+                                new ProfileModel(
+                                    this.state.username,
+                                    this.state.phone,
+                                    this.state.password,
+                                    this.state.userType,
+                                    0,
+                                    '',
+                                    this.state.restaurantName,
+                                    0,
+                                    this.state.location
+                                ))
                             }
                         />
                     </CardActions>

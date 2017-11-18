@@ -18,24 +18,29 @@ public class UserDAO {
     }
     
     // I don't think this method should take resName and resLocation as parameters unless frontend can input empty Strings automatically.
-//    public void creatUser(String username, String password, String phone,String type, String resName, String resLocation) throws SQLException {
-//        connector.executeQuery(
-//                String.format("INSERT INTO user VALUES (''%s'','%s','%s', '%s');", username, password, phone, type)
-//        );
-//        if(type.equals("USER")){
-//            connector.executeQuery(
-//                    String.format("INSERT INTO receiver VALUES ('%s');", username)
-//            );
-//            connector.executeQuery(
-//                    String.format("INSERT INTO sender VALUES ('%s',NULL,NULL);", username)
-//            );
-//        }
-//        if(type.equals("RESTAURANT")){
-//            connector.executeQuery(
-//                    String.format("INSERT INTO restaurant VALUES ('%s','%s',NULL, '%s');", username,resName,resLocation)
-//            );
-//        }
-//    }
+    public void createUser(String username,
+                           String password,
+                           String phone,
+                           String type,
+                           String resName,
+                           String resLocation) throws SQLException {
+        connector.executeUpdate(
+                String.format("INSERT INTO user VALUES ('%s','%s','%s', '%s');", username, password, phone, type)
+        );
+        if(type.equals("USER")){
+            connector.executeUpdate(
+                    String.format("INSERT INTO receiver VALUES ('%s');", username)
+            );
+            connector.executeUpdate(
+                    String.format("INSERT INTO sender VALUES ('%s', 0,NULL);", username)
+            );
+        }
+        if(type.equals("RESTAURANT")){
+            connector.executeUpdate(
+                    String.format("INSERT INTO restaurant VALUES ('%s','%s', 0, '%s');", username,resName,resLocation)
+            );
+        }
+    }
 //
 //    public String getUserType(String username) throws SQLException {
 //
