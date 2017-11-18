@@ -1,4 +1,7 @@
 DROP VIEW IF EXISTS userInfo;
+DROP VIEW IF EXISTS takenorders;
+DROP VIEW IF EXISTS cancelledOrders;
+DROP VIEW IF EXISTS deliveredOrders;
 DROP TABLE IF EXISTS delivered;
 DROP TABLE IF EXISTS cancellation;
 DROP TABLE IF EXISTS rating;
