@@ -102,9 +102,9 @@ public class UserDAO {
 //        );
 //    }
 //
-//    public void deleteUser(String username) throws SQLException {
-//        connector.executeQuery(
-//                String.format("DELETE FROM user WHERE username = '%s';", username)
-//        );
-//    }
+    public void deleteUser(String username) throws SQLException {
+        connector.executeUpdate(
+                String.format("DELETE FROM user WHERE username = '%s';", username)
+        );
+    }
 }

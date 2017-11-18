@@ -1,6 +1,8 @@
 import axios from 'axios';
 import ProfileModel from "../../models/ProfileModel";
 
+const Cookie = require('js-cookie');
+
 export function getProfile(username) {
     return new Promise(function (resolve, reject) {
         axios.get(`http://localhost:8080/profile/${username}`)
@@ -27,6 +29,19 @@ export function getProfile(username) {
 export function createProfile(profileModel) {
     return new Promise(function (resolve, reject) {
         axios.post(`http://localhost:8080/createProfile`, profileModel)
+            .then(function (response) {
+                console.log(response);
+                resolve();
+            })
+            .catch(function (err) {
+                reject(err);
+            });
+    });
+}
+
+export function deleteProfile() {
+    return new Promise(function (resolve, reject) {
+        axios.get(`http://localhost:8080/deleteProfile/${Cookie.get("username")}`)
             .then(function (response) {
                 console.log(response);
                 resolve();
