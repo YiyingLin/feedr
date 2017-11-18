@@ -73,4 +73,10 @@ public class ProfileController {
         );
         return "";
     }
+
+    @RequestMapping(path = "/deleteProfile/{username}", method = RequestMethod.GET)
+    public String deleteProfile(@PathVariable String  username) throws Exception {
+        userDAO.deleteUser(username);
+        return "";
+    }
 }

@@ -51,7 +51,7 @@ public class SenderDao {
         resultset.next();
         String senderName = resultset.getString("username");
         int rating = resultset.getInt("sender_rating");
-        String location = resultset.getString("location");
+        String location = (resultset.getString("location")==null)?"":resultset.getString("location") ;
         String phone = resultset.getString("phone");
         SenderModel sender = new SenderModel(senderName,phone,rating,location);
         return sender;

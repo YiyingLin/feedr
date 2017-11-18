@@ -55,9 +55,9 @@ CREATE TABLE order_info(
   deadline DATETIME,
   delivery_location VARCHAR(100) NOT NULL ,
   PRIMARY KEY (order_id),
-  FOREIGN KEY (sender_name) REFERENCES sender (username),
-  FOREIGN KEY (receiver_name) REFERENCES receiver (username),
-  FOREIGN KEY (restaurant_name) REFERENCES restaurant (username)
+  FOREIGN KEY (sender_name) REFERENCES sender (username) ON DELETE CASCADE,
+  FOREIGN KEY (receiver_name) REFERENCES receiver (username) ON DELETE CASCADE,
+  FOREIGN KEY (restaurant_name) REFERENCES restaurant (username) ON DELETE CASCADE
 );
 
 CREATE TABLE cancellation (
@@ -69,7 +69,7 @@ CREATE TABLE cancellation (
   FOREIGN KEY (order_id) REFERENCES order_info (order_id)
     ON DELETE CASCADE,
   FOREIGN KEY (username) REFERENCES user (username)
-    ON DELETE NO ACTION,
+    ON DELETE CASCADE,
   UNIQUE (order_id)
 );
 
@@ -83,7 +83,7 @@ CREATE TABLE order_include_food (
   FOREIGN KEY (order_id) REFERENCES order_info(order_id)
     ON DELETE CASCADE,
   FOREIGN KEY (res_username, foodname) REFERENCES food (res_username, foodname)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
 );
 
 CREATE TABLE rating (
