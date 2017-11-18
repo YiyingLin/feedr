@@ -70,10 +70,10 @@ export default class MyProfile extends Component {
                                     <span style={titleText}>Sender rating: </span>
                                     <span>{this.props.profile.sender_rating}</span>
                                 </div>
-                                <div>
-                                    <span style={titleText}>Sender location: </span>
-                                    <span>{this.props.profile.sender_location}</span>
-                                </div>
+                                {/*<div>*/}
+                                    {/*<span style={titleText}>Sender location: </span>*/}
+                                    {/*<span>{this.props.profile.sender_location}</span>*/}
+                                {/*</div>*/}
                             </div>
                     }
                 </div>
