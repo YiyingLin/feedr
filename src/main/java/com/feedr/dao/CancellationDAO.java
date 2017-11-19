@@ -15,6 +15,10 @@ public class CancellationDAO {
         this.connector = connector;
     }
 
+    /**
+     * A user cancels an order.
+     * Add a new record to cancellation table
+     * */
     public void createCancellation(int order_id, String username,String reason)throws SQLException {
         connector.executeUpdate(
                 String.format("INSERT INTO cancellation VALUES (%d,'%s',NOW(),'%s');", order_id,username,reason)

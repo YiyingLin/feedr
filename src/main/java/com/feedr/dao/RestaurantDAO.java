@@ -60,6 +60,9 @@ public class RestaurantDAO {
         return resModel;
     }
 
+    /**
+     * Similar to getPublicOrders in OrderDAO, except that we also want to know whether it is cancelled or delivered
+     * */
     public ArrayList<CheckOrderModel> getRestaurantOrders(String resname) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
                 String.format("SELECT DISTINCT o.order_id,o.order_time AS order_time,receiver_name,sender_name,restaurant_name,deliver_tip,order_cost,\n" +
@@ -106,7 +109,9 @@ public class RestaurantDAO {
         );
     }
 
-    //get all food from a specific restaurant
+    /**
+     * get all food from a specific restaurant
+     * */
     public ArrayList<FoodModel> getFoods(String res_username) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
                 String.format("SELECT * FROM food WHERE res_username = '%s';", res_username)

@@ -16,6 +16,12 @@ public class RatingDAO {
         this.connector = connector;
     }
 
+    /**
+     * create a new rating.
+     * First insert into rating table,
+     * then we need to calculate the new ratings for sender and restaurant, and update corresponding
+     *  attributes
+     * */
     public void createRating(int order_id, int receiver_to_sender_rate, int receiver_to_rest_rate, String receiver_to_sender_comment, String receiver_to_rest_comment)
             throws SQLException {
         connector.executeUpdate(String.format("INSERT INTO rating VALUES(%d,%d,%d,'%s','%s');",order_id,receiver_to_sender_rate,receiver_to_rest_rate,receiver_to_sender_comment,receiver_to_rest_comment));

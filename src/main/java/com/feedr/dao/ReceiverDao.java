@@ -21,7 +21,11 @@ public class ReceiverDao {
         this.connector = connector;
     }
 
-    // Query that compute the total cost of the order
+    /**
+     * Query that compute the total cost of the order
+     *
+     * price * quantity
+     * */
     private double computeTotalFoodCosts(int orderId) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
                 String.format("SELECT order_id,SUM(price* O.food_quantity) AS total_food_cost\n" +
@@ -34,7 +38,11 @@ public class ReceiverDao {
     }
 
 
-    // Receivers can confirm that their orders have been delivered
+    /**
+     * Receivers can confirm that their orders have been delivered
+     *
+     * Add new record to delivery table.
+     * */
     public void confirmDelivered (int orderId) throws SQLException {
         connector.executeUpdate(
                 String.format("INSERT INTO delivered(order_id, delivered_time) VALUES (%d, NOW());", orderId)
@@ -53,6 +61,9 @@ public class ReceiverDao {
         );
     }
 
+    /**
+     * Similar to getPublicOrders in OrderDAO, except that we also want to know whether it is cancelled or delivered
+     * */
     public ArrayList<CheckOrderModel> checkOrders(String receiver) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
                 String.format("SELECT DISTINCT o.order_id,o.order_time AS order_time,receiver_name,sender_name,restaurant_name,deliver_tip,order_cost,\n" +

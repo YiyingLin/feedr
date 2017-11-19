@@ -32,8 +32,11 @@ public class SenderDao {
         return sender;
     }
 
-    // the function will assign a sender with an order, and it will also update OrderModel.senderName
-    // and set assignedSender field as true
+    /**
+     * a sender takes a public order
+     *
+     * update order_info.sender_name attribute
+     * */
     public void takeOrder(String sender_username, int order_id) throws SQLException{
         connector.executeUpdate(
                 String.format("UPDATE order_info SET sender_name = '%s' WHERE order_id = %d;",
@@ -41,8 +44,9 @@ public class SenderDao {
         );
     }
 
-    // Check a sender's all orders whether it is cancelled or delivered
-    // Return ArrayList<CheckOrderModel> that CheckOrderModel extends OrderModel
+    /**
+     * Similar to getPublicOrders in OrderDAO, except that we also want to know whether it is cancelled or delivered
+     * */
     public ArrayList<CheckOrderModel> checkOrders(String sender) throws SQLException{
         ResultSet resultSet = connector.executeQuery(
                 String.format("SELECT DISTINCT o.order_id AS orderID,o.order_time AS order_time,sender_name,receiver_name,restaurant_name,deliver_tip,order_cost,\n" +

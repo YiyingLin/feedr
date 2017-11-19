@@ -15,8 +15,7 @@ public class UserDAO {
     public UserDAO(DatabaseConnector connector) {
         this.connector = connector;
     }
-    
-    // I don't think this method should take resName and resLocation as parameters unless frontend can input empty Strings automatically.
+
     public void createUser(String username,
                            String password,
                            String phone,

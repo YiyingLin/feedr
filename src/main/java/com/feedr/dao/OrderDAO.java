@@ -20,7 +20,11 @@ public class OrderDAO {
         this.connector = connector;
     }
 
-    // Query that insert an new order without assigning the sender
+    /**
+     * Method to create an new order without assigning the sender
+     *
+     * Contains queries to insert into order_info table and order_include_food table
+     * */
     public void createOrder(String receiName, String restName, Double order_cost,
                             Double deliver_tip, String deadline,
                             String location, List<RestaurantProto.Food> foods) throws SQLException{
@@ -40,6 +44,14 @@ public class OrderDAO {
         }
     }
 
+    /**
+     * Public orders are those that are not delivered, not cancelled, not taken by any senders
+     * (Orders can be taken by senders)
+     *
+     *
+     * Using 3 views in this query
+     *
+     * */
     public ArrayList<OrderModel> getPublicOrders() throws SQLException {
         ResultSet resultSet = connector.executeQuery(
                 "SELECT * FROM order_info O, userinfo\n" +
@@ -66,6 +78,9 @@ public class OrderDAO {
         return orderModels;
     }
 
+    /**
+     * Get the foods included in one order
+     * */
     public ArrayList<FoodModel> getFoodsOfOrder(int orderId) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
                 String.format("SELECT *\n" +
