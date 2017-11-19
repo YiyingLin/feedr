@@ -1,6 +1,7 @@
 package com.feedr.dao;
 
 import com.feedr.models.CheckOrderModel;
+import com.feedr.models.FoodModel;
 import com.feedr.models.RestaurantModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,5 +104,21 @@ public class RestaurantDAO {
         connector.executeUpdate(
                 String.format("DELETE FROM food WHERE res_username = '%s' AND foodname = '%s';", res_username, foodname)
         );
+    }
+
+    //get all food from a specific restaurant
+    public ArrayList<FoodModel> getFoods(String res_username) throws SQLException{
+        ResultSet resultSet = connector.executeQuery(
+                String.format("SELECT * FROM food WHERE res_username = '%s';", res_username)
+        );
+        ArrayList<FoodModel> foodModels = new ArrayList<>();
+        while(resultSet.next()){
+            String foodname = resultSet.getString("foodname");
+            double price = resultSet.getDouble("price") ;
+            String type = resultSet.getString("type");
+            FoodModel foodModel = new FoodModel(res_username, foodname, price, type);
+            foodModels.add(foodModel);
+        }
+        return foodModels;
     }
 }

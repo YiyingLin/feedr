@@ -1,6 +1,5 @@
 package com.feedr.controllers;
 
-import com.feedr.dao.FoodDAO;
 import com.feedr.dao.RestaurantDAO;
 import com.feedr.models.FoodModel;
 import com.feedr.models.RestaurantModel;
@@ -19,15 +18,12 @@ import java.util.stream.Collectors;
 public class RestaurantController {
 
     @Autowired
-    private FoodDAO foodDAO;
-
-    @Autowired
     private RestaurantDAO restaurantDAO;
 
     @RequestMapping(path = "/restaurants/{restaurantName}/food", method = RequestMethod.GET)
     public String foods(@PathVariable String restaurantName) throws Exception {
         ArrayList<Food> foodlist = new ArrayList<>();
-        for (FoodModel foodModel : foodDAO.getFoods(restaurantName)) {
+        for (FoodModel foodModel : restaurantDAO.getFoods(restaurantName)) {
             Food.Builder builder = Food.newBuilder();
             builder.setResUsername(restaurantName);
             builder.setFoodname(foodModel.getFoodname());
