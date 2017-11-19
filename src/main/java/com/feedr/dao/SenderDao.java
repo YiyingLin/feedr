@@ -2,13 +2,11 @@ package com.feedr.dao;
 
 import com.feedr.models.CheckOrderModel;
 import com.feedr.models.SenderModel;
-import com.feedr.models.OrderModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @Component
@@ -19,29 +17,6 @@ public class SenderDao {
     public SenderDao(DatabaseConnector connector) {
         this.connector = connector;
     }
-
-//    public void createSender(String username, String location) throws SQLException{
-//        connector.executeQuery(
-//                String.format("INSERT INTO sender values ('%s',NULL,'%s');", username, location)
-//        );
-//    }
-
-//    public ArrayList<SenderModel> getSenders() throws SQLException{
-//        ResultSet resultSet = connector.executeQuery(
-//                String.format("SELECT S.username,sender_rating,location,phone FROM sender S,user U " +
-//                        "WHERE S.username = U.username;")
-//        );
-//        ArrayList<SenderModel> senders = new ArrayList<>();
-//        while(resultSet.next()){
-//            String username = resultSet.getString("username");
-//            String phone = resultSet.getString("phone");
-//            int rating = resultSet.getInt("sender_rating");
-//            String location = resultSet.getString("location");
-//            SenderModel sender = new SenderModel(username,phone,rating,location);
-//            senders.add(sender);
-//        }
-//        return senders;
-//    }
 
     public SenderModel getSender(String username) throws SQLException{
         ResultSet resultset = connector.executeQuery(
@@ -56,24 +31,6 @@ public class SenderDao {
         SenderModel sender = new SenderModel(senderName,phone,rating,location);
         return sender;
     }
-
-//    public void updateSenderRating(String username, int newRating) throws SQLException{
-//        connector.executeQuery(
-//                String.format("UPDATE sender SET sender_rating = %d WHERE username = '%s';", newRating,username)
-//        );
-//    }
-//
-//    public void updateLocation(String username, String location) throws SQLException{
-//        connector.executeQuery(
-//                String.format("UPDATE sender SET location = '%s' WHERE username = '%s';", location,username)
-//        );
-//    }
-//
-//    public void deleteSender(String username) throws SQLException{
-//        connector.executeQuery(
-//                String.format("DELETE FROM sender WHERE username = '%s';", username)
-//        );
-//    }
 
     // the function will assign a sender with an order, and it will also update OrderModel.senderName
     // and set assignedSender field as true

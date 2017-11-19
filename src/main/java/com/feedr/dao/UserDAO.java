@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 @Component
 public class UserDAO {
@@ -41,29 +40,6 @@ public class UserDAO {
             );
         }
     }
-//
-//    public String getUserType(String username) throws SQLException {
-//
-//        ResultSet rs = connector.executeQuery(
-//                String.format("SELECT type FROM user WHERE username = '%s';", username)
-//        );
-//        return rs.getString(1);
-//    }
-//
-//    public ArrayList<UserModel> getUsers() throws SQLException {
-//        ResultSet resultSet = connector.executeQuery(
-//                        "SELECT * FROM userInfo;"
-//        );
-//        ArrayList<UserModel> userModels = new ArrayList<>();
-//        while(resultSet.next()) {
-//            String username = resultSet.getString("username");
-//            String phone = resultSet.getString("phone");
-//            String type = resultSet.getString("type");
-//            UserModel userModel = new UserModel(username,phone,type);
-//            userModels.add(userModel);
-//        }
-//        return userModels;
-//    }
 
     public UserModel getUser(String username) throws SQLException {
         ResultSet resultSet = connector.executeQuery(
@@ -89,19 +65,6 @@ public class UserDAO {
         return password;
     }
 
-//    public void updatePassword(String username, String oldPassword, String newPassword) throws SQLException {
-//        connector.executeQuery(
-//                String.format("UPDATE user SET password = '%s' WHERE username = '%s' AND password = '%s';",
-//                        newPassword, username, oldPassword)
-//        );
-//    }
-//
-//    public void updatePhone(String username, String newPhone) throws SQLException {
-//        connector.executeQuery(
-//                String.format("UPDATE user SET phone = '%s' WHERE username = '%s';", newPhone,username)
-//        );
-//    }
-//
     public void deleteUser(String username) throws SQLException {
         connector.executeUpdate(
                 String.format("DELETE FROM user WHERE username = '%s';", username)

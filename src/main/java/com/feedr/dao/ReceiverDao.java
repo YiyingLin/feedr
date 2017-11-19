@@ -1,7 +1,6 @@
 package com.feedr.dao;
 
 import com.feedr.models.CheckOrderModel;
-import com.feedr.models.ReceiverModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,9 +8,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Map;
 
 @Component
 public class ReceiverDao {
@@ -23,39 +20,6 @@ public class ReceiverDao {
     public ReceiverDao(DatabaseConnector connector) {
         this.connector = connector;
     }
-
-//    public void createReceiver(String username) throws SQLException {
-//        connector.executeQuery(
-//                String.format("INSERT INTO receiver values ('%s');", username)
-//        );
-//
-//    }
-//
-//    public ArrayList<ReceiverModel> getReceivers() throws SQLException{
-//        ResultSet resultset = connector.executeQuery(
-//                String.format("SELECT R.username, phone FROM receiver R,user U" +
-//                        "WHERE R.username = U.username;")
-//        );
-//        ArrayList<ReceiverModel> receivers = new ArrayList<>();
-//        while(resultset.next()){
-//            String username = resultset.getString("username");
-//            String phone = resultset.getString("phone");
-//            ReceiverModel receiver = new ReceiverModel(username,phone);
-//            receivers.add(receiver);
-//        }
-//        return receivers;
-//    }
-//
-//    public ReceiverModel getReceiver(String username) throws SQLException {
-//        ResultSet resultset = connector.executeQuery(
-//                String.format("SELECT R.username, phone FROM receiver R,user U" +
-//                        "WHERE R.username = U.username AND R.username = '%s';", username)
-//        );
-//        String receiverName = resultset.getString("username");
-//        String phone = resultset.getString("phone");
-//        ReceiverModel receiver = new ReceiverModel(receiverName, phone);
-//        return receiver;
-//    }
 
     // Query that compute the total cost of the order
     private double computeTotalFoodCosts(int orderId) throws SQLException{

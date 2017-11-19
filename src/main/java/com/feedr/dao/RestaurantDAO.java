@@ -1,9 +1,7 @@
 package com.feedr.dao;
 
 import com.feedr.models.CheckOrderModel;
-import com.feedr.models.FoodModel;
 import com.feedr.models.RestaurantModel;
-import com.feedr.models.UserModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,12 +17,6 @@ public class RestaurantDAO {
     public RestaurantDAO(DatabaseConnector connector) {
         this.connector = connector;
     }
-
-//    public void createRestaurant(String username, String resname, String location) throws SQLException {
-//        connector.executeQuery(
-//                String.format("INSERT INTO restaurant VALUES ('%s','%s',NULL,'%s');", username, resname, location)
-//        );
-//    }
 
     public void createFood(String res_username, String foodname, double price, String type) throws SQLException {
         connector.executeUpdate(
@@ -106,19 +98,6 @@ public class RestaurantDAO {
         }
         return checkOrders;
     }
-
-//    public void updateFoodName(String res_username, String oldfoodname, String newfoodname) throws SQLException {
-//        connector.executeQuery(
-//                String.format("UPDATE food SET foodname = '%s' WHERE res_username = '%s' AND foodname = '%s';",
-//                        newfoodname, res_username, oldfoodname)
-//        );
-//    }
-//
-//    public void updateFoodType(String res_username, String foodname, String newfoodtype) throws SQLException {
-//        connector.executeQuery(
-//                String.format("UPDATE food SET type = '%s' WHERE res_username = '%s' AND foodname = '%s';", res_username, foodname, newfoodtype)
-//        );
-//    }
 
     public void deleteFood(String res_username, String foodname) throws SQLException {
         connector.executeUpdate(

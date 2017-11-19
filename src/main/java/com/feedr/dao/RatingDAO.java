@@ -1,7 +1,5 @@
 package com.feedr.dao;
 
-import com.feedr.models.RatingModel;
-import com.feedr.models.UserRatingModel;
 import com.feedr.util.DatabaseConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,50 +51,5 @@ public class RatingDAO {
         int avg_rest = resAvgRestaurant.getShort("avg_rest");
         connector.executeUpdate(String.format("UPDATE restaurant SET restaurant_rating = %d WHERE username = '%s';",avg_rest,restaurantName));
     }
-
-//    public RatingModel getRating(int order_id) throws SQLException{
-//        ResultSet resultSet = connector.executeQuery(
-//                String.format("SELECT * FROM rating WHERE order_id = %d;", order_id)
-//        );
-//        RatingModel ratingModel = null;
-//        while(resultSet.next()){
-//            int senderRate = resultSet.getInt("receiver_to_sender_rate");
-//            int restRate = resultSet.getInt("receiver_to_rest_rate");
-//            String senderComment = resultSet.getString("receiver_to_sender_comment");
-//            String restComment = resultSet.getString("receiver_to_rest_comment");
-//            ratingModel = new RatingModel(order_id,senderRate,restRate,senderComment,restComment);
-//        }
-//        return ratingModel;
-//    }
-
-//    public UserRatingModel getSenderRating(String username) throws SQLException{
-//        ResultSet resultSet = connector.executeQuery(
-//                String.format("SELECT O.sender_name, AVG(R.receiver_to_sender_rate) AS average_rating\n" +
-//                        "FROM rating R, order_info O\n" +
-//                        "WHERE R.order_id = O.order_id AND\n" +
-//                        "O.sender_name = '%s';", username)
-//        );
-//        UserRatingModel model = null;
-//        while(resultSet.next()){
-//            int avgrating = resultSet.getInt(2);
-//            model = new UserRatingModel(username, avgrating);
-//        }
-//        return model;
-//    }
-//
-//    public UserRatingModel getRestaurantRating(String username) throws SQLException{
-//        ResultSet resultSet = connector.executeQuery(
-//                String.format("SELECT O.sender_name, AVG(R.receiver_to_sender_rate) AS average_rating\n" +
-//                        "FROM rating R, order_info O\n" +
-//                        "WHERE R.order_id = O.order_id AND\n" +
-//                        "O.restaurant_name = '%s';", username)
-//        );
-//        UserRatingModel model = null;
-//        while(resultSet.next()){
-//            int avgRating = resultSet.getInt(2);
-//            model = new UserRatingModel(username, avgRating);
-//        }
-//        return model;
-//    }
 }
 
